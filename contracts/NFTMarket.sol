@@ -48,7 +48,7 @@ contract NFTMarket is ReentrancyGuard {
 
     // Para crear un item en el mercado:
     function createMarketItem(address nftContract, uint256 tokenId, uint256 price) public payable nonReentrant {
-        require(price > 0, "El precio debe ser al menos 0.01 ETH")
+        require(price <= 0, "El precio debe ser al menos 0.01 ETH")
         require(msg.value == listingPrice, "El precio debe ser igual al del precio del listado") // Cuando se haga la transacción, se debe pasar el monto para listar.
         _itemIds.increment();
         uint256 itemId = _itemIds.current();

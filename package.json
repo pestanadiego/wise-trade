@@ -9,10 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@coinbase/wallet-sdk": "^3.1.0",
     "@nomiclabs/hardhat-ethers": "^2.0.5",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@openzeppelin/contracts": "^4.6.0",
-    "autoprefixer": "^10.4.5",
+    "@walletconnect/web3-provider": "^1.7.8",
     "axios": "^0.27.2",
     "chai": "^4.3.6",
     "ethereum-waffle": "^3.4.4",
@@ -20,14 +21,27 @@
     "hardhat": "^2.9.3",
     "ipfs-http-client": "^56.0.3",
     "next": "12.1.5",
-    "postcss": "^8.4.13",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "tailwind": "^4.0.0",
+    "web3": "^1.7.3",
     "web3modal": "^1.9.7"
   },
   "devDependencies": {
-    "eslint": "8.14.0",
-    "eslint-config-next": "12.1.5"
+    "autoprefixer": "^10.4.7",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-next": "12.1.5",
+    "eslint-config-node": "^4.1.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.5.0",
+    "postcss": "^8.4.13",
+    "prettier": "^2.6.2",
+    "tailwindcss": "^3.0.24"
   }
 }

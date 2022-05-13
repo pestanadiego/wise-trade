@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
-@talwind utilities;
+@tailwind utilities;
+
+.btn {
+    @apply shadow-md py-3 px-6 rounded-md transition duration-300 hover:bg-wise-white hover:text-black;
+}
+
+.btn-nav {
+    @apply bg-wise-red text-white rounded-md px-7 py-3 uppercase;
+}
+
+.btn-purple {
+    @apply bg-wise-purple text-white;
+}
+
+.btn-white {
+    @apply bg-wise-white hover:bg-wise-purple hover:text-white;
+}

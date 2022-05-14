@@ -7,7 +7,11 @@
 }
 
 .btn-nav {
-    @apply bg-wise-red text-white rounded-md px-7 py-3 uppercase;
+    @apply bg-wise-red text-white rounded-md;
+}
+
+.btn-nav-wallet {
+    @apply bg-none text-wise-blue rounded-md border-2 border-wise-blue px-7 py-3 box-border;
 }
 
 .btn-purple {
@@ -16,4 +20,8 @@
 
 .btn-white {
     @apply bg-wise-white hover:bg-wise-purple hover:text-white;
+}
+
+.input {
+    @apply border py-3 px-4 mb-2 text-lg text-wise-grey placeholder-wise-grey rounded-md focus:shadow-sm;
 }

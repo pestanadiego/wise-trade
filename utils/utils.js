@@ -6,9 +6,4 @@ const truncateAddress = (address) => {
   return `${match[1]}…${match[2]}`;
 };
 
-const toHex = (num) => {
-  const val = Number(num);
-  return `0x ${val.toString(16)}`;
-};
-
-export default { truncateAddress, toHex };
+export default truncateAddress;

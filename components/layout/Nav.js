@@ -1,10 +1,15 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Link from 'next/link';
 import { UserContext } from '../../context/UserContext';
+import truncateAddress from '../../utils/utils';
 
 export default function Nav() {
-  const { user, connectWallet, disconnectWallet } = useContext(UserContext);
+  const [showMenu, setShowMenu] = useState(false);
+  const { address, connectWallet, disconnectWallet } = useContext(UserContext);
 
+  const handleMenu = async () => {
+    setShowMenu(!showMenu);
+  };
   return (
     <header>
       <nav className="container flex items-center flex-col sm:flex-row py-4 mt-4 sm:mt-12">
@@ -19,22 +24,35 @@ export default function Nav() {
           <li className="invisible sm:visible cursor-pointer">
             <Link href="/history">Trade History</Link>
           </li>
-          {!user ? (
+          {!address ? (
             <button
               type="button"
-              className="bg-wise-red text-white rounded-md px-7 py-3 uppercase"
+              className="btn btn-purple px-7 py-3 uppercase"
               onClick={connectWallet}
             >
               Connect
             </button>
           ) : (
-            <button
-              type="button"
-              className="bg-wise-red text-white rounded-md px-7 py-3 uppercase"
-              onClick={disconnectWallet}
-            >
-              Disconnect
-            </button>
+            <div className="flex gap-3">
+              <Link href="/profile">
+                <button
+                  type="button"
+                  className="btn btn-white"
+                  onClick={handleMenu}
+                >
+                  {truncateAddress(address)}
+                </button>
+              </Link>
+              <Link href="/">
+                <button
+                  type="button"
+                  className="btn btn-purple px-4 py-3"
+                  onClick={disconnectWallet}
+                >
+                  <i className="fa fa-power-off" />
+                </button>
+              </Link>
+            </div>
           )}
         </ul>
       </nav>

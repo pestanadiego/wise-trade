@@ -21,14 +21,14 @@ export default function ProfileDetails() {
       {!address ? (
         <div>Connect your wallet to see your profile</div>
       ) : (
-        <div className="container flex flex-col-reverse lg:flex-row items-center gap-12 mt-14 lg:mt-28">
-          <div className="flex flex-col items-center lg:items-start">
-            <h2 className="text-wise-blue text-3xl md:text-4 lg:text-5xl text-center lg:text-left mb-6">
+        <div className="container flex flex-col-reverse items-center mt-14 lg:mt-28">
+          <div className="flex flex-col items-center">
+            <h2 className="text-wise-blue text-3xl md:text-4 lg:text-5xl text-center mb-6">
               Profile
             </h2>
             {user.email === '' || user.email === null ? (
               <div>
-                <p className="text-wise-grey text-lg text-center lg:text-left mb-6">
+                <p className="text-wise-grey text-lg text-center mb-6">
                   Insert your email to send you notifications when needed.
                 </p>
                 <div className="flex justify-center items-center flex-row gap-6">

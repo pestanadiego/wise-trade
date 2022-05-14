@@ -21,13 +21,13 @@ export default function EditProfile() {
 
   return (
     <div className="flex justify-center flex-col items-center">
-      <div className="flex justify-center flex-col items-center">
+      <div className="flex justify-center flex-col items-center w-full">
         <p className="text-wise-grey mb-3">Edit your email address</p>
         {edit ? (
           <input
-            className="input"
+            className="input w-full"
             type="email"
-            placeholder="Enter your new email address"
+            placeholder="New email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -37,7 +37,7 @@ export default function EditProfile() {
       </div>
       <div className="mt-4">
         {edit ? (
-          <div>
+          <div className="flex gap-3">
             <button
               className="btn btn-purple"
               type="button"

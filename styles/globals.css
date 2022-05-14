@@ -23,5 +23,5 @@
 }
 
 .input {
-    @apply border py-3 px-4 mb-2 text-lg text-wise-grey placeholder-wise-grey rounded-md focus:shadow-sm;
+    @apply border py-3 px-4 mb-2 text-wise-grey placeholder-wise-grey rounded-md focus:shadow-sm;
 }

@@ -1,3 +1,5 @@
+import { ethers } from 'ethers';
+
 const truncateAddress = (address) => {
   const match = address.match(
     /^(0x[a-zA-Z0-9]{2})[a-zA-Z0-9]+([a-zA-Z0-9]{2})$/
@@ -15,4 +17,9 @@ const validateEmail = (email) => {
   return validate;
 };
 
-export default { truncateAddress, validateEmail };
+const validateAddress = (address) => {
+  const validate = ethers.utils.isAddress(address);
+  return validate;
+};
+
+export default { truncateAddress, validateEmail, validateAddress };

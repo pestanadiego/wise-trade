@@ -1,13 +1,14 @@
-import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 // eslint-disable-next-line import/named
 import { UserContext } from '../../context/UserContext';
+import utils from '../../utils/utils';
 import client from '../../lib/sanityClient';
 import EditProfile from './EditProfile';
 
 export default function ProfileDetails() {
   const { address, user, setUser } = useContext(UserContext);
   const [email, setEmail] = useState('');
+  const [validEmail, setValidEmail] = useState(false);
 
   const handleEmail = async () => {
     setUser({ ...user, email });
@@ -15,6 +16,14 @@ export default function ProfileDetails() {
     const update = await client.patch(address).set({ email }).commit();
     alert('Your email address was added successfully');
   };
+
+  useEffect(() => {
+    if (utils.validateEmail(email)) {
+      setValidEmail(true);
+    } else {
+      setValidEmail(false);
+    }
+  }, [email]);
 
   return (
     <section>
@@ -26,26 +35,42 @@ export default function ProfileDetails() {
             <h2 className="text-wise-blue text-3xl md:text-4 lg:text-5xl text-center mb-6">
               Profile
             </h2>
-            {user.email === '' || user.email === null ? (
-              <div>
+            {user == null || user.email === '' || user.email === null ? (
+              <div className="flex flex-col justify-center items-center">
                 <p className="text-wise-grey text-lg text-center mb-6">
                   Insert your email to send you notifications when needed.
                 </p>
-                <div className="flex justify-center items-center flex-row gap-6">
-                  <input
-                    className="input"
-                    type="email"
-                    placeholder="Enter your email address"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    className="btn btn-purple hover:bg-wise-white hover:text-black"
-                    onClick={handleEmail}
-                  >
-                    <Link href="/">Add Email</Link>
-                  </button>
+                <div className="flex flex-col items-start">
+                  <div className="flex justify-center items-baseline flex-row gap-6">
+                    <input
+                      className="input"
+                      type="email"
+                      placeholder="Enter your email address"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <button
+                      type="button"
+                      disabled={!validEmail && true}
+                      className={validEmail ? 'btn btn-purple' : 'btn-disabled'}
+                      onClick={handleEmail}
+                      title={
+                        validEmail === false &&
+                        email !== '' &&
+                        'Insert a valid email'
+                      }
+                    >
+                      Add Email
+                    </button>
+                  </div>
+                  {validEmail === false && email !== '' && (
+                    <div className="flex flex-row gap-2 items-baseline">
+                      <i className="fa fa-circle-exclamation text-red-500 text-sm" />
+                      <p className="text-red-500 text-sm">
+                        Please, insert a valid email
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             ) : (

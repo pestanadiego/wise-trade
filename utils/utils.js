@@ -6,4 +6,13 @@ const truncateAddress = (address) => {
   return `${match[1]}…${match[2]}`;
 };
 
-export default truncateAddress;
+const validateEmail = (email) => {
+  const validate = String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+  return validate;
+};
+
+export default { truncateAddress, validateEmail };

@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import Link from 'next/link';
 import { UserContext } from '../../context/UserContext';
-import truncateAddress from '../../utils/utils';
+import utils from '../../utils/utils';
 
 export default function Nav() {
   const [showMenu, setShowMenu] = useState(false);
@@ -40,7 +40,7 @@ export default function Nav() {
                   className="btn btn-white"
                   onClick={handleMenu}
                 >
-                  {truncateAddress(address)}
+                  {utils.truncateAddress(address)}
                 </button>
               </Link>
               <Link href="/">

@@ -109,7 +109,7 @@ export default function AssetSelection() {
       </div>
       {openModal && (
         <Modal setOpenModal={setOpenModal}>
-          <TradeOptions />
+          <TradeOptions address={address} />
         </Modal>
       )}
     </>

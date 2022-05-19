@@ -67,19 +67,35 @@ export default function AssetSelection({
             <p className="text-wise-grey">Add Your NFTs</p>
           </div>
         ) : (
-          <div className="flex flex-row flex-wrap justify-center gap-3 mb-6">
-            {tokensToTransfer.map((token) => (
-              <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
-                <Image
-                  src={token.image_url}
-                  width={120}
-                  height={120}
-                  className="object-fill"
-                />
-                <p className="my-3 text-center">{token.name}</p>
-                <p className="my-3 text-center">{token.id}</p>
-              </div>
-            ))}
+          <div>
+            <div className="flex flex-row flex-wrap justify-center gap-3 mb-6">
+              {tokensToTransfer.map((token) => (
+                <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
+                  <Image
+                    src={token.image_url}
+                    width={120}
+                    height={120}
+                    className="object-fill"
+                  />
+                  <p className="my-3 text-center">{token.name}</p>
+                  <p className="my-3 text-center">{token.id}</p>
+                </div>
+              ))}
+            </div>
+            <button
+              type="button"
+              className="btn btn-purple m-4"
+              onClick={(e) => setOpenModal(true)}
+            >
+              Add More
+            </button>
+            <button
+              type="button"
+              className="btn btn-purple"
+              onClick={(e) => setTokensToTransfer([])}
+            >
+              Remove All
+            </button>
           </div>
         )}
         {/* CONTRAPARTE */}
@@ -141,22 +157,38 @@ export default function AssetSelection({
                   onClick={() => setOpenModalCounterparty(true)}
                 >
                   <i className="fa fa-plus text-wise-grey text-5xl mb-3" />
-                  <p className="text-wise-grey">Add Counterpart NFTs</p>
+                  <p className="text-wise-grey">Add Your NFTs</p>
                 </div>
               ) : (
-                <div className="flex flex-row flex-wrap justify-center gap-3 mb-6">
-                  {tokensToReceive.map((token) => (
-                    <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
-                      <Image
-                        src={token.image_url}
-                        width={120}
-                        height={120}
-                        className="object-fill"
-                      />
-                      <p className="my-3 text-center">{token.name}</p>
-                      <p className="my-3 text-center">{token.id}</p>
-                    </div>
-                  ))}
+                <div>
+                  <div className="flex flex-row flex-wrap justify-center gap-3 mb-6">
+                    {tokensToReceive.map((token) => (
+                      <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
+                        <Image
+                          src={token.image_url}
+                          width={120}
+                          height={120}
+                          className="object-fill"
+                        />
+                        <p className="my-3 text-center">{token.name}</p>
+                        <p className="my-3 text-center">{token.id}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    className="btn btn-purple"
+                    onClick={(e) => setOpenModalCounterparty(true)}
+                  >
+                    Add More
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-purple mx-4"
+                    onClick={(e) => setTokensToReceive([])}
+                  >
+                    Remove All
+                  </button>
                 </div>
               )}
             </div>

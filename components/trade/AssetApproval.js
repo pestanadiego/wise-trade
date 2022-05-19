@@ -1,11 +1,11 @@
 import Image from 'next/image';
 
 export default function AssetApproval({ tokensToTransfer }) {
-  const handleApprove = () => {
-    let abi = ["function approve(address _spender, uint256 _value) public returns (bool success)"]
-let provider = ethers.getDefaultProvider('ropsten')
-let contract = new ethers.Contract(tokenAddress, abi, provider)
-await contract.approve(accountAddress, amount)
+  const handleApprove = async () => {
+  let abi = ["function approve(address _spender, uint256 _value) public returns (bool success)"]
+  let provider = ethers.getDefaultProvider('ropsten')
+  let contract = new ethers.Contract(tokenAddress, abi, provider)
+  await contract.approve(accountAddress, amount)
   };
   return (
     <div>

@@ -9,10 +9,11 @@ export const UserContext = createContext(null);
 export default function UserContextProvider({ children }) {
   const [address, setAddress] = useState(null);
   const [user, setUser] = useState(null);
+  const [provider, setProvider] = useState(null);
 
   const connectWallet = async () => {
     const web3Modal = new Web3Modal({
-      network: 'ropsten',
+      network: 'rinkeby',
       providerOptions,
       cacheProvider: false,
     });
@@ -22,6 +23,7 @@ export default function UserContextProvider({ children }) {
     if (accounts) {
       setAddress(accounts[0]);
     }
+    setProvider(web3Provider);
   };
 
   const disconnectWallet = async () => {
@@ -35,10 +37,21 @@ export default function UserContextProvider({ children }) {
       setAddress,
       user,
       setUser,
+      provider,
+      setProvider,
       connectWallet,
       disconnectWallet,
     }),
-    [address, setAddress, user, setUser, connectWallet, disconnectWallet]
+    [
+      address,
+      setAddress,
+      user,
+      setUser,
+      provider,
+      setProvider,
+      connectWallet,
+      disconnectWallet,
+    ]
   );
 
   const sanityConnection = async () => {

@@ -8,6 +8,7 @@ export default function MakeTrade() {
   const { address } = useContext(UserContext);
   const [progress, setProgress] = useState(1);
   const [validSwap, setValidSwap] = useState(false);
+  const [validApproval, setValidApproval] = useState(false);
   const [tokensToTransfer, setTokensToTransfer] = useState([]);
 
   const handleNext = () => {
@@ -48,7 +49,10 @@ export default function MakeTrade() {
                 )}
                 {progress === 2 && (
                   <div className="container m-3">
-                    <AssetApproval tokensToTransfer={tokensToTransfer} />
+                    <AssetApproval
+                      tokensToTransfer={tokensToTransfer}
+                      setValidApproval={setValidApproval}
+                    />
                   </div>
                 )}
                 {progress === 3 && (
@@ -58,22 +62,27 @@ export default function MakeTrade() {
                 )}
 
                 {/* BOTONES */}
-                {progress !== 3 && (
+                {progress === 1 && (
                   <div className="flex gap-3">
-                    {progress !== 1 && (
-                      <button
-                        type="button"
-                        className="btn btn-purple hover:bg-wise-white hover:text-black"
-                        onClick={handleBack}
-                      >
-                        Back
-                      </button>
-                    )}
                     <button
                       type="button"
                       className={validSwap ? 'btn btn-purple' : 'btn-disabled'}
                       onClick={handleNext}
                       disabled={!validSwap && true}
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
+                {progress === 2 && (
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      className={
+                        validApproval ? 'btn btn-purple' : 'btn-disabled'
+                      }
+                      onClick={handleNext}
+                      disabled={!validApproval && true}
                     >
                       Next
                     </button>

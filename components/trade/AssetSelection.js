@@ -141,7 +141,7 @@ export default function AssetSelection({
                   onClick={() => setOpenModalCounterparty(true)}
                 >
                   <i className="fa fa-plus text-wise-grey text-5xl mb-3" />
-                  <p className="text-wise-grey">Add Your NFTs</p>
+                  <p className="text-wise-grey">Add Counterpart NFTs</p>
                 </div>
               ) : (
                 <div className="flex flex-row flex-wrap justify-center gap-3 mb-6">

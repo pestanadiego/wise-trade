@@ -3,7 +3,7 @@ export default function ProgressBar({ progress }) {
     if (prog === 1) {
       return 'Step 1. Select the NFTs you want to swap';
     }
-    return 'Step 2. You are almost done. The counterparty has to accept the swap';
+    return 'Step 2. You are almost done. Approve the NFTs you are going to trade';
   };
 
   return (

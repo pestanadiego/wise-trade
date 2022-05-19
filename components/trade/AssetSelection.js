@@ -5,14 +5,17 @@ import utils from '../../utils/utils';
 import Modal from '../ui/Modal';
 import TradeOptions from './TradeOptions';
 
-export default function AssetSelection({ setValidSwap }) {
+export default function AssetSelection({
+  setValidSwap,
+  tokensToTransfer,
+  setTokensToTransfer,
+}) {
   const { address } = useContext(UserContext);
   const [counterpartyAddress, setCounterpartyAddress] = useState('');
   const [validCounterparty, setValidCounterparty] = useState(false);
   const [selection, setSelection] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openModalCounterparty, setOpenModalCounterparty] = useState(false);
-  const [tokensToTransfer, setTokensToTransfer] = useState([]);
   const [tokensToReceive, setTokensToReceive] = useState([]);
 
   const handleAdd = () => {
@@ -74,6 +77,7 @@ export default function AssetSelection({ setValidSwap }) {
                   className="object-fill"
                 />
                 <p className="my-3 text-center">{token.name}</p>
+                <p className="my-3 text-center">{token.id}</p>
               </div>
             ))}
           </div>
@@ -150,6 +154,7 @@ export default function AssetSelection({ setValidSwap }) {
                         className="object-fill"
                       />
                       <p className="my-3 text-center">{token.name}</p>
+                      <p className="my-3 text-center">{token.id}</p>
                     </div>
                   ))}
                 </div>

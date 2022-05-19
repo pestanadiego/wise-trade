@@ -2,11 +2,13 @@ import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import ProgressBar from './ProgressBar';
 import AssetSelection from './AssetSelection';
+import AssetApproval from './AssetApproval';
 
 export default function MakeTrade() {
   const { address } = useContext(UserContext);
   const [progress, setProgress] = useState(1);
   const [validSwap, setValidSwap] = useState(false);
+  const [tokensToTransfer, setTokensToTransfer] = useState([]);
 
   const handleNext = () => {
     setProgress(progress + 1);
@@ -38,16 +40,20 @@ export default function MakeTrade() {
               <div className="flex justify-center items-center flex-col gap-3">
                 {/* PASOS */}
                 {progress === 1 && (
-                  <AssetSelection setValidSwap={setValidSwap} />
+                  <AssetSelection
+                    setValidSwap={setValidSwap}
+                    tokensToTransfer={tokensToTransfer}
+                    setTokensToTransfer={setTokensToTransfer}
+                  />
                 )}
                 {progress === 2 && (
                   <div className="container m-3">
-                    <p>Lorem</p>
+                    <AssetApproval tokensToTransfer={tokensToTransfer} />
                   </div>
                 )}
                 {progress === 3 && (
                   <div className="container m-3">
-                    <p>Ipsum</p>
+                    <p>asdasd</p>
                   </div>
                 )}
 

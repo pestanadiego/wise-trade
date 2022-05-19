@@ -22,6 +22,9 @@ export default function Nav() {
             <Link href="/trade">Make a trade</Link>
           </li>
           <li className="invisible sm:visible cursor-pointer">
+            <Link href="/myTrades">My Trades</Link>
+          </li>
+          <li className="invisible sm:visible cursor-pointer">
             <Link href="/history">Trade History</Link>
           </li>
           {!address ? (

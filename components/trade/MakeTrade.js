@@ -6,6 +6,7 @@ import AssetSelection from './AssetSelection';
 export default function MakeTrade() {
   const { address } = useContext(UserContext);
   const [progress, setProgress] = useState(1);
+  const [validSwap, setValidSwap] = useState(false);
 
   const handleNext = () => {
     setProgress(progress + 1);
@@ -36,7 +37,9 @@ export default function MakeTrade() {
               </div>
               <div className="flex justify-center items-center flex-col gap-3">
                 {/* PASOS */}
-                {progress === 1 && <AssetSelection />}
+                {progress === 1 && (
+                  <AssetSelection setValidSwap={setValidSwap} />
+                )}
                 {progress === 2 && (
                   <div className="container m-3">
                     <p>Lorem</p>
@@ -62,8 +65,9 @@ export default function MakeTrade() {
                     )}
                     <button
                       type="button"
-                      className="btn btn-purple hover:bg-wise-white hover:text-black"
+                      className={validSwap ? 'btn btn-purple' : 'btn-disabled'}
                       onClick={handleNext}
+                      disabled={!validSwap && true}
                     >
                       Next
                     </button>

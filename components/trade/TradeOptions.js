@@ -60,16 +60,17 @@ export default function TradeOptions({
         </div>
       ) : (
         <div className="flex flex-col items-center">
-          <h1 className="text-wise-blue text-center mb-3">
-            Select which NFT you want to trade
+          <h1 className="text-wise-blue text-lg text-center mb-9">
+            Select which <span className="font-bold">NFTs</span> you want to
+            trade
           </h1>
           <div className="flex flex-row flex-wrap justify-center gap-3 mb-9">
             {tokens.map((token, i) => (
               <div
                 className={
                   selectedTokens[i]
-                    ? 'flex flex-col border-2 rounded-md items-center hover:shadow-md bg-wise-white'
-                    : 'flex flex-col border-2 rounded-md items-center hover:shadow-md'
+                    ? 'flex flex-col border-2 rounded-md  items-center hover:shadow-md hover:shadow-neutral-200 bg-wise-white relative float-left w-[120px] max-w-[120px] inline-block  transition-all'
+                    : 'flex flex-col border-2 rounded-md items-center hover:shadow-md hover:shadow-neutral-200 relative float-left w-[120px] max-w-[120px] inline-block transition-all'
                 }
               >
                 <Image
@@ -78,10 +79,10 @@ export default function TradeOptions({
                   height={120}
                   className="object-fill"
                 />
-                <p className="my-3">{token.name}</p>
+                <p className="my-3 text-center">{token.name}</p>
                 <input
                   type="checkbox"
-                  className="mb-3"
+                  className="absolute top-2 right-2"
                   id={token.id}
                   name={token.name}
                   value={token.name}

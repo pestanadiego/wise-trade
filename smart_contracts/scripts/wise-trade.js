@@ -15,11 +15,13 @@ async function main() {
 
   // We get the contract to deploy
   const WiseTradeV1 = await hre.ethers.getContractFactory('WiseTradeV1');
-  const wisetrade = await WiseTradeV1.deploy('Hello, Hardhat!');
+  const wisetradev1 = await WiseTradeV1.deploy(
+    '0x689034D1ad7CB0039d1f4917E52DB87408E13d7b'
+  );
 
-  await wisetrade.deployed();
+  await wisetradev1.deployed();
 
-  console.log('Greeter deployed to:', wisetrade.address);
+  console.log('WiseTradeV1 deployed to:', wisetradev1.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

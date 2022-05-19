@@ -51,7 +51,9 @@ export default function AssetSelection({ setValidSwap }) {
         {/* TRADER */}
         <div className="container">
           <h1 className="text-wise-blue text-xl mt-3 ml-3">My Wallet</h1>
-          <p className="text-wise-grey m-3 overflow-hidden">{address}</p>
+          <p className="text-wise-grey m-3 overflow-hidden">
+            {utils.truncateAddress(address)}
+          </p>
         </div>
         {tokensToTransfer.length === 0 ? (
           <div
@@ -64,14 +66,14 @@ export default function AssetSelection({ setValidSwap }) {
         ) : (
           <div className="flex flex-row flex-wrap justify-center gap-3 mb-6">
             {tokensToTransfer.map((token) => (
-              <div className="flex flex-col border-2 rounded-md items-center bg-wise-white">
+              <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
                 <Image
                   src={token.image_url}
                   width={120}
                   height={120}
                   className="object-fill"
                 />
-                <p className="my-3">{token.name}</p>
+                <p className="my-3 text-center">{token.name}</p>
               </div>
             ))}
           </div>
@@ -122,7 +124,7 @@ export default function AssetSelection({ setValidSwap }) {
             <div>
               <div className="m-3 flex flex-row gap-3 items-baseline">
                 <p className="text-wise-grey overflow-hidden">
-                  {counterpartyAddress}
+                  {utils.truncateAddress(counterpartyAddress)}
                 </p>
                 <i
                   className="fa fa-trash text-wise-grey cursor-pointer"
@@ -140,14 +142,14 @@ export default function AssetSelection({ setValidSwap }) {
               ) : (
                 <div className="flex flex-row flex-wrap justify-center gap-3 mb-6">
                   {tokensToReceive.map((token) => (
-                    <div className="flex flex-col border-2 rounded-md items-center bg-wise-white">
+                    <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
                       <Image
                         src={token.image_url}
                         width={120}
                         height={120}
                         className="object-fill"
                       />
-                      <p className="my-3">{token.name}</p>
+                      <p className="my-3 text-center">{token.name}</p>
                     </div>
                   ))}
                 </div>

@@ -2,7 +2,7 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/diegopestana/nft-test/smart_contracts/contracts/WiseTradeV1.sol": {
-      "lastModificationDate": 1652930691551,
+      "lastModificationDate": 1652974602133,
       "contentHash": "58604090ad04f43118e97612dcb81d7c",
       "sourceName": "contracts/WiseTradeV1.sol",
       "solcConfig": {

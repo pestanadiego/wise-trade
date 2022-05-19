@@ -1,23 +1,16 @@
 export default function ProgressBar({ progress }) {
   const showProgress = (prog) => {
     if (prog === 1) {
-      return 'w-1/3';
+      return 'Step 1. Select the NFTs you want to swap';
     }
-    if (prog === 2) {
-      return 'w-2/3';
-    }
-    return 'w-full';
+    return 'Step 2. You are almost done. The counterparty has to accept the swap';
   };
 
   return (
     <div className="w-full mb-6">
-      <div
-        className={`bg-wise-purple h-full rounded-md inline-block ${showProgress(
-          progress
-        )}`}
-      >
-        &nbsp;
-      </div>
+      <h1 className="text-center text-md text-wise-blue">
+        {showProgress(progress)}
+      </h1>
     </div>
   );
 }

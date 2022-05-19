@@ -64,6 +64,7 @@ export default function AssetSelection({ setValidSwap }) {
             <p className="text-wise-grey">Add Your NFTs</p>
           </div>
         ) : (
+          <div>
           <div className="flex flex-row flex-wrap justify-center gap-3 mb-6">
             {tokensToTransfer.map((token) => (
               <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
@@ -76,6 +77,17 @@ export default function AssetSelection({ setValidSwap }) {
                 <p className="my-3 text-center">{token.name}</p>
               </div>
             ))}
+          </div>
+          <button
+            className='btn btn-purple m-4'
+            onClick={(e)=> setOpenModal(true)}>
+            Add More
+          </button>
+          <button
+            className='btn btn-purple'
+            onClick={(e)=> setTokensToTransfer([])}>
+            Remove All
+          </button>
           </div>
         )}
         {/* CONTRAPARTE */}
@@ -140,6 +152,7 @@ export default function AssetSelection({ setValidSwap }) {
                   <p className="text-wise-grey">Add Your NFTs</p>
                 </div>
               ) : (
+                <div>
                 <div className="flex flex-row flex-wrap justify-center gap-3 mb-6">
                   {tokensToReceive.map((token) => (
                     <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
@@ -153,6 +166,17 @@ export default function AssetSelection({ setValidSwap }) {
                     </div>
                   ))}
                 </div>
+                <button
+                  className='btn btn-purple'
+                  onClick={(e)=> setOpenModalCounterparty(true)}>
+                  Add More
+              </button>
+                <button
+                  className='btn btn-purple mx-4'
+                  onClick={(e)=> setTokensToReceive([])}>
+                  Remove All
+              </button>
+              </div>
               )}
             </div>
           )}

@@ -42,7 +42,7 @@ export default function MakeTrade() {
                 )}
                 {progress === 2 && (
                   <div className="container m-3">
-                    <p>Lorem</p>
+                    <p>Gafo</p>
                   </div>
                 )}
                 {progress === 3 && (

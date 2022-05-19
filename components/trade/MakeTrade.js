@@ -2,11 +2,14 @@ import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import ProgressBar from './ProgressBar';
 import AssetSelection from './AssetSelection';
+import AssetApproval from './AssetApproval';
 
 export default function MakeTrade() {
   const { address } = useContext(UserContext);
   const [progress, setProgress] = useState(1);
   const [validSwap, setValidSwap] = useState(false);
+  const [validApproval, setValidApproval] = useState(false);
+  const [tokensToTransfer, setTokensToTransfer] = useState([]);
 
   const handleNext = () => {
     setProgress(progress + 1);
@@ -38,36 +41,48 @@ export default function MakeTrade() {
               <div className="flex justify-center items-center flex-col gap-3">
                 {/* PASOS */}
                 {progress === 1 && (
-                  <AssetSelection setValidSwap={setValidSwap} />
+                  <AssetSelection
+                    setValidSwap={setValidSwap}
+                    tokensToTransfer={tokensToTransfer}
+                    setTokensToTransfer={setTokensToTransfer}
+                  />
                 )}
                 {progress === 2 && (
                   <div className="container m-3">
-                    <p>Lorem</p>
+                    <AssetApproval
+                      tokensToTransfer={tokensToTransfer}
+                      setValidApproval={setValidApproval}
+                    />
                   </div>
                 )}
                 {progress === 3 && (
                   <div className="container m-3">
-                    <p>Ipsum</p>
+                    <p>asdasd</p>
                   </div>
                 )}
 
                 {/* BOTONES */}
-                {progress !== 3 && (
+                {progress === 1 && (
                   <div className="flex gap-3">
-                    {progress !== 1 && (
-                      <button
-                        type="button"
-                        className="btn btn-purple hover:bg-wise-white hover:text-black"
-                        onClick={handleBack}
-                      >
-                        Back
-                      </button>
-                    )}
                     <button
                       type="button"
                       className={validSwap ? 'btn btn-purple' : 'btn-disabled'}
                       onClick={handleNext}
                       disabled={!validSwap && true}
+                    >
+                      Next
+                    </button>
+                  </div>
+                )}
+                {progress === 2 && (
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      className={
+                        validApproval ? 'btn btn-purple' : 'btn-disabled'
+                      }
+                      onClick={handleNext}
+                      disabled={!validApproval && true}
                     >
                       Next
                     </button>

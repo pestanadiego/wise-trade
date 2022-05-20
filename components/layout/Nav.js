@@ -14,7 +14,11 @@ export default function Nav() {
     <header>
       <nav className="container flex items-center flex-col sm:flex-row py-4 mt-4 sm:mt-12">
         <div className="py-1">
-          <Link href="/">Wise Trade</Link>
+          <Link href="/">
+            <p className="text-gray-800 font-bold text-3xl pb-6 cursor-pointer">
+              Wise<span className="text-wise-purple">Trade</span>
+            </p>
+          </Link>
         </div>{' '}
         {/* LOGO AQUI */}
         <ul className="sm:flex flex-1 justify-end items-center gap-12 text-wise-blue uppercase text-xs">

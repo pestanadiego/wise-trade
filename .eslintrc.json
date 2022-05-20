@@ -36,6 +36,7 @@
         "jsx-a11y/no-static-element-interactions": "off",
         "@next/next/link-passhref": "off",
         "import/no-unresolved": "off",
-        "consistent-return": "off"
+        "consistent-return": "off",
+        "prefer-destructuring": "off"
     }
 }

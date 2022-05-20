@@ -9,14 +9,16 @@ export default function AssetSelection({
   setValidSwap,
   tokensToTransfer,
   setTokensToTransfer,
+  tokensToReceive,
+  setTokensToReceive,
+  counterpartyAddress,
+  setCounterpartyAddress,
 }) {
   const { address } = useContext(UserContext);
-  const [counterpartyAddress, setCounterpartyAddress] = useState('');
   const [validCounterparty, setValidCounterparty] = useState(false);
   const [selection, setSelection] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openModalCounterparty, setOpenModalCounterparty] = useState(false);
-  const [tokensToReceive, setTokensToReceive] = useState([]);
 
   const handleAdd = () => {
     setSelection(true);
@@ -46,7 +48,7 @@ export default function AssetSelection({
     } else {
       setValidSwap(false);
     }
-  }, [selection]);
+  }, [selection, tokensToTransfer]);
 
   return (
     <>
@@ -77,22 +79,22 @@ export default function AssetSelection({
                     height={120}
                     className="object-fill"
                   />
-                  <p className="my-3 text-center">{token.name}</p>
                   <p className="my-3 text-center">{token.id}</p>
+                  <p className="mb-3 text-center">{token.name}</p>
                 </div>
               ))}
             </div>
             <button
               type="button"
               className="btn btn-purple m-4"
-              onClick={(e) => setOpenModal(true)}
+              onClick={() => setOpenModal(true)}
             >
-              Add More
+              Change All
             </button>
             <button
               type="button"
               className="btn btn-purple"
-              onClick={(e) => setTokensToTransfer([])}
+              onClick={() => setTokensToTransfer([])}
             >
               Remove All
             </button>
@@ -170,22 +172,22 @@ export default function AssetSelection({
                           height={120}
                           className="object-fill"
                         />
-                        <p className="my-3 text-center">{token.name}</p>
                         <p className="my-3 text-center">{token.id}</p>
+                        <p className="mb-3 text-center">{token.name}</p>
                       </div>
                     ))}
                   </div>
                   <button
                     type="button"
                     className="btn btn-purple"
-                    onClick={(e) => setOpenModalCounterparty(true)}
+                    onClick={() => setOpenModalCounterparty(true)}
                   >
                     Add More
                   </button>
                   <button
                     type="button"
                     className="btn btn-purple mx-4"
-                    onClick={(e) => setTokensToReceive([])}
+                    onClick={() => setTokensToReceive([])}
                   >
                     Remove All
                   </button>

@@ -10,7 +10,6 @@ import AssetApproval from './AssetApproval';
 import WiseTradeV1 from '../../smart_contracts/artifacts/contracts/WiseTradeV1.sol/WiseTradeV1.json';
 // eslint-disable-next-line import/extensions
 import client from '../../lib/sanityClient';
-import { id } from 'ethers/lib/utils';
 
 export default function MakeTrade() {
   const { address, provider } = useContext(UserContext);

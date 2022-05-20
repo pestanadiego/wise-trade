@@ -18,7 +18,10 @@ export default function MakeTrade() {
 
   const handleNext = () => {
     setProgress(progress + 1);
+    console.log('joa');
   };
+
+
 
   const handleProposal = async () => {
     // Arrays for Initiator

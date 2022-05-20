@@ -6,6 +6,7 @@ import { UserContext } from '../../context/UserContext';
 import utils from '../../utils/utils';
 import client from '../../lib/sanityClient';
 import WiseTradeV1 from '../../smart_contracts/artifacts/contracts/WiseTradeV1.sol/WiseTradeV1.json';
+import { use } from 'chai';
 
 export default function PendingTrades() {
   const { address, provider } = useContext(UserContext);
@@ -28,9 +29,11 @@ export default function PendingTrades() {
   };
 
   const getData = (user) => {
-    setTransactions([]);
-    for (let i = 0; i < user.swaps.length; i++) {
-      transactions.push(user.swaps[i]);
+    if (user.swaps !== null) {
+      setTransactions([]);
+      for (let i = 0; i < user.swaps.length; i++) {
+        transactions.push(user.swaps[i]);
+      }
     }
   };
 
@@ -49,6 +52,7 @@ export default function PendingTrades() {
     setSwapId();
     console.log('Acepta', accept);
   };
+
   useEffect(() => {
     if (!dataLoaded) {
       getUser();

@@ -37,6 +37,7 @@
         "@next/next/link-passhref": "off",
         "import/no-unresolved": "off",
         "consistent-return": "off",
-        "prefer-destructuring": "off"
+        "prefer-destructuring": "off",
+        "no-plusplus": "off",
     }
 }

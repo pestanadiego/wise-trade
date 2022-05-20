@@ -24,7 +24,6 @@ export default function MakeTrade() {
 
   const handleNext = () => {
     setProgress(progress + 1);
-    console.log('joa');
   };
 
   const addSwapToSanity = async () => {

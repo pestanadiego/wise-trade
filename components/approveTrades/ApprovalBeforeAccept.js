@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { ethers } from 'ethers';
@@ -8,6 +9,7 @@ import WiseTradeV1 from '../../smart_contracts/artifacts/contracts/WiseTradeV1.s
 export default function ApprovalBeforeAccept({ tokensToApprove, swap }) {
   const { provider, user, setUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [finishedSwap, setFinishedSwap] = useState(false);
   const [isLoadingConfirm, setIsLoadingConfirm] = useState(false);
   const [validApproval, setValidApproval] = useState(false);
   const [success, setSuccess] = useState(
@@ -122,6 +124,7 @@ export default function ApprovalBeforeAccept({ tokensToApprove, swap }) {
             await modifySwapInSanity();
           }
           setIsLoadingConfirm(false);
+          setFinishedSwap(true);
         });
       })
       .catch((error) => {
@@ -140,56 +143,75 @@ export default function ApprovalBeforeAccept({ tokensToApprove, swap }) {
   }, [success]);
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex flex-col flex-wrap justify-center items-center gap-3 mb-6">
-        <p className="text-wise-grey text-xl mb-6">
-          Approve your NFTs to finish the swap
-        </p>
-        {tokensToApprove.map((token, i) => (
-          <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
-            <Image
-              src={token.image_url}
-              width={120}
-              height={120}
-              className="object-fill"
-            />
-            <p className="my-3 text-center">{token.id}</p>
-            <p className="mb-3 text-center">{token.name}</p>
-            {isLoading ? (
-              <button
-                type="button"
-                className="btn-disabled mb-3 text-sm"
-                disabled
-              >
-                Waiting...
-              </button>
-            ) : (
-              <button
-                type="button"
-                className={
-                  success[i]
-                    ? 'btn-disabled mb-3 text-sm'
-                    : 'btn bg-wise-red mb-3 text-sm'
-                }
-                disabled={success[i] && true}
-                onClick={() => handleApprove(token, i)}
-              >
-                {success[i] ? 'Approved' : 'Approve'}
-              </button>
-            )}
+    <div>
+      {!finishedSwap ? (
+        <div className="flex flex-col items-center">
+          <div className="flex flex-col flex-wrap justify-center items-center gap-3 mb-6">
+            <p className="text-wise-grey text-xl mb-6">
+              Approve your NFTs to finish the swap
+            </p>
+            {tokensToApprove.map((token, i) => (
+              <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
+                <Image
+                  src={token.image_url}
+                  width={120}
+                  height={120}
+                  className="object-fill"
+                />
+                <p className="my-3 text-center">{token.id}</p>
+                <p className="mb-3 text-center">{token.name}</p>
+                {isLoading ? (
+                  <button
+                    type="button"
+                    className="btn-disabled mb-3 text-sm"
+                    disabled
+                  >
+                    Waiting...
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className={
+                      success[i]
+                        ? 'btn-disabled mb-3 text-sm'
+                        : 'btn bg-wise-red mb-3 text-sm'
+                    }
+                    disabled={success[i] && true}
+                    onClick={() => handleApprove(token, i)}
+                  >
+                    {success[i] ? 'Approved' : 'Approve'}
+                  </button>
+                )}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <div className="mt-3">
-        <button
-          type="button"
-          className={validApproval ? 'btn btn-purple' : 'btn-disabled'}
-          onClick={handleAcceptSwap}
-          disabled={(!validApproval || isLoadingConfirm) && true}
-        >
-          {isLoading ? 'Waiting...' : 'Confirm Swap'}
-        </button>
-      </div>
+          <div className="mt-3">
+            <button
+              type="button"
+              className={
+                !validApproval || isLoadingConfirm
+                  ? 'btn-disabled'
+                  : 'btn btn-purple'
+              }
+              onClick={handleAcceptSwap}
+              disabled={(!validApproval || isLoadingConfirm) && true}
+            >
+              {isLoading || isLoadingConfirm ? 'Waiting...' : 'Confirm Swap'}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-3 items-center">
+          <h1 className="text-wise-grey text-center text-lg">
+            Trade completed
+          </h1>
+          <Link href="/">
+            <button type="button" className="btn btn-purple">
+              Exit
+            </button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

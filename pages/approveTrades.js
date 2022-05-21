@@ -14,7 +14,7 @@ export default function MyTrades() {
       ) : (
         <div className="mt-14 lg:mt-28 mb-9">
           <h2 className="text-wise-blue text-3xl md:text-4 lg:text-5xl text-center mb-6">
-            Approve Trades
+            Pending Trades
           </h2>
           <PendingTrades />
         </div>

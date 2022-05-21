@@ -24,7 +24,7 @@ export default function PendingTrades() {
 
     const pendingApprovals = [];
     for (let i = 0; i < swaps.length; i++) {
-      if (swaps[i].to === address) {
+      if (swaps[i].to === address || swaps[i].from === address) {
         pendingApprovals.push(swaps[i]);
       }
     }

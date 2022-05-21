@@ -76,28 +76,6 @@ export default function MakeTrade() {
     const createSwap = await client.create(swapDoc).then(async (res) => {
       console.log(res);
 
-      /*
-      const swapInitiatorDoc = {
-        _type: 'swap',
-        from: res.address,
-        to: res.counterpartyAddress,
-        idOfSwap: res.swapId,
-        initiatorNfts: res.initiatorNftsMapped,
-        counterpartNfts: res.counterpartNftsMapped,
-        status: 'pending',
-      };
-
-      const swapCounterpartDoc = {
-        _type: 'swap',
-        from: res.address,
-        to: res.counterpartyAddress,
-        idOfSwap: res.swapId,
-        initiatorNfts: res.initiatorNftsMapped,
-        counterpartNfts: res.counterpartNftsMapped,
-        status: 'pending',
-      };
-      */
-
       const modifyCounterpart = await client
         .patch(counterpartyAddress)
         .setIfMissing({ swaps: [] })

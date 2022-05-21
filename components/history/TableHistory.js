@@ -65,9 +65,21 @@ export default function History() {
                             ))}
                           </td>
                           <td className="py-3 px-9 text-center">
-                            <span className="bg-yellow-200 text-yellow-600 py-1 px-6 rounded-full text-xs">
-                              {swap.status.toUpperCase()}
-                            </span>
+                            {swap.status === 'pending' && (
+                              <span className="bg-yellow-200 text-yellow-600 py-1 px-6 rounded-full text-xs">
+                                {swap.status.toUpperCase()}
+                              </span>
+                            )}
+                            {swap.status === 'completed' && (
+                              <span className="bg-green-200 text-green-600 py-1 px-6 rounded-full text-xs">
+                                {swap.status.toUpperCase()}
+                              </span>
+                            )}
+                            {swap.status === 'cancelled' && (
+                              <span className="bg-red-200 text-red-600 py-1 px-6 rounded-full text-xs">
+                                {swap.status.toUpperCase()}
+                              </span>
+                            )}
                           </td>
                         </tr>
                       ))}

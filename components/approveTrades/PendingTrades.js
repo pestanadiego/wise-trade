@@ -1,14 +1,18 @@
 import { useContext, useState, useEffect } from 'react';
+import { ethers } from 'ethers';
 import Image from 'next/image';
 import { UserContext } from '../../context/UserContext';
 import utils from '../../utils/utils';
+import client from '../../lib/sanityClient';
+import WiseTradeV1 from '../../smart_contracts/artifacts/contracts/WiseTradeV1.sol/WiseTradeV1.json';
 import ApprovalBeforeAccept from './ApprovalBeforeAccept';
 
 export default function PendingTrades() {
-  const { user, address } = useContext(UserContext);
+  const { setUser, user, address, provider } = useContext(UserContext);
   const [acceptTransaction, setAcceptTransaction] = useState(null);
+  const [isLoadingReject, setIsLoadingReject] = useState(false);
+  const [declineTransaction, setDeclineTransaction] = useState(null);
   const [accept, setAccept] = useState(false);
-  const [decline, setDecline] = useState(false);
   const [transactions, setTransactions] = useState([]);
 
   const swapsToApprove = () => {
@@ -25,6 +29,86 @@ export default function PendingTrades() {
       }
     }
     return pendingApprovals;
+  };
+
+  const modifyRejectionInSanity = async () => {
+    // Se modifica el swap
+    await client
+      .patch(declineTransaction._id)
+      .set({ status: 'cancelled' })
+      .commit();
+
+    // Se modifica el swap del Initiator
+    const initiator = await client.getDocument(declineTransaction.from);
+    console.log(initiator);
+
+    const updatedInitiatorSwaps = [];
+    for (let i = 0; i < initiator.swaps.length; i++) {
+      if (declineTransaction.idOfSwap === initiator.swaps[i].idOfSwap) {
+        initiator.swaps[i] = { ...initiator.swaps[i], status: 'cancelled' };
+      }
+      updatedInitiatorSwaps.push(initiator.swaps[i]);
+    }
+    await client
+      .patch(declineTransaction.from)
+      .set({ swaps: updatedInitiatorSwaps })
+      .commit();
+
+    // Se modifica el swap del Counterpart
+    const counterpart = await client.getDocument(declineTransaction.to);
+    console.log(counterpart);
+
+    const updatedCounterpartSwaps = [];
+    for (let i = 0; i < counterpart.swaps.length; i++) {
+      if (declineTransaction.idOfSwap === counterpart.swaps[i].idOfSwap) {
+        counterpart.swaps[i] = { ...counterpart.swaps[i], status: 'cancelled' };
+      }
+      updatedCounterpartSwaps.push(counterpart.swaps[i]);
+    }
+    await client
+      .patch(declineTransaction.to)
+      .set({ swaps: updatedCounterpartSwaps })
+      .commit();
+
+    // Se modifica el userContext
+    const updatedSwaps = [];
+    for (let i = 0; i < user.swaps.length; i++) {
+      if (declineTransaction.idOfSwap == user.swaps[i].idOfSwap) {
+        user.swaps[i] = {
+          ...user.swaps[i],
+          status: 'cancelled',
+        };
+      }
+      updatedSwaps.push(user.swaps[i]);
+    }
+    setUser({ ...user, swaps: updatedSwaps });
+  };
+
+  const handleDecline = async () => {
+    if (declineTransaction != null) {
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(
+        '0xA37B171aB62EF81F44BFdBDBeE0EA59Fd67D1B96',
+        WiseTradeV1.abi,
+        signer
+      );
+      await contract
+        .cancelSwap(declineTransaction.idOfSwap)
+        .then((pre) => {
+          setIsLoadingReject(true);
+          pre.wait().then(async (receipt) => {
+            console.log(receipt);
+            if (receipt.confirmations === 1) {
+              console.log(receipt);
+              await modifyRejectionInSanity();
+            }
+            setIsLoadingReject(false);
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   useEffect(() => {
@@ -125,22 +209,23 @@ export default function PendingTrades() {
                                       </button>
                                       <button
                                         type="button"
-                                        className="btn btn-gray"
+                                        className={
+                                          isLoadingReject
+                                            ? 'btn-disabled'
+                                            : 'btn btn-purple'
+                                        }
+                                        disabled={isLoadingReject}
+                                        onClick={async () => {
+                                          setDeclineTransaction(transaction);
+                                          await handleDecline();
+                                        }}
                                       >
                                         Reject
                                       </button>
                                     </div>
                                   ) : (
                                     <div className="flex justify-center space-x-10">
-                                      <button
-                                        type="button"
-                                        className="btn btn-purple"
-                                        onClick={() => {
-                                          setDecline(true);
-                                        }}
-                                      >
-                                        Cancel
-                                      </button>
+                                      <button type="button">Cancel</button>
                                     </div>
                                   )}
                                 </td>
@@ -149,6 +234,7 @@ export default function PendingTrades() {
                               ''
                             )
                           )}
+                          {}
                         </tbody>
                       )}
                     </table>

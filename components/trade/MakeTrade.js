@@ -101,13 +101,13 @@ export default function MakeTrade() {
       const modifyCounterpart = await client
         .patch(counterpartyAddress)
         .setIfMissing({ swaps: [] })
-        .insert('after', 'swaps[-1]', [{ ...res, _id: utils.makeKey() }])
+        .insert('after', 'swaps[-1]', [res])
         .commit({ autoGenerateArrayKeys: true });
 
       const modifyInitiator = await client
         .patch(address)
         .setIfMissing({ swaps: [] })
-        .insert('after', 'swaps[-1]', [{ ...res, _id: utils.makeKey() }])
+        .insert('after', 'swaps[-1]', [res])
         .commit({ autoGenerateArrayKeys: true });
     });
   };

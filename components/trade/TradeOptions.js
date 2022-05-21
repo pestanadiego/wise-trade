@@ -104,14 +104,3 @@ export default function TradeOptions({
     </div>
   );
 }
-
-/*
-<div className="flex flex-col rounded-md border-2 hover:shadow-md cursor-pointer">
-<Image
-  src={token.image_url}
-  width="70"
-  height="70"
-  className="object-fit"
-/>
-</div>
-*/

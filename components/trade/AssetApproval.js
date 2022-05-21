@@ -21,7 +21,7 @@ export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
     console.log(success);
     // Contract
     await contract
-      .approve('0xA37B171aB62EF81F44BFdBDBeE0EA59Fd67D1B96', token.id)
+      .approve('0x3376C58a9ca4fBD7E6b96B7866322152C14F9375', token.id)
       .then((pre) => {
         console.log(pre);
         setIsLoading(true);

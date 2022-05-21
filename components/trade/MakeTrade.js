@@ -10,7 +10,7 @@ import AssetApproval from './AssetApproval';
 import WiseTradeV1 from '../../smart_contracts/artifacts/contracts/WiseTradeV1.sol/WiseTradeV1.json';
 // eslint-disable-next-line import/extensions
 import client from '../../lib/sanityClient';
-import { id } from 'ethers/lib/utils';
+import utils from '../../utils/utils';
 
 export default function MakeTrade() {
   const { address, provider } = useContext(UserContext);
@@ -50,13 +50,13 @@ export default function MakeTrade() {
     });
 
     const initiatorNftsMapped = tokensToTransfer.map((token) => {
-      return { ...token, id: parseInt(token.id), _key: parseInt(token.id) };
+      return { ...token, id: parseInt(token.id), _key: utils.makeKey() };
     });
 
     console.log(initiatorNftsMapped);
 
     const counterpartNftsMapped = tokensToReceive.map((token) => {
-      return { ...token, id: parseInt(token.id), _key: parseInt(token.id) };
+      return { ...token, id: parseInt(token.id), _key: utils.makeKey() };
     });
 
     console.log(counterpartNftsMapped);
@@ -113,7 +113,7 @@ export default function MakeTrade() {
 
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
-      '0xA37B171aB62EF81F44BFdBDBeE0EA59Fd67D1B96',
+      '0x3376C58a9ca4fBD7E6b96B7866322152C14F9375',
       WiseTradeV1.abi,
       signer
     );

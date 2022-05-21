@@ -10,6 +10,7 @@ import AssetApproval from './AssetApproval';
 import WiseTradeV1 from '../../smart_contracts/artifacts/contracts/WiseTradeV1.sol/WiseTradeV1.json';
 // eslint-disable-next-line import/extensions
 import client from '../../lib/sanityClient';
+import utils from '../../utils/utils';
 
 export default function MakeTrade() {
   const { address, provider } = useContext(UserContext);
@@ -49,13 +50,13 @@ export default function MakeTrade() {
     });
 
     const initiatorNftsMapped = tokensToTransfer.map((token) => {
-      return { ...token, id: parseInt(token.id), _key: parseInt(token.id) };
+      return { ...token, id: parseInt(token.id), _key: utils.makeKey() };
     });
 
     console.log(initiatorNftsMapped);
 
     const counterpartNftsMapped = tokensToReceive.map((token) => {
-      return { ...token, id: parseInt(token.id), _key: parseInt(token.id) };
+      return { ...token, id: parseInt(token.id), _key: utils.makeKey() };
     });
 
     console.log(counterpartNftsMapped);
@@ -75,16 +76,36 @@ export default function MakeTrade() {
     const createSwap = await client.create(swapDoc).then(async (res) => {
       console.log(res);
 
+      const swapInitiatorDoc = {
+        _type: 'swap',
+        from: res.address,
+        to: res.counterpartyAddress,
+        idOfSwap: res.swapId,
+        initiatorNfts: res.initiatorNftsMapped,
+        counterpartNfts: res.counterpartNftsMapped,
+        status: 'pending',
+      };
+
+      const swapCounterpartDoc = {
+        _type: 'swap',
+        from: res.address,
+        to: res.counterpartyAddress,
+        idOfSwap: res.swapId,
+        initiatorNfts: res.initiatorNftsMapped,
+        counterpartNfts: res.counterpartNftsMapped,
+        status: 'pending',
+      };
+
       const modifyCounterpart = await client
         .patch(counterpartyAddress)
         .setIfMissing({ swaps: [] })
-        .insert('after', 'swaps[-1]', [res])
+        .insert('after', 'swaps[-1]', [swapInitiatorDoc])
         .commit({ autoGenerateArrayKeys: true });
 
       const modifyInitiator = await client
         .patch(address)
         .setIfMissing({ swaps: [] })
-        .insert('after', 'swaps[-1]', [res])
+        .insert('after', 'swaps[-1]', [swapCounterpartDoc])
         .commit({ autoGenerateArrayKeys: true });
     });
   };

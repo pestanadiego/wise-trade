@@ -12,7 +12,7 @@ export default function Nav() {
   };
   return (
     <header>
-      <nav className="container flex items-center flex-col sm:flex-row py-4 mt-4 sm:mt-12">
+      <nav className="container flex items-baseline flex-col sm:flex-row py-4 mt-4 sm:mt-12">
         <div className="py-1">
           <Link href="/">
             <p className="text-gray-800 font-bold text-3xl pb-6 cursor-pointer">

@@ -1,4 +1,4 @@
-import PendingTrades from '../components/trade/PendingTrades';
+import PendingTrades from '../components/approveTrades/PendingTrades';
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 

@@ -31,9 +31,8 @@ export default function PendingTrades() {
     setLoading(false);
     console.log('transactions', transactions);
   };
-
+  
   const getData = (user) => {
-    setTransactions([]);
     for (let i = 0; i < user.swaps.length; i++) {
       transactions.push(user.swaps[i]);
     }
@@ -56,7 +55,7 @@ export default function PendingTrades() {
     for (let i = 0; i < transaction.counterPartNfts.length; i++) {
       nftsToValid.push(transaction.counterPartNfts[i]);
     }
-    setSwapId()
+    setSwapId();
     console.log('Acepta', accept);
   };
   useEffect(() => {

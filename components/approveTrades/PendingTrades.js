@@ -227,7 +227,12 @@ export default function PendingTrades() {
                                     </div>
                                   ) : (
                                     <div className="flex justify-center space-x-10">
-                                      <button type="button">Cancel</button>
+                                      <button
+                                        type="button"
+                                        className="btn btn-purple"
+                                      >
+                                        Cancel
+                                      </button>
                                     </div>
                                   )}
                                 </td>

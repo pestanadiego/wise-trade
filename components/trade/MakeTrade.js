@@ -76,6 +76,7 @@ export default function MakeTrade() {
     const createSwap = await client.create(swapDoc).then(async (res) => {
       console.log(res);
 
+      /*
       const swapInitiatorDoc = {
         _type: 'swap',
         from: res.address,
@@ -95,17 +96,18 @@ export default function MakeTrade() {
         counterpartNfts: res.counterpartNftsMapped,
         status: 'pending',
       };
+      */
 
       const modifyCounterpart = await client
         .patch(counterpartyAddress)
         .setIfMissing({ swaps: [] })
-        .insert('after', 'swaps[-1]', [swapInitiatorDoc])
+        .insert('after', 'swaps[-1]', [{ ...res, _id: utils.makeKey() }])
         .commit({ autoGenerateArrayKeys: true });
 
       const modifyInitiator = await client
         .patch(address)
         .setIfMissing({ swaps: [] })
-        .insert('after', 'swaps[-1]', [swapCounterpartDoc])
+        .insert('after', 'swaps[-1]', [{ ...res, _id: utils.makeKey() }])
         .commit({ autoGenerateArrayKeys: true });
     });
   };

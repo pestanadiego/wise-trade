@@ -72,7 +72,7 @@ export default function AssetSelection({
           <div>
             <div className="flex flex-row flex-wrap justify-center gap-3 mb-6">
               {tokensToTransfer.map((token) => (
-                <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
+                <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px]">
                   <Image
                     src={token.image_url}
                     width={120}
@@ -103,7 +103,15 @@ export default function AssetSelection({
         {/* CONTRAPARTE */}
         <div className="border-t-2 container mb-3">
           <h1 className="text-wise-blue text-xl mt-3 ml-3">
-            Counterparty Wallet
+            Counterpart Wallet
+            <div className="flex">
+            <svg class="h-5 w-5 text-red-500"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M12 9v2m0 4v.01" />  
+              <path d="M5.07 19H19a2 2 0 0 0 1.75 -2.75L13.75 4a2 2 0 0 0 -3.5 0L3.25 16.25a2 2 0 0 0 1.75 2.75" />
+            </svg>
+            <p className='text-wise-grey text-xs mt-1'>
+              Items sent to the wrong address cannot be recovered
+            </p>
+            </div>
           </h1>
           {!selection ? (
             <div className="flex flex-col justify-start ml-3 mb-3">
@@ -111,7 +119,7 @@ export default function AssetSelection({
                 <input
                   className="mt-3 input"
                   type="text"
-                  placeholder="Counterparty Address"
+                  placeholder="Counterpart Address"
                   value={counterpartyAddress}
                   onChange={(e) => setCounterpartyAddress(e.target.value)}
                 />
@@ -165,7 +173,7 @@ export default function AssetSelection({
                 <div>
                   <div className="flex flex-row flex-wrap justify-center gap-3 mb-6">
                     {tokensToReceive.map((token) => (
-                      <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
+                      <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px]">
                         <Image
                           src={token.image_url}
                           width={120}

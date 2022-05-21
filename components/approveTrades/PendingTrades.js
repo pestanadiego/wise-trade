@@ -229,8 +229,20 @@ export default function PendingTrades() {
                                     <div className="flex justify-center space-x-10">
                                       <button
                                         type="button"
-                                        className="btn btn-purple"
+                                        className={
+                                          isLoadingReject
+                                            ? 'btn-disabled'
+                                            : 'btn btn-purple'
+                                        }
+                                        disabled={isLoadingReject}
+                                        onClick={async () => {
+                                          setDeclineTransaction(transaction);
+                                          await handleDecline();
+                                        }}
                                       >
+                                        {isLoadingReject
+                                          ? 'Waiting...'
+                                          : 'Reject'}
                                         Cancel
                                       </button>
                                     </div>

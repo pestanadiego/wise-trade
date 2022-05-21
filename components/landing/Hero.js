@@ -24,7 +24,7 @@ export default function Hero() {
               type="button"
               className="btn btn-white hover:bg-wise-purple hover:text-white"
             >
-              <Link href="/trade">Check Trades</Link>
+              <Link href="/approveTrades">Check Trades</Link>
             </button>
           </div>
         </div>

@@ -18,8 +18,8 @@ export default function History() {
           <div className="overflow-x-auto">
             <div className="min-w-screen min-h-screenflex items-center justify-center font-sans overflow-hidden">
               <div className="w-full lg:w-5/6">
-                <div className="bg-white shadow-md rounded-md my-3">
-                  <table className="min-w-max w-full table-auto">
+                <div className="bg-white rounded-md my-3">
+                  <table className="min-w-max w-full table-auto bg-white shadow-md border-2 rounded-xl my-10">
                     <thead>
                       <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                         <th className="py-3 px-6 text-center">From</th>

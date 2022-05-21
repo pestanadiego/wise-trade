@@ -207,7 +207,7 @@ export default function MakeTrade() {
                       <p>NFTs you'd get:</p>
                       <div className="my-3">
                         {tokensToReceive.map((token) => (
-                          <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
+                          <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px]">
                             <Image
                               src={token.image_url}
                               width={120}
@@ -238,16 +238,26 @@ export default function MakeTrade() {
                 )}
                 {progress === 2 && (
                   <div className="flex gap-3">
-                    <button
-                      type="button"
-                      className={
-                        validApproval ? 'btn btn-purple' : 'btn-disabled'
-                      }
-                      onClick={handleProposal}
-                      disabled={(!validApproval || isLoading) && true}
-                    >
-                      {isLoading ? 'Waiting...' : 'Confirm Swap'}
-                    </button>
+                    {isLoading ? (
+                      <button
+                        type="button"
+                        className="btn-disabled mb-3 text-sm"
+                        disabled
+                      >
+                        Waiting...
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className={
+                          validApproval ? 'btn btn-purple' : 'btn-disabled'
+                        }
+                        onClick={handleProposal}
+                        disabled={(!validApproval || isLoading) && true}
+                      >
+                        {isLoading ? 'Waiting...' : 'Confirm Swap'}
+                      </button>
+                    )}
                   </div>
                 )}
               </div>

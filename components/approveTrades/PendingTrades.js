@@ -7,13 +7,9 @@ import ApprovalBeforeAccept from './ApprovalBeforeAccept';
 export default function PendingTrades() {
   const { user, address } = useContext(UserContext);
   const [acceptTransaction, setAcceptTransaction] = useState(null);
-  const [validApproval, setValidApproval] = useState(false);
   const [accept, setAccept] = useState(false);
-  const [nftsToValid, setNftsToValid] = useState([]);
+  const [decline, setDecline] = useState(false);
   const [transactions, setTransactions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [dataLoaded, setDataLoaded] = useState(false);
-  const [swapId, setSwapId] = useState(null);
 
   const swapsToApprove = () => {
     if (user.swaps == null) {
@@ -139,7 +135,9 @@ export default function PendingTrades() {
                                       <button
                                         type="button"
                                         className="btn btn-purple"
-                                        // onClick={handleOnClick(transaction)}
+                                        onClick={() => {
+                                          setDecline(true);
+                                        }}
                                       >
                                         Cancel
                                       </button>
@@ -162,7 +160,7 @@ export default function PendingTrades() {
                   )}
                 </div>
               ) : (
-                <h1 className="text-wise-grey text-center text-lg">
+                <h1 className="text-wise-grey text-center text-lg font-light">
                   There are not trades to be approved
                 </h1>
               )}

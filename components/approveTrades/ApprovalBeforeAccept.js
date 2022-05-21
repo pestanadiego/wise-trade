@@ -4,7 +4,6 @@ import { UserContext } from '../../context/UserContext';
 import { ethers } from 'ethers';
 import client from '../../lib/sanityClient';
 import WiseTradeV1 from '../../smart_contracts/artifacts/contracts/WiseTradeV1.sol/WiseTradeV1.json';
-import { use } from 'chai';
 
 export default function ApprovalBeforeAccept({ tokensToApprove, swap }) {
   const { provider, user, setUser } = useContext(UserContext);
@@ -53,6 +52,8 @@ export default function ApprovalBeforeAccept({ tokensToApprove, swap }) {
   };
 
   const modifySwapInSanity = async () => {
+    console.log(swap._id);
+
     // Se modifica el swap
     await client.patch(swap._id).set({ status: 'completed' }).commit();
 
@@ -60,31 +61,33 @@ export default function ApprovalBeforeAccept({ tokensToApprove, swap }) {
     const initiator = await client.getDocument(swap.from);
     console.log(initiator);
 
+    const updatedInitiatorSwaps = [];
     for (let i = 0; i < initiator.swaps.length; i++) {
       if (swap.idOfSwap === initiator.swaps[i].idOfSwap) {
-        await client
-          .patch(initiator.swaps[i]._id)
-          .setIfMissing({ status: 'completed' })
-          .set({ status: 'completed' })
-          .commit()
-          .then((pre) => console.log(pre));
+        initiator.swaps[i] = { ...initiator.swaps[i], status: 'completed' };
       }
+      updatedInitiatorSwaps.push(initiator.swaps[i]);
     }
+    await client
+      .patch(swap.from)
+      .set({ swaps: updatedInitiatorSwaps })
+      .commit();
 
     // Se modifica el swap del Counterpart
     const counterpart = await client.getDocument(swap.to);
     console.log(counterpart);
 
+    const updatedCounterpartSwaps = [];
     for (let i = 0; i < counterpart.swaps.length; i++) {
       if (swap.idOfSwap === counterpart.swaps[i].idOfSwap) {
-        await client
-          .patch(counterpart.swaps[i]._id)
-          .setIfMissing({ status: 'completed' })
-          .set({ status: 'completed' })
-          .commit()
-          .then((pre) => console.log(pre));
+        counterpart.swaps[i] = { ...counterpart.swaps[i], status: 'completed' };
       }
+      updatedCounterpartSwaps.push(counterpart.swaps[i]);
     }
+    await client
+      .patch(swap.to)
+      .set({ swaps: updatedCounterpartSwaps })
+      .commit();
 
     // Se modifica el userContext
     const updatedSwaps = [];

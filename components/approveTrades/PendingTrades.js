@@ -242,8 +242,7 @@ export default function PendingTrades() {
                                       >
                                         {isLoadingReject
                                           ? 'Waiting...'
-                                          : 'Reject'}
-                                        Cancel
+                                          : 'Cancel'}
                                       </button>
                                     </div>
                                   )}

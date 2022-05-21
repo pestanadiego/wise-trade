@@ -5,9 +5,13 @@ import { UserContext } from '../../context/UserContext';
 
 export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
   const { provider } = useContext(UserContext);
-  const [success, setSuccess] = useState(
-    new Array(tokensToTransfer).fill(false)
-  );
+  const [success, setSuccess] = useState(() => {
+    const arr = [];
+    for (let i = 0; i < tokensToTransfer.length; i++) {
+      arr.push(false);
+    }
+    return arr;
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const handleApprove = async (token, i) => {

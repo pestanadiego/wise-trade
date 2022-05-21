@@ -12,13 +12,18 @@ export default function ApprovalBeforeAccept({ tokensToApprove, swap }) {
   const [finishedSwap, setFinishedSwap] = useState(false);
   const [isLoadingConfirm, setIsLoadingConfirm] = useState(false);
   const [validApproval, setValidApproval] = useState(false);
-  const [success, setSuccess] = useState(
-    new Array(tokensToApprove).fill(false)
-  );
+  const [success, setSuccess] = useState(() => {
+    const arr = [];
+    for (let i = 0; i < tokensToApprove.length; i++) {
+      arr.push(false);
+    }
+    return arr;
+  });
 
   const handleApprove = async (token, i) => {
     console.log(token);
-    console.log(success);
+    console.log('tokens', tokensToApprove);
+    console.log('success antes', success);
     // Abi
     const abi = [
       'function approve(address to, uint256 tokenId) public returns (bool success)',
@@ -35,7 +40,11 @@ export default function ApprovalBeforeAccept({ tokensToApprove, swap }) {
         pre.wait().then((receipt) => {
           if (receipt.confirmations === 1) {
             success[i] = true;
-            const updatedSuccess = success.map((bool) => (bool ? true : false));
+            const updatedSuccess = [];
+            console.log('antes', success);
+            for (let i = 0; i < success.length; i++) {
+              updatedSuccess.push(success[i]);
+            }
             setSuccess(updatedSuccess);
             console.log(receipt);
             console.log(success);
@@ -150,40 +159,42 @@ export default function ApprovalBeforeAccept({ tokensToApprove, swap }) {
             <p className="text-wise-grey text-xl mb-6">
               Approve your NFTs to finish the swap
             </p>
-            {tokensToApprove.map((token, i) => (
-              <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
-                <Image
-                  src={token.image_url}
-                  width={120}
-                  height={120}
-                  className="object-fill"
-                />
-                <p className="my-3 text-center">{token.id}</p>
-                <p className="mb-3 text-center">{token.name}</p>
-                {isLoading ? (
-                  <button
-                    type="button"
-                    className="btn-disabled mb-3 text-sm"
-                    disabled
-                  >
-                    Waiting...
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className={
-                      success[i]
-                        ? 'btn-disabled mb-3 text-sm'
-                        : 'btn bg-wise-red mb-3 text-sm'
-                    }
-                    disabled={success[i] && true}
-                    onClick={() => handleApprove(token, i)}
-                  >
-                    {success[i] ? 'Approved' : 'Approve'}
-                  </button>
-                )}
-              </div>
-            ))}
+            <div className="flex flex-row gap-5 justify-center">
+              {tokensToApprove.map((token, i) => (
+                <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
+                  <Image
+                    src={token.image_url}
+                    width={120}
+                    height={120}
+                    className="object-fill rounded-md"
+                  />
+                  <p className="my-3 text-center">{token.id}</p>
+                  <p className="mb-3 text-center">{token.name}</p>
+                  {isLoading ? (
+                    <button
+                      type="button"
+                      className="btn-disabled mb-3 text-sm"
+                      disabled
+                    >
+                      Waiting...
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      className={
+                        success[i]
+                          ? 'btn-disabled mb-3 text-sm'
+                          : 'btn bg-wise-red mb-3 text-sm'
+                      }
+                      disabled={success[i] && true}
+                      onClick={() => handleApprove(token, i)}
+                    >
+                      {success[i] ? 'Approved' : 'Approve'}
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
           <div className="mt-3">
             <button

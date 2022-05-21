@@ -88,7 +88,7 @@ export default function PendingTrades() {
     if (declineTransaction != null) {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
-        '0xA37B171aB62EF81F44BFdBDBeE0EA59Fd67D1B96',
+        '0x3376C58a9ca4fBD7E6b96B7866322152C14F9375',
         WiseTradeV1.abi,
         signer
       );
@@ -220,7 +220,9 @@ export default function PendingTrades() {
                                           await handleDecline();
                                         }}
                                       >
-                                        Reject
+                                        {isLoadingReject
+                                          ? 'Waiting...'
+                                          : 'Reject'}
                                       </button>
                                     </div>
                                   ) : (

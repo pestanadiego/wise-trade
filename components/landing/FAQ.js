@@ -26,6 +26,7 @@ export default function FAQ() {
           <a
             href="https://medium.com/@wise.inc.trade/how-does-the-process-work-1c1d66cfdbed"
             type="button"
+            target="_blank"
             className="flex self-center btn btn-purple hover:bg-wise-white hover:text-black mt-12"
           >
             More Info

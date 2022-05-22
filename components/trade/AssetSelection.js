@@ -104,13 +104,11 @@ export default function AssetSelection({
         <div className="border-t-2 container mb-3">
           <h1 className="text-wise-blue text-xl mt-3 ml-3">
             Counterpart Wallet
-            <div className="flex">
-            <svg class="h-5 w-5 text-red-500"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M12 9v2m0 4v.01" />  
-              <path d="M5.07 19H19a2 2 0 0 0 1.75 -2.75L13.75 4a2 2 0 0 0 -3.5 0L3.25 16.25a2 2 0 0 0 1.75 2.75" />
-            </svg>
-            <p className='text-wise-grey text-xs mt-1'>
-              Items sent to the wrong address cannot be recovered
-            </p>
+            <div className="flex flex-row gap-2 my-3 items-baseline">
+              <i className="fa fa-triangle-exclamation text-red-500 text-sm" />
+              <p className="text-red-500 text-sm">
+                  Items sent to the wrong address cannot be recovered.
+              </p>
             </div>
           </h1>
           {!selection ? (

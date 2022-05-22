@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Footer() {
   return (
     <footer className="bg-wise-blue py-8">
@@ -6,7 +8,9 @@ export default function Footer() {
           <h1 className="text-white">Wise Trade</h1>
         </div>
         <div className="flex gap-10 mt-12 md:mt-0">
-          <i className="text-white text-2xl fab fa-twitter" />
+          <a href="https://twitter.com/WiseTrade22">
+            <i className="text-white text-2xl fab fa-twitter" />
+          </a>
         </div>
       </div>
     </footer>

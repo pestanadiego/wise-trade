@@ -23,12 +23,13 @@ export default function FAQ() {
               key={question.question}
             />
           ))}
-          <button
+          <a
+            href="https://medium.com/@wise.inc.trade/how-does-the-process-work-1c1d66cfdbed"
             type="button"
             className="flex self-center btn btn-purple hover:bg-wise-white hover:text-black mt-12"
           >
             More Info
-          </button>
+          </a>
         </div>
       </div>
     </section>

@@ -15,17 +15,15 @@ export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleApprove = async (token, i) => {
-    console.log(success);
     // Abi
     const abi = [
       'function approve(address to, uint256 tokenId) public returns (bool success)',
     ];
     const signer = provider.getSigner();
     const contract = new ethers.Contract(token.nftAddress, abi, signer);
-    console.log(success);
     // Contract
     await contract
-      .approve('0x3376C58a9ca4fBD7E6b96B7866322152C14F9375', token.id)
+      .approve('0x4849A0D150556Aa910Bf9155D1BBA21c960FC291', token.id)
       .then((pre) => {
         console.log(pre);
         setIsLoading(true);

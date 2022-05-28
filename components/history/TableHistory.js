@@ -47,20 +47,20 @@ export default function History() {
                           <td className="py-3 px-9 text-center">
                             {swap.initiatorNfts.map((nft) => (
                               <Image
-                                className="rounded-sm"
+                                className="rounded-md border-2"
                                 src={nft.image_url}
-                                width="32"
-                                height="32"
+                                width="90"
+                                height="90"
                               />
                             ))}
                           </td>
                           <td className="py-3 px-9 text-center">
                             {swap.counterpartNfts.map((nft) => (
                               <Image
-                                className="rounded-sm"
+                                className="rounded-md border-2"
                                 src={nft.image_url}
-                                width="32"
-                                height="32"
+                                width="90"
+                                height="90"
                               />
                             ))}
                           </td>

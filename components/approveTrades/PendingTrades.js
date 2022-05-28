@@ -88,7 +88,7 @@ export default function PendingTrades() {
     if (declineTransaction != null) {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
-        '0x3376C58a9ca4fBD7E6b96B7866322152C14F9375',
+        '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291',
         WiseTradeV1.abi,
         signer
       );
@@ -122,12 +122,12 @@ export default function PendingTrades() {
     <section>
       {!address ? (
         <div className="text-wise-grey text-center">
-          Connect your wallet to make a trade
+          Connect your wallet to see pending trades
         </div>
       ) : (
         <section>
           {!user ? (
-            <h1>Loading...</h1>
+            <h1 className="text-center text-wise-grey">Loading...</h1>
           ) : (
             <div className="container flex flex-col-reverse items-center mt-4 lg:mt-8 mb-9">
               {transactions.length !== 0 ? (
@@ -265,7 +265,7 @@ export default function PendingTrades() {
                 </div>
               ) : (
                 <h1 className="text-wise-grey text-center text-lg font-light">
-                  There are not trades to be approved
+                  There are no trades to be approved
                 </h1>
               )}
             </div>

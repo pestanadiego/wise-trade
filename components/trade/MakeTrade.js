@@ -11,9 +11,10 @@ import WiseTradeV1 from '../../smart_contracts/artifacts/contracts/WiseTradeV1.s
 // eslint-disable-next-line import/extensions
 import client from '../../lib/sanityClient';
 import utils from '../../utils/utils';
+import { use } from 'chai';
 
 export default function MakeTrade() {
-  const { address, provider } = useContext(UserContext);
+  const { user, setUser, address, provider } = useContext(UserContext);
   const [progress, setProgress] = useState(1);
   const [validSwap, setValidSwap] = useState(false);
   const [validApproval, setValidApproval] = useState(false);
@@ -26,8 +27,9 @@ export default function MakeTrade() {
     setProgress(progress + 1);
   };
 
-  const addSwapToSanity = async () => {
+  const addSwapToSanity = async (counter) => {
     // First, increment the counter
+    /*
     const incSwap = await client
       .patch('b140beb0-f6bf-455f-a4d3-e5de157cda1a')
       .inc({ swapCounter: 1 })
@@ -38,8 +40,9 @@ export default function MakeTrade() {
     const counterDoc = await client.getDocument(
       'b140beb0-f6bf-455f-a4d3-e5de157cda1a'
     );
-
-    const swapId = counterDoc.swapCounter;
+    */
+    const swapId = parseInt(counter._hex, 16) + 1;
+    console.log(swapId);
 
     // Then, create a document for the counterparty
     const createCounterpart = await client.createIfNotExists({
@@ -74,8 +77,6 @@ export default function MakeTrade() {
     };
 
     const createSwap = await client.create(swapDoc).then(async (res) => {
-      console.log(res);
-
       const modifyCounterpart = await client
         .patch(counterpartyAddress)
         .setIfMissing({ swaps: [] })
@@ -87,6 +88,19 @@ export default function MakeTrade() {
         .setIfMissing({ swaps: [] })
         .insert('after', 'swaps[-1]', [res])
         .commit({ autoGenerateArrayKeys: true });
+
+      // Se actualiza el UserContext
+      if (user.swaps == null) {
+        const updatedUser = { ...user, swaps: [res] };
+        console.log(updatedUser);
+        setUser(updatedUser);
+      } else {
+        const updatedSwaps = user.swaps;
+        updatedSwaps.push(res);
+        const updatedUser = { ...user, updatedSwaps };
+        console.log(updatedUser);
+        setUser(updatedUser);
+      }
     });
   };
 
@@ -113,10 +127,16 @@ export default function MakeTrade() {
 
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
-      '0x3376C58a9ca4fBD7E6b96B7866322152C14F9375',
+      '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291',
       WiseTradeV1.abi,
       signer
     );
+
+    //ReadCounter
+    const counter = await contract.ReadCounter();
+    console.log(counter);
+
+    // proposeSwap
     await contract
       .proposeSwap(
         counterpartyAddress,
@@ -132,7 +152,7 @@ export default function MakeTrade() {
           if (receipt.confirmations === 1) {
             console.log(receipt);
             setProgress(3);
-            await addSwapToSanity();
+            await addSwapToSanity(counter);
           }
           setIsLoading(false);
         });
@@ -185,7 +205,7 @@ export default function MakeTrade() {
                 {progress === 3 && (
                   <div className="container m-3 flex flex-col">
                     <div className="flex flex-col justify-center items-center mb-6">
-                      <p classname="text-wise-blue text-2xl">
+                      <p className="text-wise-blue text-2xl">
                         NFTs you'd let go:
                       </p>
                       <div className="flex flex-row gap-5 justify-center my-3">
@@ -228,7 +248,9 @@ export default function MakeTrade() {
                   <div className="flex gap-3">
                     <button
                       type="button"
-                      className={validSwap ? 'btn btn-purple' : 'btn-disabled'}
+                      className={
+                        validSwap ? 'btn btn-purple' : 'btn-disabled -z-20'
+                      }
                       onClick={handleNext}
                       disabled={!validSwap && true}
                     >

@@ -225,6 +225,10 @@ contract WiseTradeV1 is Ownable, IERC721Receiver {
         recipient.transfer((address(this).balance - _etherLocked));
     }
 
+    function ReadCounter() external view returns (uint256) {
+        return _swapsCounter;
+    }
+
     function onERC721Received(
         /* solhint-disable */
         address operator,

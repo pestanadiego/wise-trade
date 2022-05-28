@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { ethers } from 'ethers';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
-import ApproveForAll from '../../smart_contracts/artifacts/contracts/ApproveForAll.sol/ApproveForAll.json';
 
 export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
   const { provider } = useContext(UserContext);
@@ -11,50 +10,6 @@ export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleApprove = async () => {
-    /*
-    setIsLoading(true);
-    console.log(tokensToTransfer.length);
-    console.log(allSuccessful);
-
-    // Metamask
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(
-      '0xa53881b506Faf7638116f2D2AE43f1F8dF71d895',
-      ApproveForAll.abi,
-      signer
-    );
-
-    // Parámetros para el contrato
-    const nftAddresses = [];
-    const nftIds = [];
-    for (let i = 0; i < tokensToTransfer.length; i++) {
-      nftAddresses.push(tokensToTransfer[i].nftAddress);
-      nftIds.push(tokensToTransfer[i].id);
-    }
-    console.log(nftAddresses);
-    console.log(nftIds);
-
-    // Contrato
-    await contract
-      .approveForAll(
-        '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291',
-        nftAddresses,
-        nftIds
-      )
-      .then((pre) => {
-        setIsLoading(true);
-        console.log(pre);
-        pre.wait().then((receipt) => {
-          console.log(receipt);
-          if (receipt.confirmations === 1) {
-            setAllSuccessful(true);
-          } else {
-            console.log('Error');
-          }
-          setIsLoading(false);
-        });
-      });
-    */
     for (let i = 0; i < tokensToTransfer.length; i++) {
       // Abi
       const abi = [
@@ -99,20 +54,6 @@ export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
         });
     }
   };
-
-  /*
-  useEffect(() => {
-    if (tokensToTransfer.length === counter) {
-      setIsLoading(false);
-      setAllSuccessful(true);
-      setValidApproval(true);
-    } else {
-      setAllSuccessful(false);
-      setValidApproval(false);
-    }
-    console.log(counter);
-  }, [counter]);
-  */
 
   return (
     <div>

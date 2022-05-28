@@ -15,8 +15,11 @@ export default function Nav() {
       <nav className="container flex items-baseline flex-col sm:flex-row py-4 mt-4 sm:mt-12">
         <div className="py-1">
           <Link href="/">
-            <p className="text-gray-800 font-bold text-3xl pb-6 cursor-pointer">
-              Wise<span className="text-wise-purple">Trade</span>
+            <p className="text-transparent bg-clip-text bg-gradient-to-r from-wise-blue to-wise-purple font-bold text-3xl pb-6 cursor-pointer">
+              Wise
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-wise-purple to-wise-red">
+                Trade
+              </span>
             </p>
           </Link>
         </div>{' '}

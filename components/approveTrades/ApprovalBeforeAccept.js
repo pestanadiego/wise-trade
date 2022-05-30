@@ -6,7 +6,11 @@ import { ethers } from 'ethers';
 import client from '../../lib/sanityClient';
 import WiseTradeV1 from '../../smart_contracts/artifacts/contracts/WiseTradeV1.sol/WiseTradeV1.json';
 
-export default function ApprovalBeforeAccept({ tokensToApprove, swap }) {
+export default function ApprovalBeforeAccept({
+  tokensToReceive,
+  tokensToApprove,
+  swap,
+}) {
   const { provider, user, setUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const [finishedSwap, setFinishedSwap] = useState(false);
@@ -212,15 +216,49 @@ export default function ApprovalBeforeAccept({ tokensToApprove, swap }) {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col gap-3 items-center">
-          <h1 className="text-wise-grey text-center text-lg">
-            Trade completed
-          </h1>
-          <Link href="/">
-            <button type="button" className="btn btn-purple">
-              Exit
-            </button>
-          </Link>
+        <div className="container m-3 flex flex-col">
+          <div className="flex flex-col justify-center items-center mb-6">
+            <h1 className="text-wise-grey text-center text-lg">
+              Trade completed
+            </h1>
+            <p classname="text-wise-blue text-2xl">NFTs you'd let go:</p>
+            <div className="flex flex-row gap-5 justify-center my-3">
+              {tokensToApprove.map((token) => (
+                <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
+                  <Image
+                    src={token.image_url}
+                    width={120}
+                    height={120}
+                    className="object-fill"
+                  />
+                  <p className="my-3 text-center">{token.id}</p>
+                  <p className="mb-3 text-center">{token.name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col justify-center items-center">
+            <p>NFTs you'd get:</p>
+            <div className="flex flex-row gap-5 justify-center my-3">
+              {tokensToReceive.map((token) => (
+                <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px]">
+                  <Image
+                    src={token.image_url}
+                    width={120}
+                    height={120}
+                    className="object-fill"
+                  />
+                  <p className="my-3 text-center">{token.id}</p>
+                  <p className="mb-3 text-center">{token.name}</p>
+                </div>
+              ))}
+            </div>
+            <Link href="/">
+              <button type="button" className="btn btn-purple">
+                Exit
+              </button>
+            </Link>
+          </div>
         </div>
       )}
     </div>

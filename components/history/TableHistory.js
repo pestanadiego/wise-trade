@@ -33,56 +33,59 @@ export default function History() {
                       </tr>
                     </thead>
                     <tbody className="text-gray-600 text-sm font-light">
-                      {user.swaps.map((swap) => (
-                        <tr className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
-                          <td className="py-3 px-9 text-center whitespace-nowrap">
-                            {utils.truncateAddress(swap.from)}
-                          </td>
-                          <td className="py-3 px-9 text-center">
-                            {utils.truncateAddress(swap.to)}
-                          </td>
-                          <td className="py-3 px-9 text-center">
-                            {swap._createdAt.substr(0, 10)}
-                          </td>
-                          <td className="py-3 px-9 text-center">
-                            {swap.initiatorNfts.map((nft) => (
-                              <Image
-                                className="rounded-sm"
-                                src={nft.image_url}
-                                width="32"
-                                height="32"
-                              />
-                            ))}
-                          </td>
-                          <td className="py-3 px-9 text-center">
-                            {swap.counterpartNfts.map((nft) => (
-                              <Image
-                                className="rounded-sm"
-                                src={nft.image_url}
-                                width="32"
-                                height="32"
-                              />
-                            ))}
-                          </td>
-                          <td className="py-3 px-9 text-center">
-                            {swap.status === 'pending' && (
-                              <span className="bg-yellow-200 text-yellow-600 py-1 px-6 rounded-full text-xs">
-                                {swap.status.toUpperCase()}
-                              </span>
-                            )}
-                            {swap.status === 'completed' && (
-                              <span className="bg-green-200 text-green-600 py-1 px-6 rounded-full text-xs">
-                                {swap.status.toUpperCase()}
-                              </span>
-                            )}
-                            {swap.status === 'cancelled' && (
-                              <span className="bg-red-200 text-red-600 py-1 px-6 rounded-full text-xs">
-                                {swap.status.toUpperCase()}
-                              </span>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
+                      {user.swaps
+                        .slice(0)
+                        .reverse()
+                        .map((swap) => (
+                          <tr className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
+                            <td className="py-3 px-9 text-center whitespace-nowrap">
+                              {utils.truncateAddress(swap.from)}
+                            </td>
+                            <td className="py-3 px-9 text-center">
+                              {utils.truncateAddress(swap.to)}
+                            </td>
+                            <td className="py-3 px-9 text-center">
+                              {swap._createdAt.substr(0, 10)}
+                            </td>
+                            <td className="py-3 px-9 text-center">
+                              {swap.initiatorNfts.map((nft) => (
+                                <Image
+                                  className="rounded-md border-2"
+                                  src={nft.image_url}
+                                  width="90"
+                                  height="90"
+                                />
+                              ))}
+                            </td>
+                            <td className="py-3 px-9 text-center">
+                              {swap.counterpartNfts.map((nft) => (
+                                <Image
+                                  className="rounded-md border-2"
+                                  src={nft.image_url}
+                                  width="90"
+                                  height="90"
+                                />
+                              ))}
+                            </td>
+                            <td className="py-3 px-9 text-center">
+                              {swap.status === 'pending' && (
+                                <span className="bg-yellow-200 text-yellow-600 py-1 px-6 rounded-full text-xs">
+                                  {swap.status.toUpperCase()}
+                                </span>
+                              )}
+                              {swap.status === 'completed' && (
+                                <span className="bg-green-200 text-green-600 py-1 px-6 rounded-full text-xs">
+                                  {swap.status.toUpperCase()}
+                                </span>
+                              )}
+                              {swap.status === 'cancelled' && (
+                                <span className="bg-red-200 text-red-600 py-1 px-6 rounded-full text-xs">
+                                  {swap.status.toUpperCase()}
+                                </span>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
                     </tbody>
                   </table>
                 </div>

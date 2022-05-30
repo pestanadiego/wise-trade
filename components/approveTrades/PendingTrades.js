@@ -11,7 +11,6 @@ export default function PendingTrades() {
   const { setUser, user, address, provider } = useContext(UserContext);
   const [acceptTransaction, setAcceptTransaction] = useState(null);
   const [isLoadingReject, setIsLoadingReject] = useState(false);
-  const [declineTransaction, setDeclineTransaction] = useState(null);
   const [accept, setAccept] = useState(false);
   const [transactions, setTransactions] = useState([]);
 
@@ -31,7 +30,7 @@ export default function PendingTrades() {
     return pendingApprovals;
   };
 
-  const modifyRejectionInSanity = async () => {
+  const modifyRejectionInSanity = async (declineTransaction) => {
     // Se modifica el swap
     await client
       .patch(declineTransaction._id)
@@ -84,31 +83,30 @@ export default function PendingTrades() {
     setUser({ ...user, swaps: updatedSwaps });
   };
 
-  const handleDecline = async () => {
-    if (declineTransaction != null) {
-      const signer = provider.getSigner();
-      const contract = new ethers.Contract(
-        '0x3376C58a9ca4fBD7E6b96B7866322152C14F9375',
-        WiseTradeV1.abi,
-        signer
-      );
-      await contract
-        .cancelSwap(declineTransaction.idOfSwap)
-        .then((pre) => {
-          setIsLoadingReject(true);
-          pre.wait().then(async (receipt) => {
+  const handleDecline = async (declineTransaction) => {
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(
+      '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291',
+      WiseTradeV1.abi,
+      signer
+    );
+
+    await contract
+      .cancelSwap(declineTransaction.idOfSwap)
+      .then((pre) => {
+        setIsLoadingReject(true);
+        pre.wait().then(async (receipt) => {
+          console.log(receipt);
+          if (receipt.confirmations === 1) {
             console.log(receipt);
-            if (receipt.confirmations === 1) {
-              console.log(receipt);
-              await modifyRejectionInSanity();
-            }
-            setIsLoadingReject(false);
-          });
-        })
-        .catch((error) => {
-          console.log(error);
+            await modifyRejectionInSanity(declineTransaction);
+          }
+          setIsLoadingReject(false);
         });
-    }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -122,12 +120,12 @@ export default function PendingTrades() {
     <section>
       {!address ? (
         <div className="text-wise-grey text-center">
-          Connect your wallet to make a trade
+          Connect your wallet to see pending trades
         </div>
       ) : (
         <section>
           {!user ? (
-            <h1>Loading...</h1>
+            <h1 className="text-center text-wise-grey">Loading...</h1>
           ) : (
             <div className="container flex flex-col-reverse items-center mt-4 lg:mt-8 mb-9">
               {transactions.length !== 0 ? (
@@ -151,107 +149,109 @@ export default function PendingTrades() {
                       </thead>
                       {transactions.length !== 0 && (
                         <tbody className="text-gray-600 text-sm font-light">
-                          {transactions.map((transaction) =>
-                            transaction.status === 'pending' &&
-                            (transaction.from === address ||
-                              transaction.to === address) ? (
-                              <tr className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
-                                <td className="py-3 px-9 text-center whitespace-nowrap">
-                                  {utils.truncateAddress(transaction.from)}
-                                </td>
-                                <td className="py-3 px-9 text-center">
-                                  {utils.truncateAddress(transaction.to)}
-                                </td>
-                                <td className="py-3 px-9 text-center whitespace-nowrap">
-                                  {transaction._createdAt.substr(0, 10)}
-                                </td>
-                                <td className="py-3 px-9 text-center">
-                                  {transaction.initiatorNfts.map((nft) => (
-                                    <div className="flex flex-col my-2 overflow">
-                                      <Image
-                                        src={nft.image_url}
-                                        className="border-2 rounded-md"
-                                        width={90}
-                                        height={90}
-                                      />
-                                    </div>
-                                  ))}
-                                </td>
-                                <td className="py-3 px-9 text-center">
-                                  {transaction.counterpartNfts.map((nft) => (
-                                    <div className="flex flex-col my-2 overflow">
-                                      <Image
-                                        src={nft.image_url}
-                                        className="border-2 rounded-md"
-                                        width={90}
-                                        height={90}
-                                      />
-                                    </div>
-                                  ))}
-                                </td>
-                                <td className="py-3 px-9 text-center">
-                                  <span className="bg-yellow-200 text-yellow-600 py-1 px-6 rounded-full text-xs">
-                                    PENDING
-                                  </span>
-                                </td>
-                                <td className="py-3 px-3 justify-center">
-                                  {transaction.from !== address ? (
-                                    <div className="container flex justify-center gap-3">
-                                      <button
-                                        type="button"
-                                        className="btn btn-purple"
-                                        onClick={() => {
-                                          setAccept(true);
-                                          setAcceptTransaction(transaction);
-                                        }}
-                                      >
-                                        Accept
-                                      </button>
-                                      <button
-                                        type="button"
-                                        className={
-                                          isLoadingReject
-                                            ? 'btn-disabled'
-                                            : 'btn btn-purple'
-                                        }
-                                        disabled={isLoadingReject}
-                                        onClick={async () => {
-                                          setDeclineTransaction(transaction);
-                                          await handleDecline();
-                                        }}
-                                      >
-                                        {isLoadingReject
-                                          ? 'Waiting...'
-                                          : 'Reject'}
-                                      </button>
-                                    </div>
-                                  ) : (
-                                    <div className="flex justify-center space-x-10">
-                                      <button
-                                        type="button"
-                                        className={
-                                          isLoadingReject
-                                            ? 'btn-disabled'
-                                            : 'btn btn-purple'
-                                        }
-                                        disabled={isLoadingReject}
-                                        onClick={async () => {
-                                          setDeclineTransaction(transaction);
-                                          await handleDecline();
-                                        }}
-                                      >
-                                        {isLoadingReject
-                                          ? 'Waiting...'
-                                          : 'Cancel'}
-                                      </button>
-                                    </div>
-                                  )}
-                                </td>
-                              </tr>
-                            ) : (
-                              ''
-                            )
-                          )}
+                          {transactions
+                            .slice(0)
+                            .reverse()
+                            .map((transaction) =>
+                              transaction.status === 'pending' &&
+                              (transaction.from === address ||
+                                transaction.to === address) ? (
+                                <tr className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
+                                  <td className="py-3 px-9 text-center whitespace-nowrap">
+                                    {utils.truncateAddress(transaction.from)}
+                                  </td>
+                                  <td className="py-3 px-9 text-center">
+                                    {utils.truncateAddress(transaction.to)}
+                                  </td>
+                                  <td className="py-3 px-9 text-center whitespace-nowrap">
+                                    {transaction._createdAt.substr(0, 10)}
+                                  </td>
+                                  <td className="py-3 px-9 text-center">
+                                    {transaction.initiatorNfts.map((nft) => (
+                                      <div className="flex flex-col my-2 overflow">
+                                        <Image
+                                          src={nft.image_url}
+                                          className="border-2 rounded-md"
+                                          width={90}
+                                          height={90}
+                                        />
+                                      </div>
+                                    ))}
+                                  </td>
+                                  <td className="py-3 px-9 text-center">
+                                    {transaction.counterpartNfts.map((nft) => (
+                                      <div className="flex flex-col my-2 overflow">
+                                        <Image
+                                          src={nft.image_url}
+                                          className="border-2 rounded-md"
+                                          width={90}
+                                          height={90}
+                                        />
+                                      </div>
+                                    ))}
+                                  </td>
+                                  <td className="py-3 px-9 text-center">
+                                    <span className="bg-yellow-200 text-yellow-600 py-1 px-6 rounded-full text-xs">
+                                      PENDING
+                                    </span>
+                                  </td>
+                                  <td className="py-3 px-3 justify-center">
+                                    {transaction.from !== address ? (
+                                      <div className="container flex justify-center gap-3">
+                                        <button
+                                          type="button"
+                                          className="btn btn-purple"
+                                          onClick={() => {
+                                            setAccept(true);
+                                            setAcceptTransaction(transaction);
+                                          }}
+                                        >
+                                          Accept
+                                        </button>
+                                        <button
+                                          type="button"
+                                          className={
+                                            isLoadingReject
+                                              ? 'btn-disabled'
+                                              : 'btn btn-purple'
+                                          }
+                                          disabled={isLoadingReject}
+                                          onClick={async () => {
+                                            setDeclineTransaction(transaction);
+                                            await handleDecline();
+                                          }}
+                                        >
+                                          {isLoadingReject
+                                            ? 'Waiting...'
+                                            : 'Reject'}
+                                        </button>
+                                      </div>
+                                    ) : (
+                                      <div className="flex justify-center space-x-10">
+                                        <button
+                                          type="button"
+                                          className={
+                                            isLoadingReject
+                                              ? 'btn-disabled'
+                                              : 'btn btn-purple'
+                                          }
+                                          disabled={isLoadingReject}
+                                          onClick={async () => {
+                                            await handleDecline(transaction);
+                                          }}
+                                        >
+                                          {isLoadingReject
+                                            ? 'Waiting...'
+                                            : 'Cancel'}
+                                        </button>
+                                      </div>
+                                    )}
+                                  </td>
+                                </tr>
+                              ) : (
+                                ''
+                              )
+                            )}
                           {}
                         </tbody>
                       )}
@@ -265,7 +265,7 @@ export default function PendingTrades() {
                 </div>
               ) : (
                 <h1 className="text-wise-grey text-center text-lg font-light">
-                  There are not trades to be approved
+                  There are no trades to be approved
                 </h1>
               )}
             </div>

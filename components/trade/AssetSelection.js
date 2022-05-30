@@ -66,7 +66,7 @@ export default function AssetSelection({
             onClick={() => setOpenModal(true)}
           >
             <i className="fa fa-plus text-wise-grey text-5xl mb-3" />
-            <p className="text-wise-grey">Add Your NFTs</p>
+            <p className="text-wise-grey">Add The NFTs</p>
           </div>
         ) : (
           <div>
@@ -105,9 +105,9 @@ export default function AssetSelection({
           <h1 className="text-wise-blue text-xl mt-3 ml-3">
             Counterpart Wallet
             <div className="flex flex-row gap-2 my-3 items-baseline">
-              <i className="fa fa-triangle-exclamation text-red-500 text-sm" />
-              <p className="text-red-500 text-sm">
-                  Items sent to the wrong address cannot be recovered.
+              <i className="fa fa-triangle-exclamation text-wise-grey text-sm" />
+              <p className="text-wise-grey text-sm">
+                Items sent to the wrong address cannot be recovered.
               </p>
             </div>
           </h1>
@@ -165,7 +165,7 @@ export default function AssetSelection({
                   onClick={() => setOpenModalCounterparty(true)}
                 >
                   <i className="fa fa-plus text-wise-grey text-5xl mb-3" />
-                  <p className="text-wise-grey">Add Your NFTs</p>
+                  <p className="text-wise-grey">Add The NFTs</p>
                 </div>
               ) : (
                 <div>
@@ -188,7 +188,7 @@ export default function AssetSelection({
                     className="btn btn-purple"
                     onClick={() => setOpenModalCounterparty(true)}
                   >
-                    Add More
+                    Change All
                   </button>
                   <button
                     type="button"

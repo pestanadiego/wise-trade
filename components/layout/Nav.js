@@ -16,8 +16,11 @@ export default function Nav() {
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
           <div className="w-full py-4 relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
           <Link href="/">
-            <p className="text-gray-800 font-bold text-3xl pb-6 cursor-pointer">
-              Wise<span className="text-wise-purple">Trade</span>
+            <p className="text-transparent bg-clip-text bg-gradient-to-r from-wise-blue to-wise-purple font-bold text-3xl pb-6 cursor-pointer">
+              Wise
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-wise-purple to-wise-red">
+                Trade
+              </span>
             </p>
           </Link>
             <button

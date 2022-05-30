@@ -37,7 +37,7 @@ export default function ApprovalBeforeAccept({
     console.log(success);
     // Contract
     await contract
-      .approve('0x3376C58a9ca4fBD7E6b96B7866322152C14F9375', token.id)
+      .approve('0x4849A0D150556Aa910Bf9155D1BBA21c960FC291', token.id)
       .then((pre) => {
         console.log(pre);
         setIsLoading(true);
@@ -122,7 +122,7 @@ export default function ApprovalBeforeAccept({
     console.log(swap);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
-      '0x3376C58a9ca4fBD7E6b96B7866322152C14F9375',
+      '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291',
       WiseTradeV1.abi,
       signer
     );
@@ -165,7 +165,7 @@ export default function ApprovalBeforeAccept({
             </p>
             <div className="flex flex-row gap-5 justify-center">
               {tokensToApprove.map((token, i) => (
-                <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
+                <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px]">
                   <Image
                     src={token.image_url}
                     width={120}

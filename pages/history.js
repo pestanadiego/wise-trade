@@ -9,7 +9,7 @@ export default function History() {
   return (
     <div className="container">
       {!address ? (
-        <h1 className="text-center">
+        <h1 className="text-center text-wise-grey">
           Connect your wallet to see trade history
         </h1>
       ) : (

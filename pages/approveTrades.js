@@ -8,7 +8,7 @@ export default function MyTrades() {
   return (
     <div className="container">
       {!address ? (
-        <h1 className="text-center">
+        <h1 className="text-center text-wise-grey">
           Connect your wallet to see pending trades
         </h1>
       ) : (

@@ -28,7 +28,9 @@ export default function ProfileDetails() {
   return (
     <section>
       {!address ? (
-        <div>Connect your wallet to see your profile</div>
+        <div className="text-wise-grey text-center">
+          Connect your wallet to see your profile
+        </div>
       ) : (
         <div className="container flex flex-col-reverse items-center mt-14 lg:mt-28">
           <div className="flex flex-col items-center">

@@ -39,13 +39,19 @@ export default function TradeOptions({
 
   useEffect(() => {
     const fetchTokens = async () => {
-      const res = await fetch(
-        `https://testnets-api.opensea.io/api/v1/assets?owner=${address}&order_direction=desc&offset=0&limit=20`
-      );
-      const data = await res.json();
-      setTokens(data.assets);
+      try {
+        const res = await fetch(
+          `https://testnets-api.opensea.io/api/v1/assets?owner=${address}&order_direction=desc&offset=0&limit=20`
+        );
+        const data = await res.json();
+        setTokens(data.assets);
+        console.log(data);
+      } catch {
+        alert('Unable to load NFTs. Check your connection and try again later');
+      }
     };
     fetchTokens();
+    setSelectedTokens(new Array(tokens.length).fill(false));
   }, []);
 
   useEffect(() => {
@@ -54,14 +60,16 @@ export default function TradeOptions({
 
   return (
     <div className="container">
-      {!tokens ? (
+      {tokens.length === 0 ? (
         <div>
-          <h1 className="text-center">Loading...</h1>
+          <h1 className="text-center text-wise-grey text-xl mb-32 mt-28">
+            Loading...
+          </h1>
         </div>
       ) : (
         <div className="flex flex-col items-center">
           <h1 className="text-wise-blue text-lg text-center mb-9">
-            Select the <span className="font-bold">NFTs</span> 
+            Select the <span className="font-bold">NFTs</span>
           </h1>
           <div className="flex flex-row flex-wrap justify-center gap-3 mb-9">
             {tokens.map((token, i) => (
@@ -72,22 +80,24 @@ export default function TradeOptions({
                     : 'flex flex-col border-2 rounded-md items-center hover:shadow-md hover:shadow-neutral-200 relative float-left w-[120px] max-w-[120px] inline-block transition-all'
                 }
               >
-                <Image
-                  src={token.image_url}
-                  width={120}
-                  height={120}
-                  className="object-fill"
-                />
-                <p className="my-3 text-center">{token.name}</p>
-                <input
-                  type="checkbox"
-                  className="absolute top-2 right-2"
-                  id={token.id}
-                  name={token.name}
-                  value={token.name}
-                  checked={selectedTokens[token]}
-                  onChange={() => handleOnChange(i)}
-                />
+                <button type="button" onClick={() => handleOnChange(i)}>
+                  <Image
+                    src={token.image_url}
+                    width={120}
+                    height={120}
+                    className="object-fill"
+                  />
+                  <p className="my-3 text-center">{token.name}</p>
+                  <input
+                    type="checkbox"
+                    className="absolute top-2 right-2"
+                    id={token.id}
+                    name={token.name}
+                    value={token.name}
+                    checked={selectedTokens[i]}
+                    onChange={() => handleOnChange(i)}
+                  />
+                </button>
               </div>
             ))}
           </div>

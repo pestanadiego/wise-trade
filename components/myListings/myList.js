@@ -1,64 +1,9 @@
 import { useContext } from 'react';
-import styled from 'styled-components';
 import { UserContext } from '../../context/UserContext';
-import { Colors, Devices } from './Theme';
-import NFTCard from './styled/NFTCard.styled';
-import Grid from './styled/Grid.styled';
-import Tabs from './styled/Tabs.styled';
-import Tab from './styled/Tab.styled';
+import NFTCard from './styled/NFTCard';
+import Grid from './styled/Grid';
+import Tabs from './styled/Tabs';
 import { NFTs } from './info';
-
-const ProfileEl = styled.article`
-  background-color: ${Colors.White};
-  color: ${Colors.Black};
-  display: flex;
-  flex-direction: column;
-`;
-
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 0 2rem;
-  gap: 2rem;
-
-  @media ${Devices.Laptop} {
-    flex-direction: row;
-  }
-`;
-const Info = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-
-  @media ${Devices.Laptop} {
-    max-width: 25vw;
-    align-items: flex-start;
-  }
-`;
-
-const Stats = styled.div`
-  width: 100%;
-  border-top: 1px solid ${Colors.Border};
-  border-bottom: 1px solid ${Colors.Border};
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  align-items: center;
-  justify-content: center;
-`;
-const StatItem = styled.div`
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-`;
-const StatTitle = styled.span`
-  color: ${Colors.Gray};
-`;
-const StatValue = styled.span`
-  font-weight: 500;
-`;
 
 const AllTabs = [
   {
@@ -72,7 +17,15 @@ const AllTabs = [
       </Grid>
     ),
   },
-  { Id: 2, Title: 'Pending', Content: <Tab /> },
+  {
+    Id: 2,
+    Title: 'Pending',
+    Content: (
+      <Grid>
+        <p>See Pending Offers</p>
+      </Grid>
+    ),
+  },
   {
     Id: 3,
     Title: 'Create',
@@ -91,7 +44,15 @@ const AllTabs = [
       </Grid>
     ),
   },
-  { Id: 5, Title: 'Sold', Content: <Tab /> },
+  {
+    Id: 5,
+    Title: 'Sold',
+    Content: (
+      <Grid>
+        <p>See sold</p>
+      </Grid>
+    ),
+  },
 ];
 
 export default function MyList() {
@@ -101,12 +62,10 @@ export default function MyList() {
       {!address ? (
         <div>Connect your wallet to see your Listings</div>
       ) : (
-        <ProfileEl>
-          <Content>
-            {/* Tabs */}
-            <Tabs data={AllTabs} mt="2rem" />
-          </Content>
-        </ProfileEl>
+        <div>
+          <h1>My Listings</h1>
+          <Tabs data={AllTabs} />
+        </div>
       )}
     </section>
   );

@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Devices } from "../Theme";
+import styled from 'styled-components';
+import { Devices } from '../Theme';
 
 const Grid = styled.div`
   display: grid;

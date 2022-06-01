@@ -103,22 +103,6 @@ export default function MyList() {
       ) : (
         <ProfileEl>
           <Content>
-            <Info>
-              <Stats>
-                <StatItem>
-                  <StatTitle>Created</StatTitle>
-                  <StatValue>3.8K</StatValue>
-                </StatItem>
-                <StatItem>
-                  <StatTitle>Sold</StatTitle>
-                  <StatValue>84K</StatValue>
-                </StatItem>
-                <StatItem>
-                  <StatTitle>Canceled</StatTitle>
-                  <StatValue>12</StatValue>
-                </StatItem>
-              </Stats>
-            </Info>
             {/* Tabs */}
             <Tabs data={AllTabs} mt="2rem" />
           </Content>

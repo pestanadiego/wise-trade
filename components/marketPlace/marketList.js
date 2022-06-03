@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { NFTs } from '../myListings/info';
-import Grid from '../myListings/styled/Grid';
 import { UserContext } from '../../context/UserContext';
 import NFTCard from '../myListings/styled/NFTCard';
 
@@ -13,15 +12,15 @@ export default function MarketList() {
       ) : (
         <div className="flex flex-col gap-4 items-center p-4">
           <h1>MarketPlace</h1>
-          <Grid>
+          <div className="md:flex max-w-md mx-auto bg-white rounded-xl overflow-hidden md:max-w-6xl">
             {NFTs.map((nft) => {
               return (
-                <a>
+                <div className="flex space-x-4">
                   <NFTCard item={nft} />
-                </a>
+                </div>
               );
             })}
-          </Grid>
+          </div>
         </div>
       )}
     </section>

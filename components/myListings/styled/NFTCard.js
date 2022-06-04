@@ -56,8 +56,8 @@ export default function NFTCard({ item }) {
           </div>
         </div>
       </div>
-      <Bar1 />
-      <Bar2 />
+      <span className="w-11/12 h-1 bg-white round-xl shadow-md brightness-75 -translate-y-1/3 "></span>
+      <span className="w-10/12 h-1 -translate-y-2/3 brightness-90 bg-white round-xl shadow-md"></span>
     </div>
   );
 }

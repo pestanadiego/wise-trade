@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 import NFTCard from './styled/NFTCard';
-import Grid from './styled/Grid';
 import Tabs from './styled/Tabs';
 import { NFTs } from './info';
 
@@ -10,47 +9,51 @@ const AllTabs = [
     Id: 1,
     Title: 'Collectibles',
     Content: (
-      <Grid>
+      <div className="md:flex max-w-md mx-auto bg-white rounded-xl overflow-hidden md:max-w-6xl">
         {NFTs.map((nft) => {
-          return <NFTCard key={nft.Id} item={nft} />;
+          return (
+            <div className="flex space-x-4">
+              <NFTCard key={nft.Id} item={nft} />
+            </div>
+          );
         })}
-      </Grid>
+      </div>
     ),
   },
   {
     Id: 2,
     Title: 'Pending',
     Content: (
-      <Grid>
+      <div className="md:flex flex space-x-4">
         <p>See Pending Offers</p>
-      </Grid>
+      </div>
     ),
   },
   {
     Id: 3,
     Title: 'Create',
     Content: (
-      <Grid>
+      <div className="md:flex flex space-x-4">
         <p>Create the Lists of NFTs</p>
-      </Grid>
+      </div>
     ),
   },
   {
     Id: 4,
     Title: 'Edit',
     Content: (
-      <Grid>
+      <div className="md:flex flex space-x-4">
         <p>Edit the Lists of NFTs</p>
-      </Grid>
+      </div>
     ),
   },
   {
     Id: 5,
     Title: 'Sold',
     Content: (
-      <Grid>
+      <div className="md:flex flex space-x-4">
         <p>See sold</p>
-      </Grid>
+      </div>
     ),
   },
 ];

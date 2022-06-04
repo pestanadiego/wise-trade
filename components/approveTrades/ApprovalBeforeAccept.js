@@ -160,7 +160,7 @@ export default function ApprovalBeforeAccept({
       {!finishedSwap ? (
         <div className="flex flex-col items-center">
           <div className="flex flex-col flex-wrap justify-center items-center gap-3 mb-6">
-            <p className="text-wise-grey text-xl mb-6">
+            <p className="sub-heading mb-6">
               Approve your NFTs to finish the swap
             </p>
             <div className="flex flex-row gap-5 justify-center">
@@ -188,7 +188,7 @@ export default function ApprovalBeforeAccept({
                       className={
                         success[i]
                           ? 'btn-disabled mb-3 text-sm'
-                          : 'btn bg-wise-red mb-3 text-sm'
+                          : 'btn bg-wise-purple mb-3 text-sm'
                       }
                       disabled={success[i] && true}
                       onClick={() => handleApprove(token, i)}

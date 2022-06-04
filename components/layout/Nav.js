@@ -1,4 +1,4 @@
-import { useContext, Fragment, useEffect, useRef, useState } from 'react';
+import { useContext, Fragment, useState } from 'react';
 import Link from 'next/link';
 import { UserContext } from '../../context/UserContext';
 import utils from '../../utils/utils';
@@ -6,21 +6,19 @@ import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 
 export default function Nav() {
-  const [showMenu, setShowMenu] = useState(false);
   const { address, connectWallet, disconnectWallet } = useContext(UserContext);
   const [navbarOpen, setNavbarOpen] = useState(false);
-  const handleMenu = async () => {
-    setShowMenu(!showMenu);
-  };
+  const [openMenu, setOpenMenu] = useState(false);
+
   return (
     <>
-      <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 mb-3">
-        <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
+      <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 mb-3 mt-4">
+        <div className="container px-4 mx-auto flex flex-wrap items-baseline justify-between">
           <div className="w-full py-4 relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <Link href="/">
-              <p className="text-transparent bg-clip-text bg-wise-blue font-bold text-3xl pb-6 cursor-pointer">
+              <p className="text-transparent bg-clip-text bg-gradient-to-r from-wise-blue to-wise-purple font-bold text-3xl pb-6 cursor-pointer">
                 Wise
-                <span className="text-transparent bg-clip-text bg-wise-purple">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-wise-purple to-wise-red">
                   Trade
                 </span>
               </p>
@@ -31,7 +29,7 @@ export default function Nav() {
                 type="button"
                 onClick={() => setNavbarOpen(!navbarOpen)}
               >
-                <i className="fas fa-bars text-wise-purple"></i>
+                <i className="fas fa-bars text-wise-blue"></i>
               </button>
             </div>
           </div>
@@ -46,7 +44,7 @@ export default function Nav() {
               <li className="nav-item px-4 py-3">
                 <Link href="/trade">Make a trade</Link>
               </li>
-              <li className="nav-item px-4 py-3">
+              <li className="nav-item pl-4 pr-8 py-3">
                 <Link href="/marketPlace">Marketplace</Link>
               </li>
               {!address ? (
@@ -61,12 +59,16 @@ export default function Nav() {
                 <div className="flex gap-3">
                   <Menu as="div" className="relative inline-block text-left">
                     <div>
-                      <Menu.Button className="inline-flex rounded-md btn btn-white hover:bg-wise-purple hover:text-white">
+                      <Menu.Button
+                        className="inline-flex items-baseline rounded-md btn btn-white hover:bg-wise-purple hover:text-white"
+                        onClick={() => setOpenMenu(!openMenu)}
+                      >
                         {utils.truncateAddress(address)}
-                        <ChevronDownIcon
-                          className="ml-2 -mr-1 h-5 w-5 text-violet-400 hover:text-violet-100"
-                          aria-hidden="true"
-                        />
+                        {openMenu ? (
+                          <i className="fas fa-minus ml-2" />
+                        ) : (
+                          <i className="fas fa-chevron-down ml-2" />
+                        )}
                       </Menu.Button>
                     </div>
                     <Transition

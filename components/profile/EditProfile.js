@@ -38,7 +38,7 @@ export default function EditProfile() {
   return (
     <div className="flex justify-center flex-col items-center">
       <div className="flex justify-center flex-col items-center w-full">
-        <p className="text-wise-grey mb-3">Edit your email address</p>
+        <p className="sub-heading mb-6">Edit your email address</p>
         {edit ? (
           <div className="w-full">
             <input

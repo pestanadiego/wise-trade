@@ -14,6 +14,7 @@ export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
       // Abi
       const abi = [
         'function approve(address to, uint256 tokenId) public returns (bool success)',
+        'function getApproved(uint256 tokenId) public returns (address operator)',
       ];
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
@@ -21,7 +22,10 @@ export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
         abi,
         signer
       );
-      // Contract
+
+      // Primero se verifica si ya está aprobado - TO DO
+
+      // De lo contrario, se aprueba
       await contract
         .approve(
           '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291',
@@ -87,7 +91,7 @@ export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
               className={
                 allSuccessful
                   ? 'btn-disabled mb-3 text-sm'
-                  : 'btn bg-wise-red mb-3 text-sm text-wise-blue'
+                  : 'btn bg-wise-purple mb-3 text-sm text-white'
               }
               disabled={allSuccessful && true}
               onClick={handleApprove}

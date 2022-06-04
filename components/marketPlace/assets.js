@@ -16,8 +16,8 @@ export default function Asset() {
       {!address ? (
         <div>Connect your wallet to see this page</div>
       ) : (
-        <div className="bg-white text-gray-900 p-20 mt-0 flex flex-col">
-          <div className="flex gap-8 flex-row">
+        <div className="bg-white text-gray-900 p-10 mt-0 flex flex-col">
+          <div className="flex gap-8 flex-row flex-wrap">
             <div className="flex-1 flex-col gap-8 ">
               <div className="overflow-hidden rounded-xl">
                 <Carousel>

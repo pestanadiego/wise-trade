@@ -254,6 +254,43 @@
       "artifacts": [
         "Context"
       ]
+    },
+    "/home/diegopestana/nft-test/smart_contracts/contracts/ApproveForAll.sol": {
+      "lastModificationDate": 1653745439823,
+      "contentHash": "c84596a8bfde0bc748af4d1b12868b92",
+      "sourceName": "contracts/ApproveForAll.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC721/IERC721.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.1"
+      ],
+      "artifacts": [
+        "ApproveForAll"
+      ]
     }
   }
 }

@@ -105,8 +105,8 @@ export default function AssetSelection({
           <h1 className="text-wise-blue text-xl mt-3 ml-3">
             Counterpart Wallet
             <div className="flex flex-row gap-2 my-3 items-baseline">
-              <i className="fa fa-triangle-exclamation text-red-500 text-sm" />
-              <p className="text-red-500 text-sm">
+              <i className="fa fa-triangle-exclamation text-wise-grey text-sm" />
+              <p className="text-wise-grey text-sm">
                 Items sent to the wrong address cannot be recovered.
               </p>
             </div>
@@ -188,7 +188,7 @@ export default function AssetSelection({
                     className="btn btn-purple"
                     onClick={() => setOpenModalCounterparty(true)}
                   >
-                    Add More
+                    Change All
                   </button>
                   <button
                     type="button"

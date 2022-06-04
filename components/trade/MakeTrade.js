@@ -205,9 +205,7 @@ export default function MakeTrade() {
                 {progress === 3 && (
                   <div className="container m-3 flex flex-col">
                     <div className="flex flex-col justify-center items-center mb-6">
-                      <p className="text-wise-blue text-2xl">
-                        NFTs you'd let go:
-                      </p>
+                      <p className="text-wise-grey">NFTs you'd let go:</p>
                       <div className="flex flex-row gap-5 justify-center my-3">
                         {tokensToTransfer.map((token) => (
                           <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
@@ -224,7 +222,7 @@ export default function MakeTrade() {
                       </div>
                     </div>
                     <div className="flex flex-col justify-center items-center">
-                      <p>NFTs you'd get:</p>
+                      <p className="text-wise-grey">NFTs you'd get:</p>
                       <div className="flex flex-row gap-5 justify-center my-3">
                         {tokensToReceive.map((token) => (
                           <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px]">

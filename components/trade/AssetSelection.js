@@ -55,7 +55,7 @@ export default function AssetSelection({
       <div className="flex flex-col justify-center align-center w-full border-2 rounded-md">
         {/* TRADER */}
         <div className="container">
-          <h1 className="text-wise-blue text-xl mt-3 ml-3">My Wallet</h1>
+          <h1 className="title mt-3 ml-3">My Wallet</h1>
           <p className="text-wise-grey m-3 overflow-hidden">
             {utils.truncateAddress(address)}
           </p>
@@ -102,7 +102,7 @@ export default function AssetSelection({
         )}
         {/* CONTRAPARTE */}
         <div className="border-t-2 container mb-3">
-          <h1 className="text-wise-blue text-xl mt-3 ml-3">
+          <h1 className="title mt-3 ml-3">
             Counterpart Wallet
             <div className="flex flex-row gap-2 my-3 items-baseline">
               <i className="fa fa-triangle-exclamation text-wise-grey text-sm" />

@@ -34,12 +34,10 @@ export default function ProfileDetails() {
       ) : (
         <div className="container flex flex-col-reverse items-center mt-14 lg:mt-28">
           <div className="flex flex-col items-center">
-            <h2 className="text-wise-blue text-3xl md:text-4 lg:text-5xl text-center mb-6">
-              Profile
-            </h2>
+            <h2 className="heading md:text-4 lg:text-5xl mb-6">Profile</h2>
             {user == null || user.email === '' || user.email === null ? (
               <div className="flex flex-col justify-center items-center">
-                <p className="text-wise-grey text-lg text-center mb-6">
+                <p className="text-wise-grey sub-heading mb-6">
                   Insert your email to send you notifications when needed.
                 </p>
                 <div className="flex flex-col items-start">

@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+.heading {
+    @apply text-wise-blue font-bold text-3xl leading-5 tracking-tight text-center mb-4;
+}
+
+.sub-heading {
+    @apply text-lg text-center font-medium text-wise-grey;
+}
+
+.title {
+    @apply text-wise-blue text-xl font-semibold;
+}
+
+.paragraph {
+    @apply text-wise-grey font-medium;
+}
+
 .btn {
     @apply shadow-md py-3 px-6 rounded-md transition duration-300 hover:bg-wise-white hover:text-black;
 }

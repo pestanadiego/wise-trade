@@ -28,23 +28,10 @@ export default function MakeTrade() {
   };
 
   const addSwapToSanity = async (counter) => {
-    // First, increment the counter
-    /*
-    const incSwap = await client
-      .patch('b140beb0-f6bf-455f-a4d3-e5de157cda1a')
-      .inc({ swapCounter: 1 })
-      .commit();
-
-    console.log(incSwap);
-
-    const counterDoc = await client.getDocument(
-      'b140beb0-f6bf-455f-a4d3-e5de157cda1a'
-    );
-    */
     const swapId = parseInt(counter._hex, 16) + 1;
     console.log(swapId);
 
-    // Then, create a document for the counterparty
+    // Create a document for the counterparty
     const createCounterpart = await client.createIfNotExists({
       _type: 'user',
       _id: counterpartyAddress,
@@ -171,12 +158,10 @@ export default function MakeTrade() {
       ) : (
         <div className="container flex flex-col-reverse items-center mt-14 lg:mt-28 mb-9">
           <div className="flex flex-col items-center w-full">
-            <h2 className="text-wise-blue text-3xl md:text-4 lg:text-5xl text-center mb-6">
-              Make A Trade
-            </h2>
+            <h2 className="heading md:text-4 lg:text-5xl">Make A Trade</h2>
             <div className="w-full">
               <div>
-                <p className="text-wise-grey text-lg text-center mb-6">
+                <p className="text-wise-grey sub-heading mb-6">
                   Follow each one of the steps to complete a trade
                 </p>
                 <ProgressBar progress={progress} />

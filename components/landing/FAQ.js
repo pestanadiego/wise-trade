@@ -7,7 +7,7 @@ export default function FAQ() {
       <div className="container">
         {/* HEADING */}
         <div className="sm:w-3/4 lg:w-5/12 mx-auto px-2">
-          <h1 className="text-3xl text-center text-wise-blue">
+          <h1 className="heading md:text-4 lg:text-5xl">
             Frequently Asked Questions
           </h1>
           <p className="text-center text-wise-grey mt-4">

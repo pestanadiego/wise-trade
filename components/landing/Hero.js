@@ -7,7 +7,7 @@ export default function Hero() {
     <section>
       <div className="container flex flex-col-reverse lg:flex-row items-center gap-12 mt-14 lg:mt-28">
         <div className="flex flex-1 flex-col items-center lg:items-start">
-          <h2 className="text-wise-blue text-3xl md:text-4 lg:text-5xl text-center lg:text-left mb-6">
+          <h2 className="heading md:text-4 lg:text-5xl md:text-4 lg:text-5xl lg:text-left mb-6">
             Swap NFTs easily.
           </h2>
           <p className="text-wise-grey text-lg text-center lg:text-left mb-6">

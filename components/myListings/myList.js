@@ -1,8 +1,9 @@
 import { useContext } from 'react';
-import { UserContext } from '../../context/UserContext';
+import { UserContext, UseState } from '../../context/UserContext';
 import NFTCard from './styled/NFTCard';
 import Tabs from './styled/Tabs';
 import { NFTs } from './info';
+import Multiselect from 'multiselect-react-dropdown';
 
 const AllTabs = [
   {
@@ -59,7 +60,9 @@ const AllTabs = [
 ];
 
 export default function MyList() {
+  const [tags, setTags] = useState([]);
   const { address } = useContext(UserContext);
+  
   return (
     <section>
       {!address ? (

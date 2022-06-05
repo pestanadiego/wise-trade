@@ -1269,6 +1269,11 @@
     get-random-values "^1.2.2"
     lodash "^4.17.15"
 
+"@sanity/cli@^2.30.0":
+  version "2.30.0"
+  resolved "https://registry.yarnpkg.com/@sanity/cli/-/cli-2.30.0.tgz#8b94448397da3ddc01617c4e3d1ce99d32ca6742"
+  integrity sha512-+VelHk/Rnr+zIfbKf+60erVUEINth1om37PVRNDtKQRVqKAjtGCRqOoDym9I3a0oAJEMHzvzWP9Q1RPxi7qkcA==
+
 "@sanity/client@^3.2.0":
   version "3.3.0"
   resolved "https://registry.npmjs.org/@sanity/client/-/client-3.3.0.tgz#0b01b1ee25f9d12e0fd9d119fe752f0aeb18843a"
@@ -3712,6 +3717,11 @@ d@1, d@^1.0.1:
     es5-ext "^0.10.50"
     type "^1.0.1"
 
+daemon@>=0.3.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/daemon/-/daemon-1.1.0.tgz#6c5102c81db0be856fc9008fc2c935b398864ae8"
+  integrity sha512-1vX9YVcP21gt12nSD3SQRC/uPU7fyA6M8qyClTBIFuiRWoylFn57PwXhjBAqRl085bZAje7sILhZU48qcS9SWw==
+
 damerau-levenshtein@^1.0.7:
   version "1.0.8"
   resolved "https://registry.npmjs.org/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz#b43d286ccbd36bc5b2f7ed41caf2d0aba1f8a6e7"
@@ -5548,6 +5558,13 @@ inherits@2.0.3:
   version "2.0.3"
   resolved "https://registry.npmjs.org/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
   integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
+
+init@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/init/-/init-0.1.2.tgz#9882ac152707bccba7fe2207c8df8050875c1504"
+  integrity sha512-IvHUjULS2q+BXJdiu4FHkByh3+qSFmkOXQ2ItSfYTtkdUksQc0yNX6f1uDyokzRV71tjpFsFc3ckeYLJXunTGw==
+  dependencies:
+    daemon ">=0.3.0"
 
 internal-slot@^1.0.3:
   version "1.0.3"
@@ -9041,6 +9058,11 @@ sanity-diff-patch@^1.0.9:
   integrity sha512-J5YeuM/S7rLTp51iqUunwzz7Rf68K/jCDGKtNCj6Wzcfgf9CH+0GtPlvf2DFsg0QQhYYZ72FOVn6skmoLjMCdw==
   dependencies:
     diff-match-patch "^1.0.5"
+
+sanity@^2.29.3:
+  version "2.29.3"
+  resolved "https://registry.yarnpkg.com/sanity/-/sanity-2.29.3.tgz#02b401f477b5d2af766f4cbc080e09f903c4d6c5"
+  integrity sha512-k4A4MzAcCp7VzdvnbQQRkmmuQuXL2jsxwmH0fzCU0uyPWi+DZDQFsZKuoxhDscTOHOhRcZh0+z1EIFs4wRbSzg==
 
 sax@~1.2.4:
   version "1.2.4"

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
+import Loader from '../ui/Loader';
 import utils from '../../utils/utils';
 import Modal from '../ui/Modal';
 import TradeOptions from './TradeOptions';
@@ -84,20 +85,22 @@ export default function AssetSelection({
                 </div>
               ))}
             </div>
-            <button
-              type="button"
-              className="btn btn-purple m-4"
-              onClick={() => setOpenModal(true)}
-            >
-              Change All
-            </button>
-            <button
-              type="button"
-              className="btn btn-purple"
-              onClick={() => setTokensToTransfer([])}
-            >
-              Remove All
-            </button>
+            <div className="flex justify-end">
+              <button
+                type="button"
+                className="btn btn-white my-4"
+                onClick={() => setOpenModal(true)}
+              >
+                Change All
+              </button>
+              <button
+                type="button"
+                className="btn btn-white m-4"
+                onClick={() => setTokensToTransfer([])}
+              >
+                Remove All
+              </button>
+            </div>
           </div>
         )}
         {/* CONTRAPARTE */}
@@ -183,20 +186,22 @@ export default function AssetSelection({
                       </div>
                     ))}
                   </div>
-                  <button
-                    type="button"
-                    className="btn btn-purple"
-                    onClick={() => setOpenModalCounterparty(true)}
-                  >
-                    Change All
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-purple mx-4"
-                    onClick={() => setTokensToReceive([])}
-                  >
-                    Remove All
-                  </button>
+                  <div className="flex justify-end">
+                    <button
+                      type="button"
+                      className="btn btn-white my-4"
+                      onClick={() => setOpenModalCounterparty(true)}
+                    >
+                      Change All
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-white m-4"
+                      onClick={() => setTokensToReceive([])}
+                    >
+                      Remove All
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

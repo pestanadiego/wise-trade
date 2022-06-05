@@ -1,6 +1,7 @@
 import Image from 'next/image';
+import Loader from '../ui/Loader';
 import { ethers } from 'ethers';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
@@ -83,7 +84,7 @@ export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
               className="btn-disabled mb-3 text-sm"
               disabled
             >
-              Waiting...
+              <Loader size={5} />
             </button>
           ) : (
             <button

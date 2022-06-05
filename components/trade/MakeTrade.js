@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { ethers } from 'ethers';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
+import Loader from '../ui/Loader';
 import ProgressBar from './ProgressBar';
 import AssetSelection from './AssetSelection';
 import AssetApproval from './AssetApproval';
@@ -11,7 +12,6 @@ import WiseTradeV1 from '../../smart_contracts/artifacts/contracts/WiseTradeV1.s
 // eslint-disable-next-line import/extensions
 import client from '../../lib/sanityClient';
 import utils from '../../utils/utils';
-import { use } from 'chai';
 
 export default function MakeTrade() {
   const { user, setUser, address, provider } = useContext(UserContext);
@@ -249,7 +249,7 @@ export default function MakeTrade() {
                         className="btn-disabled mb-3 text-sm"
                         disabled
                       >
-                        Waiting...
+                        <Loader size={5} />
                       </button>
                     ) : (
                       <button
@@ -260,7 +260,7 @@ export default function MakeTrade() {
                         onClick={handleProposal}
                         disabled={(!validApproval || isLoading) && true}
                       >
-                        {isLoading ? 'Waiting...' : 'Confirm Swap'}
+                        {isLoading ? <Loader size={5} /> : 'Confirm Swap'}
                       </button>
                     )}
                   </div>

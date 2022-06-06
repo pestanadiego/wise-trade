@@ -1,8 +1,9 @@
-import { useContext } from 'react';
-import { UserContext, UseState } from '../../context/UserContext';
+import { useContext, useState } from 'react';
+import { UserContext } from '../../context/UserContext';
 import NFTCard from './styled/NFTCard';
 import Tabs from './styled/Tabs';
 import { NFTs } from './info';
+import CreateList from './createList';
 import Multiselect from 'multiselect-react-dropdown';
 
 const AllTabs = [
@@ -35,7 +36,7 @@ const AllTabs = [
     Title: 'Create',
     Content: (
       <div className="md:flex flex space-x-4">
-        <p>Create the Lists of NFTs</p>
+        <CreateList></CreateList>
       </div>
     ),
   },
@@ -62,7 +63,7 @@ const AllTabs = [
 export default function MyList() {
   const [tags, setTags] = useState([]);
   const { address } = useContext(UserContext);
-  
+
   return (
     <section>
       {!address ? (

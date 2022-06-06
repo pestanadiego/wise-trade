@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { ethers } from 'ethers';
+import Loader from '../ui/Loader';
 import client from '../../lib/sanityClient';
 import WiseTradeV1 from '../../smart_contracts/artifacts/contracts/WiseTradeV1.sol/WiseTradeV1.json';
 
@@ -180,7 +181,7 @@ export default function ApprovalBeforeAccept({
                       className="btn-disabled mb-3 text-sm"
                       disabled
                     >
-                      Waiting...
+                      <Loader size={8} />
                     </button>
                   ) : (
                     <button
@@ -211,7 +212,11 @@ export default function ApprovalBeforeAccept({
               onClick={handleAcceptSwap}
               disabled={(!validApproval || isLoadingConfirm) && true}
             >
-              {isLoading || isLoadingConfirm ? 'Waiting...' : 'Confirm Swap'}
+              {isLoading || isLoadingConfirm ? (
+                <Loader size={8} />
+              ) : (
+                'Confirm Swap'
+              )}
             </button>
           </div>
         </div>

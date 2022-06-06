@@ -19,7 +19,7 @@
 }
 
 .btn {
-    @apply shadow-md py-3 px-6 rounded-md transition duration-300 hover:bg-wise-white hover:text-black;
+    @apply shadow-md py-3 px-6 rounded-md transition duration-300 hover:bg-wise-white hover:text-black active:scale-95;
 }
 
 .btn-disabled {

@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import Image from 'next/image';
+import Loader from '../ui/Loader';
 import { UserContext } from '../../context/UserContext';
 import utils from '../../utils/utils';
 import client from '../../lib/sanityClient';
@@ -221,9 +222,11 @@ export default function PendingTrades() {
                                             await handleDecline();
                                           }}
                                         >
-                                          {isLoadingReject
-                                            ? 'Waiting...'
-                                            : 'Reject'}
+                                          {isLoadingReject ? (
+                                            <Loader size={8} />
+                                          ) : (
+                                            'Reject'
+                                          )}
                                         </button>
                                       </div>
                                     ) : (
@@ -240,9 +243,11 @@ export default function PendingTrades() {
                                             await handleDecline(transaction);
                                           }}
                                         >
-                                          {isLoadingReject
-                                            ? 'Waiting...'
-                                            : 'Cancel'}
+                                          {isLoadingReject ? (
+                                            <Loader size={5} />
+                                          ) : (
+                                            'Cancel'
+                                          )}
                                         </button>
                                       </div>
                                     )}

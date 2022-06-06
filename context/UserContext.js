@@ -12,18 +12,20 @@ export default function UserContextProvider({ children }) {
   const [provider, setProvider] = useState(null);
 
   const connectWallet = async () => {
-    const web3Modal = new Web3Modal({
-      network: 'rinkeby',
-      providerOptions,
-      cacheProvider: false,
-    });
-    const instance = await web3Modal.connect();
-    const web3Provider = new ethers.providers.Web3Provider(instance);
-    const accounts = await web3Provider.listAccounts();
-    if (accounts) {
-      setAddress(accounts[0]);
-    }
-    setProvider(web3Provider);
+    try {
+      const web3Modal = new Web3Modal({
+        network: 'rinkeby',
+        providerOptions,
+        cacheProvider: false,
+      });
+      const instance = await web3Modal.connect();
+      const web3Provider = new ethers.providers.Web3Provider(instance);
+      const accounts = await web3Provider.listAccounts();
+      if (accounts) {
+        setAddress(accounts[0]);
+      }
+      setProvider(web3Provider);
+    } catch {}
   };
 
   const disconnectWallet = async () => {

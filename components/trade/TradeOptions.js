@@ -65,11 +65,13 @@ export default function TradeOptions({
         <h1 className="text-wise-blue text-lg text-center mb-9">
           Select the <span className="font-bold">NFTs</span>
         </h1>
-        <div className="flex flex-row flex-wrap justify-center gap-3 mb-9">
+        <div>
           {tokens.length === 0 ? (
-            <Loader size={16} />
+            <div className="flex justify-center items-center mb-9">
+              <Loader size={16} />
+            </div>
           ) : (
-            <div>
+            <div className="flex flex-row flex-wrap justify-center gap-3 mb-9">
               {tokens.map((token, i) => (
                 <div
                   className={

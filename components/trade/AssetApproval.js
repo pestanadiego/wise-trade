@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Loader from '../ui/Loader';
+import erc721abi from '../../smart_contracts/artifacts/contracts/erc721abi.json';
 import { ethers } from 'ethers';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
@@ -13,49 +14,60 @@ export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
   const handleApprove = async () => {
     for (let i = 0; i < tokensToTransfer.length; i++) {
       // Abi
-      const abi = [
-        'function approve(address to, uint256 tokenId) public returns (bool success)',
-        'function getApproved(uint256 tokenId) public returns (address operator)',
-      ];
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
         tokensToTransfer[i].nftAddress,
-        abi,
+        erc721abi,
         signer
       );
 
-      // Primero se verifica si ya está aprobado - TO DO
-
-      // De lo contrario, se aprueba
-      await contract
-        .approve(
-          '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291',
-          tokensToTransfer[i].id
-        )
-        .then((pre) => {
-          setIsLoading(true);
-          console.log(pre);
-          pre.wait().then((receipt) => {
-            if (receipt.confirmations === 1 || receipt.confirmations === 0) {
-              setCounter(counter++);
-              console.log(counter);
-              console.log(receipt);
-              if (tokensToTransfer.length === counter) {
+      // Primero se verifica si ya está aprobado
+      const isApproved = await contract
+        .getApproved(tokensToTransfer[i].id)
+        .then(async (res) => {
+          console.log(res);
+          if (res !== '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291') {
+            // De lo contrario, se aprueba
+            await contract
+              .approve(
+                '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291',
+                tokensToTransfer[i].id
+              )
+              .then((pre) => {
+                setIsLoading(true);
+                console.log(pre);
+                pre.wait().then((receipt) => {
+                  if (
+                    receipt.confirmations === 1 ||
+                    receipt.confirmations === 0
+                  ) {
+                    setCounter(counter++);
+                    console.log(counter);
+                    console.log(receipt);
+                    if (tokensToTransfer.length === counter) {
+                      setIsLoading(false);
+                      setAllSuccessful(true);
+                      setValidApproval(true);
+                    }
+                  } else {
+                    console.log('Error');
+                  }
+                });
+                console.log(pre);
+              })
+              .catch((error) => {
+                console.log(error);
+                alert('You have to approve all the NFTs.');
                 setIsLoading(false);
-                setAllSuccessful(true);
-                setValidApproval(true);
-              }
-            } else {
-              console.log('Error');
+              });
+          } else {
+            setCounter(counter++);
+            if (tokensToTransfer.length === counter) {
+              setIsLoading(false);
+              setAllSuccessful(true);
+              setValidApproval(true);
             }
-          });
-          console.log(pre);
-        })
-        .catch((error) => {
-          console.log(error);
-          alert('You have to approve all the NFTs.');
-          setIsLoading(false);
-          setCounter(0);
+          }
         });
     }
   };

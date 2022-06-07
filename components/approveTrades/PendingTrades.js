@@ -264,6 +264,7 @@ export default function PendingTrades() {
                   ) : (
                     <ApprovalBeforeAccept
                       tokensToApprove={acceptTransaction.counterpartNfts}
+                      tokensToReceive={acceptTransaction.initiatorNfts}
                       swap={acceptTransaction}
                     />
                   )}

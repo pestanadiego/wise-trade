@@ -15,6 +15,7 @@
   ],
   "dependencies": {
     "@sanity/base": "^2.30.0",
+    "@sanity/cli": "^2.30.0",
     "@sanity/core": "^2.30.0",
     "@sanity/default-layout": "^2.30.0",
     "@sanity/default-login": "^2.30.0",
@@ -22,9 +23,11 @@
     "@sanity/eslint-config-studio": "^2.0.0",
     "@sanity/vision": "^2.30.0",
     "eslint": "^8.6.0",
+    "init": "^0.1.2",
     "prop-types": "^15.7",
     "react": "^17.0",
     "react-dom": "^17.0",
+    "sanity": "^2.29.3",
     "styled-components": "^5.2.0"
   },
   "devDependencies": {}

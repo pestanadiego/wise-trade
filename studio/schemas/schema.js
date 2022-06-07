@@ -12,18 +12,6 @@ export default createSchema({
   // to the ones provided by any plugins that are installed
   types: schemaTypes.concat([
     {
-      name: 'counter',
-      title: 'Counter',
-      type: 'document',
-      fields: [
-        {
-          name: 'swapCounter',
-          title: 'Swap Counter',
-          type: 'number',
-        },
-      ],
-    },
-    {
       name: 'user',
       title: 'Users',
       type: 'document',
@@ -49,6 +37,17 @@ export default createSchema({
             },
           ],
         },
+        // {
+        //   name: 'listings',
+        //   title: 'Listings',
+        //   type: 'array',
+        //   of: [
+        //     {
+        //       type: 'listing',
+        //       title: 'Listing',
+        //     },
+        //   ],
+        // },
       ],
     },
     {
@@ -125,6 +124,64 @@ export default createSchema({
           name: 'status',
           title: 'Status',
           type: 'string',
+        },
+      ],
+    },
+    {
+      name: 'listing',
+      title: 'Listings',
+      type: 'document',
+      fields: [
+        {
+          name: 'idOfListing',
+          title: 'id',
+          type: 'number',
+        },
+        {
+          name: 'listTitle',
+          title: 'title',
+          type: 'string',
+        },
+        {
+          name: 'listDescription',
+          title: 'description',
+          type: 'string',
+        },
+        {
+          name: 'listNfts',
+          title: 'nfts',
+          type: 'array',
+          of: [
+            {
+              title: 'Initiator NFT',
+              type: 'object',
+              fields: [
+                {
+                  name: 'nid',
+                  type: 'number',
+                  title: 'Id Collection',
+                },
+                { name: 'image_url', type: 'string', title: 'Image Url' },
+                { name: 'name', type: 'string', title: 'Name' },
+                {
+                  name: 'nftAddress',
+                  type: 'string',
+                  title: 'Collection Address',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'listTags',
+          title: 'tags',
+          type: 'array',
+          of: [
+            {
+              title: 'tag',
+              type: 'string',
+            },
+          ],
         },
       ],
     },

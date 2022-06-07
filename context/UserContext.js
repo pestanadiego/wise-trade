@@ -2,6 +2,7 @@ import { createContext, useMemo, useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import Web3Modal from 'web3modal';
 import providerOptions from '../utils/providerOptions';
+import toast from 'react-hot-toast';
 import client from '../lib/sanityClient';
 
 export const UserContext = createContext(null);
@@ -10,6 +11,7 @@ export default function UserContextProvider({ children }) {
   const [address, setAddress] = useState(null);
   const [user, setUser] = useState(null);
   const [provider, setProvider] = useState(null);
+  const [error, setError] = useState(null);
 
   const connectWallet = async () => {
     try {
@@ -25,7 +27,16 @@ export default function UserContextProvider({ children }) {
         setAddress(accounts[0]);
       }
       setProvider(web3Provider);
-    } catch {}
+    } catch {
+      setError(
+        toast.error(
+          'Please check your metamask plugin (User Rejected/Pending)',
+          {
+            position: 'bottom-center',
+          }
+        )
+      );
+    }
   };
 
   const disconnectWallet = async () => {
@@ -43,6 +54,8 @@ export default function UserContextProvider({ children }) {
       setProvider,
       connectWallet,
       disconnectWallet,
+      error,
+      setError,
     }),
     [
       address,
@@ -53,6 +66,8 @@ export default function UserContextProvider({ children }) {
       setProvider,
       connectWallet,
       disconnectWallet,
+      error,
+      setError,
     ]
   );
 

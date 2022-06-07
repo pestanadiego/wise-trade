@@ -1,6 +1,6 @@
 /* eslint-disable no-plusplus */
 import { useEffect, useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import Image from 'next/image';
 import Loader from '../ui/Loader';
 
@@ -49,7 +49,7 @@ export default function TradeOptions({
         setTokens(data.assets);
         console.log(data);
       } catch {
-        toast.error('Revise su conexion a Opensea (VPN)');
+        toast.error('Please check Opensea Connection (VPN)');
       }
     };
     fetchTokens();
@@ -62,7 +62,6 @@ export default function TradeOptions({
 
   return (
     <div className="container">
-      <Toaster position="bottom-left" reverseOrder={false} />
       <div className="flex flex-col items-center">
         <h1 className="text-wise-blue text-lg text-center mb-9">
           Select the <span className="font-bold">NFTs</span>

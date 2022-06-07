@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import UserContextProvider from '../context/UserContext';
 import Layout from '../components/layout/Layout';
+import { Toaster } from 'react-hot-toast';
 import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }) {
@@ -24,6 +25,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <UserContextProvider>
         <Layout>
+          <Toaster position="bottom-left" reverseOrder={false} />
           <Component {...pageProps} />
         </Layout>
       </UserContextProvider>

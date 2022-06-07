@@ -1,5 +1,6 @@
 /* eslint-disable no-plusplus */
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import Image from 'next/image';
 import Loader from '../ui/Loader';
 
@@ -48,7 +49,7 @@ export default function TradeOptions({
         setTokens(data.assets);
         console.log(data);
       } catch {
-        alert('Unable to load NFTs. Check your connection and try again later');
+        toast.error('Please check Opensea Connection (VPN)');
       }
     };
     fetchTokens();

@@ -2,6 +2,7 @@ import { createContext, useMemo, useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import Web3Modal from 'web3modal';
 import providerOptions from '../utils/providerOptions';
+import toast from 'react-hot-toast';
 import client from '../lib/sanityClient';
 
 export const UserContext = createContext(null);
@@ -10,20 +11,32 @@ export default function UserContextProvider({ children }) {
   const [address, setAddress] = useState(null);
   const [user, setUser] = useState(null);
   const [provider, setProvider] = useState(null);
+  const [error, setError] = useState(null);
 
   const connectWallet = async () => {
-    const web3Modal = new Web3Modal({
-      network: 'rinkeby',
-      providerOptions,
-      cacheProvider: false,
-    });
-    const instance = await web3Modal.connect();
-    const web3Provider = new ethers.providers.Web3Provider(instance);
-    const accounts = await web3Provider.listAccounts();
-    if (accounts) {
-      setAddress(accounts[0]);
+    try {
+      const web3Modal = new Web3Modal({
+        network: 'rinkeby',
+        providerOptions,
+        cacheProvider: false,
+      });
+      const instance = await web3Modal.connect();
+      const web3Provider = new ethers.providers.Web3Provider(instance);
+      const accounts = await web3Provider.listAccounts();
+      if (accounts) {
+        setAddress(accounts[0]);
+      }
+      setProvider(web3Provider);
+    } catch {
+      setError(
+        toast.error(
+          'Please check your metamask plugin (User Rejected/Pending)',
+          {
+            position: 'bottom-center',
+          }
+        )
+      );
     }
-    setProvider(web3Provider);
   };
 
   const disconnectWallet = async () => {
@@ -41,6 +54,8 @@ export default function UserContextProvider({ children }) {
       setProvider,
       connectWallet,
       disconnectWallet,
+      error,
+      setError,
     }),
     [
       address,
@@ -51,6 +66,8 @@ export default function UserContextProvider({ children }) {
       setProvider,
       connectWallet,
       disconnectWallet,
+      error,
+      setError,
     ]
   );
 

@@ -2,7 +2,6 @@ export default function Loader({ size }) {
   return (
     <svg
       className={`mx-4 h-${size} w-${size} animate-spin text-gray-600`}
-      xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
     >
@@ -12,7 +11,7 @@ export default function Loader({ size }) {
         cy="12"
         r="10"
         stroke="currentColor"
-        stroke-width="4"
+        strokeWidth="4"
       ></circle>
       <path
         className="opacity-75"

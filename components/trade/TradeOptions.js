@@ -39,23 +39,19 @@ export default function TradeOptions({
   };
 
   useEffect(() => {
-    // Declaración función
     const fetchTokens = async () => {
-      const res = await fetch(
-        `https://testnets-api.opensea.io/api/v1/assets?owner=${address}&order_direction=desc&offset=0&limit=20`
-      );
-      const data = await res.json();
-      setTokens(data.assets);
-      console.log(data);
-    };
-    // Invocación función
-    fetchTokens()
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
+      try {
+        const res = await fetch(
+          `https://testnets-api.opensea.io/api/v1/assets?owner=${address}&order_direction=desc&offset=0&limit=20`
+        );
+        const data = await res.json();
+        setTokens(data.assets);
+        console.log(data);
+      } catch {
         alert('Unable to load NFTs. Check your connection and try again later');
-      });
+      }
+    };
+    fetchTokens();
     setSelectedTokens(new Array(tokens.length).fill(false));
   }, []);
 

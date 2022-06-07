@@ -1,9 +1,36 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { UserContext } from '../../context/UserContext';
 import Modal from '../ui/Modal';
+import TradeOptions from '../trade/TradeOptions';
+import Multiselect from 'multiselect-react-dropdown';
 
 export default function CreateList() {
   const [title, setTitle] = useState('');
   const [openModal, setOpenModal] = useState(false);
+  const [tokenToList, setTokensToList] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [nftTags, setNftTags] = useState([]);
+  const { address } = useContext(UserContext);
+
+  const getCollections = async () => {
+    const options = { method: 'GET' };
+
+    const response = await fetch(
+      'https://testnets-api.opensea.io/api/v1/collections?offset=0&limit=300',
+      options
+    ).then((res) => res.json());
+    const collection = response.collections.map(
+      (resCollection) => resCollection.name
+    );
+    setTags(collection);
+    return collection;
+  };
+
+  console.log('1', tags);
+
+  useEffect(() => {
+    getCollections();
+  }, []);
 
   return (
     <section>
@@ -25,11 +52,23 @@ export default function CreateList() {
               >
                 hola
               </button>
+              <Multiselect
+                isObject={false}
+                onKeyPressFn={function noRefCheck() {}}
+                onRemove={function noRefCheck() {}}
+                onSearch={function noRefCheck() {}}
+                onSelect={function noRefCheck() {}}
+                options={tags}
+              />
             </div>
           ) : (
             <>
               <Modal setOpenModal={setOpenModal}>
-                <p>hoaalaa</p>
+                <TradeOptions
+                  address={address}
+                  setTokensToTransfer={setTokensToList}
+                  setOpenModal={setOpenModal}
+                />
               </Modal>
             </>
           )}

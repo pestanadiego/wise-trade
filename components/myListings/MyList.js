@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import NFTCard from './styled/NFTCard';
 import Tabs from './styled/Tabs';
-import { NFTs } from './info';
+import { NFTs } from './Info';
 import CreateList from './createList/createList';
 import Multiselect from 'multiselect-react-dropdown';
 

@@ -1,15 +1,18 @@
 import { useState, useContext, useEffect } from 'react';
-import { UserContext } from '../../context/UserContext';
-import Modal from '../ui/Modal';
-import TradeOptions from '../trade/TradeOptions';
+import { UserContext } from '../../../context/UserContext';
+import Modal from '../../ui/Modal';
+import TradeOptions from '../../trade/TradeOptions';
 import Multiselect from 'multiselect-react-dropdown';
+import NftsSelection from './NftsSelection';
 
 export default function CreateList() {
   const [title, setTitle] = useState('');
+  const [description, setdescription] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [tokenToList, setTokensToList] = useState([]);
   const [tags, setTags] = useState([]);
   const [nftTags, setNftTags] = useState([]);
+  const [nftsSelection, setNftsSelection] = useState([]);
   const { address } = useContext(UserContext);
 
   const getCollections = async () => {
@@ -26,38 +29,41 @@ export default function CreateList() {
     return collection;
   };
 
-  console.log('1', tags);
-
   useEffect(() => {
     getCollections();
   }, []);
 
   return (
     <section>
-      <div className="flex center">
+      <div className="flex items-center">
         <form>
           {!openModal ? (
             <div className="flex flex-col gap-3">
               <input
                 type="text"
                 className="input"
-                placeholder="NFTs List Name"
+                placeholder="NFTs List Title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => setOpenModal(true)}
-              >
-                hola
-              </button>
+              <textarea
+                type="text"
+                className="input resize-y"
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setdescription(e.target.value)}
+              />
+              <NftsSelection />
               <Multiselect
                 isObject={false}
                 onKeyPressFn={function noRefCheck() {}}
-                onRemove={function noRefCheck() {}}
+                onRemove={(remove) => {
+                  setNftTags(remove);
+                }}
                 onSearch={function noRefCheck() {}}
-                onSelect={function noRefCheck() {}}
+                onSelect={(selected) => {
+                  setNftTags(selected);
+                }}
                 options={tags}
               />
             </div>

@@ -116,7 +116,7 @@ export default function AssetSelection({
           </h1>
           {!selection ? (
             <div className="flex flex-col justify-start ml-3 mb-3">
-              <div className="flex justify-start items-baseline flex-row gap-3 mb-1">
+              <div className="flex justify-start items-baseline sm:flex-row gap-3 mb-1 flex-col ">
                 <input
                   className="mt-3 input"
                   type="text"

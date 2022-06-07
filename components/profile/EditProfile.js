@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import client from '../../lib/sanityClient';
+import toast from 'react-hot-toast';
 import utils from '../../utils/utils';
 
 export default function EditProfile() {
@@ -19,12 +20,25 @@ export default function EditProfile() {
   };
 
   const handleSave = async () => {
-    setUser({ ...user, email });
     // eslint-disable-next-line no-unused-vars
-    const update = await client.patch(address).set({ email }).commit();
-    alert('Your email address was modified successfully');
-    setEdit(false);
-    setEmail('');
+    try {
+      const update = await client.patch(address).set({ email }).commit();
+      toast.success('Your email address was modified successfully', {
+        position: 'bottom-right',
+      });
+      setEdit(false);
+      setEmail('');
+      setUser({ ...user, email });
+    } catch {
+      toast.error(
+        'Unable to modify email address. Check your connection and try again',
+        {
+          position: 'bottom-right',
+        }
+      );
+      setEdit(false);
+      setEmail('');
+    }
   };
 
   useEffect(() => {

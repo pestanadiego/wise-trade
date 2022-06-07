@@ -30,9 +30,9 @@ export default function UserContextProvider({ children }) {
     } catch {
       setError(
         toast.error(
-          'Please check your metamask plugin (User Rejected/Pending)',
+          'Please check your Metamask plugin (User Rejected/Pending)',
           {
-            position: 'bottom-center',
+            position: 'bottom-right',
           }
         )
       );

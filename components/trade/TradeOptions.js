@@ -49,7 +49,9 @@ export default function TradeOptions({
         setTokens(data.assets);
         console.log(data);
       } catch {
-        toast.error('Please check Opensea Connection (VPN)');
+        toast.error('Please check OpenSea Connection. Try to use a VPN', {
+          position: 'bottom-right',
+        });
       }
     };
     fetchTokens();

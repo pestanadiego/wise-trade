@@ -172,7 +172,10 @@ export default function Nav() {
                     <button
                       type="button"
                       className="btn btn-purple px-4 py-3"
-                      onClick={disconnectWallet}
+                      onClick={() => {
+                        disconnectWallet();
+                        setOpenMenu(false);
+                      }}
                     >
                       <i className="fa fa-power-off" />
                     </button>

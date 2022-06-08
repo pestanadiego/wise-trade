@@ -10,12 +10,6 @@ export default function MyList() {
   const [myListings, setMyListings] = useState('');
   const { user } = useContext(UserContext);
 
-  useEffect(() => {
-    if (user) {
-      console.log(user.listings);
-    }
-  }, [user]);
-
   return (
     <div>
       <div>

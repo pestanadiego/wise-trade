@@ -133,9 +133,9 @@ export default createSchema({
       type: 'document',
       fields: [
         {
-          name: 'idOfListing',
-          title: 'id',
-          type: 'number',
+          name: 'address',
+          title: 'address',
+          type: 'string',
         },
         {
           name: 'listTitle',

@@ -5,6 +5,7 @@ import TradeOptions from '../trade/TradeOptions';
 import Multiselect from 'multiselect-react-dropdown';
 import NftsSelection from './NftsSelection';
 import client from '../../lib/sanityClient';
+import toast from 'react-hot-toast';
 import utils from '../../utils/utils';
 
 export default function CreateListing() {
@@ -12,31 +13,86 @@ export default function CreateListing() {
   const [description, setDescription] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [tags, setTags] = useState([]);
-  const [nftTags, setNftTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [nftsSelection, setNftsSelection] = useState([]);
-  const { address } = useContext(UserContext);
+  const { address, setUser, user } = useContext(UserContext);
   // Validación
   const [validInputs, setValidInputs] = useState(false);
   const [validTitle, setValidTitle] = useState(false);
   const [validDescription, setValidDescription] = useState(true);
   const [validSelection, setValidSelection] = useState(false);
+  const [validTags, setValidTags] = useState(true);
   const [errorTitle, setErrorTitle] = useState('');
   const [errorDescription, setErrorDescription] = useState('');
 
-  const handleCreationOfListing = () => {
-    console.log('hola');
+  const addListingToSanity = async () => {
+    // Se crea el documento del listing
+    const listNfts = nftsSelection.map((selection) => {
+      return {
+        _key: utils.makeKey(),
+        nid: parseInt(selection.id),
+        image_url: selection.image_url,
+        name: selection.name,
+        nftAddress: selection.nftAddress,
+      };
+    });
+
+    const listingDoc = {
+      _type: 'listing',
+      address,
+      listTitle: title,
+      listDescription: description,
+      listNfts,
+      listTags: selectedTags,
+    };
+
+    // Se agrega a Sanity y se modifica el user
+    const createListing = await client.create(listingDoc).then(async (res) => {
+      const modifyUserListings = await client
+        .patch(address)
+        .setIfMissing({ listings: [] })
+        .insert('after', 'listings[-1]', [res])
+        .commit({ autoGenerateArrayKeys: true });
+
+      // Se actualiza el UserContext
+      if (user.listings == null) {
+        const updatedUser = { ...user, listings: [res] };
+        setUser(updatedUser);
+      } else {
+        const updatedListings = user.listings;
+        updatedListings.push(res);
+        const updatedUser = { ...user, updatedListings };
+        setUser(updatedUser);
+      }
+    });
+  };
+
+  const handleCreationOfListing = async () => {
+    try {
+      await addListingToSanity().then(() => {
+        toast.success('The listing was successfully created', {
+          position: 'bottom-right',
+        });
+      });
+    } catch (err) {
+      console.log(err);
+      toast.error('An error occurred while creating the listing', {
+        position: 'bottom-right',
+      });
+    }
   };
 
   const getCollections = async () => {
-    const options = { method: 'GET' };
-
     const response = await fetch(
-      'https://testnets-api.opensea.io/api/v1/collections?offset=0&limit=300',
-      options
+      'https://testnets-api.opensea.io/api/v1/collections?offset=0&limit=20',
+      { method: 'GET' }
     ).then((res) => res.json());
     const collection = response.collections.map(
       (resCollection) => resCollection.name
     );
+    collection.push('Lame Cats');
+    collection.push('Crypto Cunts');
+    collection.push('Broke Ape Boat Club');
     setTags(collection);
     return collection;
   };
@@ -46,40 +102,43 @@ export default function CreateListing() {
   }, []);
 
   useEffect(() => {
-    // Validación del título
+    // Mensaje de error para el título
     const titleValidation = utils.validateTitle(title);
-    if (titleValidation === 'OK') {
-      setValidTitle(true);
-    } else {
+    if (titleValidation !== 'OK') {
       setErrorTitle(titleValidation);
       setValidTitle(false);
-    }
-
-    // Validación de la descripción
-    const descriptionValidation = utils.validateDescription(description);
-    if (descriptionValidation === 'OK') {
-      setValidDescription(true);
     } else {
-      setErrorDescription(descriptionValidation);
-      setValidInputs(false);
-      setValidDescription(false);
+      setValidTitle(true);
     }
 
-    // Validación de la selección
+    // Mensaje de error para la descripción
+    const titleDescription = utils.validateDescription(description);
+    if (titleDescription !== 'OK') {
+      setErrorDescription(descriptionValidation);
+      setValidDescription(false);
+    } else {
+      setValidDescription(true);
+    }
+
+    // Mensaje de error para la selección
     if (nftsSelection.length === 0) {
       setValidSelection(false);
-      setValidInputs(false);
     } else {
       setValidSelection(true);
     }
 
     // Validación global
-    if (validTitle && validDescription && validSelection) {
+    if (
+      titleValidation === 'OK' &&
+      titleDescription === 'OK' &&
+      nftsSelection.length !== 0 &&
+      selectedTags.length <= 4
+    ) {
       setValidInputs(true);
     } else {
       setValidInputs(false);
     }
-  }, [title, description, nftsSelection]);
+  }, [title, description, nftsSelection, selectedTags.length]);
 
   return (
     <>
@@ -144,15 +203,25 @@ export default function CreateListing() {
           <Multiselect
             id="multiselect-custom"
             closeIcon="cancel"
-            placeholder="Select as many as you want"
+            placeholder="Select a maximum of four"
             isObject={false}
             onKeyPressFn={function noRefCheck() {}}
             onRemove={(remove) => {
-              setNftTags(remove);
+              setSelectedTags(remove);
+              if (selectedTags.length > 4) {
+                setValidTags(false);
+              } else {
+                setValidTags(true);
+              }
             }}
             onSearch={function noRefCheck() {}}
             onSelect={(selected) => {
-              setNftTags(selected);
+              setSelectedTags(selected);
+              if (selectedTags.length > 4) {
+                setValidTags(false);
+              } else {
+                setValidTags(true);
+              }
             }}
             options={tags}
             style={{
@@ -168,6 +237,14 @@ export default function CreateListing() {
               },
             }}
           />
+          {validTags === false && (
+            <div className="mt-2 flex flex-row gap-2 items-baseline">
+              <i className="fa fa-circle-exclamation text-red-500 text-sm" />
+              <p className="text-red-500 text-sm">
+                You cannot select more than 4 tags
+              </p>
+            </div>
+          )}
         </div>
         <button
           className={validInputs ? 'mt-4 btn btn-purple' : 'mt-4 btn-disabled'}

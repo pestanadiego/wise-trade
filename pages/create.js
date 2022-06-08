@@ -3,7 +3,7 @@ import CreateListing from '../components/create/CreateListing';
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 
-export default function MyListings() {
+export default function Create() {
   const { address } = useContext(UserContext);
 
   return (

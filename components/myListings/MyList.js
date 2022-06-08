@@ -10,12 +10,6 @@ export default function MyList() {
   const [myListings, setMyListings] = useState('');
   const { user } = useContext(UserContext);
 
-  useEffect(() => {
-    if (user) {
-      console.log(user.listings);
-    }
-  }, [user]);
-
   return (
     <div>
       <div>
@@ -47,7 +41,7 @@ export default function MyList() {
         </div>
       </div>
       {!user || user.listings == null ? (
-        <h1 className="text-center text-wise-grey">No Listings Found</h1>
+        <h1 className="mt-2 text-center text-wise-grey">No Listings Found</h1>
       ) : (
         <div className="flex flex-col md:flex-row items-center justify-between gap-3 mt-6">
           {user.listings.map((nft) => {

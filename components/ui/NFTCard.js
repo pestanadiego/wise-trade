@@ -35,7 +35,10 @@ export default function NFTCard({ item, edit = false }) {
             </Link>
             {edit && (
               <>
-                <Link href="/assets" passHref>
+                <Link
+                  href="/myListings/edit/[id]"
+                  as={`/myListings/edit/${item._id}`}
+                >
                   <button type="button" className="btn btn-white">
                     <i className="fa fa-pencil text-sm" />
                   </button>

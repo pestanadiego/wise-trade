@@ -2,12 +2,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
-import brokeape from '../../../public/brokeape.svg';
+import brokeape from './../../public/brokeape.svg';
 
-export default function NFTCard({ item }) {
+export default function NFTCard({ item, edit = false }) {
   const { Id, Badge, Stock, Title, Price } = item;
   return (
-    <div className="relative flex flex-col items-center shadow-md mt-4 mr-6">
+    <div className="relative flex flex-col items-center shadow-md rounded-md cursor-pointer">
       <div className="overflow-hidden rounded-xl bg-white relative flex flex-col">
         <div className="absolute bg-wise-purple text-md text-white p-0.5 z-10 mt-2 ml-4 rounded-lg">
           {Badge}
@@ -25,15 +25,28 @@ export default function NFTCard({ item }) {
           </div>
           <p className="text-2xl">{Title}</p>
           <p>{Price}</p>
-          <div className="flex items-center w-full mt-4">
+          {/* TIPO */}
+          <div className="flex justify-end mt-4 gap-2">
+            {/* OPCIONES DE VISTA --- TO DO*/}
             <Link href="/assets" passHref>
-              <button
-                type="button"
-                className="btn btn-purple px-4 py-3 text-xs"
-              >
-                View Info
+              <button type="button" className="btn btn-purple">
+                <i className="fa fa-eye text-sm" />
               </button>
             </Link>
+            {edit && (
+              <>
+                <Link href="/assets" passHref>
+                  <button type="button" className="btn btn-white">
+                    <i className="fa fa-pencil text-sm" />
+                  </button>
+                </Link>
+                <Link href="/assets" passHref>
+                  <button type="button" className="btn btn-white">
+                    <i className="fa fa-trash-can text-sm" />
+                  </button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

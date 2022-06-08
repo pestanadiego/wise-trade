@@ -1,81 +1,46 @@
-import { useContext, useState } from 'react';
-import { UserContext } from '../../context/UserContext';
-import NFTCard from './styled/NFTCard';
-import Tabs from './styled/Tabs';
+import { useState } from 'react';
+import Link from 'next/link';
+import NFTCard from '../ui/NFTCard';
 import { NFTs } from './Info';
-import CreateList from './createList/createList';
-import Multiselect from 'multiselect-react-dropdown';
-
-const AllTabs = [
-  {
-    Id: 1,
-    Title: 'Collectibles',
-    Content: (
-      <div className="md:flex max-w-md mx-auto bg-white rounded-xl overflow-hidden md:max-w-6xl">
-        {NFTs.map((nft) => {
-          return (
-            <div className="flex space-x-4">
-              <NFTCard key={nft.Id} item={nft} />
-            </div>
-          );
-        })}
-      </div>
-    ),
-  },
-  {
-    Id: 2,
-    Title: 'Pending',
-    Content: (
-      <div className="md:flex flex space-x-4">
-        <p>See Pending Offers</p>
-      </div>
-    ),
-  },
-  {
-    Id: 3,
-    Title: 'Create',
-    Content: (
-      <div className="md:flex flex items-center">
-        <CreateList></CreateList>
-      </div>
-    ),
-  },
-  {
-    Id: 4,
-    Title: 'Edit',
-    Content: (
-      <div className="md:flex flex space-x-4">
-        <p>Edit the Lists of NFTs</p>
-      </div>
-    ),
-  },
-  {
-    Id: 5,
-    Title: 'Sold',
-    Content: (
-      <div className="md:flex flex space-x-4">
-        <p>See sold</p>
-      </div>
-    ),
-  },
-];
 
 export default function MyList() {
-  const [tags, setTags] = useState([]);
-  const { address } = useContext(UserContext);
+  const [option, setOption] = useState('Current');
 
   return (
-    <section>
-      {!address ? (
-        <div className="text-wise-grey text-center">
-          Connect your wallet to see your Listings
+    <div>
+      <div>
+        {/* OPTIONS */}
+        <div className="flex flex-row items-baseline justify-between">
+          <div className="flex flex-row gap-6">
+            <p
+              className={`title cursor-pointer ${
+                option === 'Current' && 'underline underline-offset-8'
+              }`}
+              onClick={() => setOption('Current')}
+            >
+              Current
+            </p>
+            <p
+              className={`title cursor-pointer ${
+                option === 'Sold' && 'underline underline-offset-8'
+              }`}
+              onClick={() => setOption('Sold')}
+            >
+              Sold
+            </p>
+          </div>
+          <Link href="/create">
+            <button className="btn btn-purple">
+              <i className="fa fa-plus" />
+            </button>
+          </Link>
         </div>
-      ) : (
-        <div className="container flex flex-col mt-14">
-          <h2 className="heading md:text-4 lg:text-5xl">My Listings</h2>
-          <Tabs data={AllTabs} />
-        </div>
-      )}
-    </section>
+      </div>
+      <div className="flex flex-col md:flex-row items-center justify-between gap-3 mt-6">
+        {NFTs.map((nft) => {
+          return <NFTCard key={nft.Id} item={nft} edit={true} />;
+        })}
+      </div>
+    </div>
   );
 }

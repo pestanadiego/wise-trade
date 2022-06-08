@@ -9,7 +9,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 import brokeape from '../../public/brokeape.svg';
 
-export default function Asset() {
+export default function Assets() {
   const { address } = useContext(UserContext);
   return (
     <section>

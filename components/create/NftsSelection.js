@@ -1,18 +1,16 @@
-import { useState, useContext, useEffect } from 'react';
-import { UserContext } from '../../../context/UserContext';
-import utils from '../../../utils/utils';
+import utils from '../../utils/utils';
 import Image from 'next/image';
+
 export default function NftsSelection({
   setNftsSelection,
   nftsSelection,
   setOpenModal,
+  address,
 }) {
-  const { address } = useContext(UserContext);
   return (
-    <div className="flex flex-col justify-center align-center w-full border-2 rounded-md">
+    <div className="flex flex-col justify-center align-center border rounded-md mb-2">
       <div className="container">
-        <h1 className="title mt-3 ml-3">My Wallet</h1>
-        <p className="text-wise-grey m-3 overflow-hidden">
+        <p className="text-wise-grey mt-3 overflow-hidden">
           {utils.truncateAddress(address)}
         </p>
       </div>
@@ -22,9 +20,7 @@ export default function NftsSelection({
           onClick={() => setOpenModal(true)}
         >
           <i className="fa fa-plus text-wise-grey text-5xl mb-3" />
-          <p className="text-wise-grey">
-            Add The NFTs To List In The Marketplace
-          </p>
+          <p className="text-wise-grey">Add NFTs to list</p>
         </div>
       ) : (
         <div>

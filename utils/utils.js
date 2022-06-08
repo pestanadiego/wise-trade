@@ -22,6 +22,31 @@ const validateAddress = (address) => {
   return validate;
 };
 
+const isString = (input) => {
+  if (Object.prototype.toString.call(input) === '[object String]') return true;
+  else return false;
+};
+
+const validateTitle = (title) => {
+  if (title.length > 64) {
+    return 'The title cannot exceed 64 characters';
+  } else if (!isString(title)) {
+    return 'The input value must be a string';
+  } else if (title === '') {
+    return 'The title must not be empty';
+  } else {
+    return 'OK';
+  }
+};
+
+const validateDescription = (description) => {
+  if (description.length > 256) {
+    return 'The description cannot exceed 256 characters';
+  } else {
+    return 'OK';
+  }
+};
+
 function makeKey() {
   var text = '';
   var possible =
@@ -33,4 +58,11 @@ function makeKey() {
   return text;
 }
 
-export default { truncateAddress, validateEmail, validateAddress, makeKey };
+export default {
+  truncateAddress,
+  validateEmail,
+  validateAddress,
+  validateTitle,
+  validateDescription,
+  makeKey,
+};

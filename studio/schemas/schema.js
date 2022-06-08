@@ -37,17 +37,17 @@ export default createSchema({
             },
           ],
         },
-        // {
-        //   name: 'listings',
-        //   title: 'Listings',
-        //   type: 'array',
-        //   of: [
-        //     {
-        //       type: 'listing',
-        //       title: 'Listing',
-        //     },
-        //   ],
-        // },
+        {
+          name: 'listings',
+          title: 'Listings',
+          type: 'array',
+          of: [
+            {
+              type: 'listing',
+              title: 'Listing',
+            },
+          ],
+        },
       ],
     },
     {

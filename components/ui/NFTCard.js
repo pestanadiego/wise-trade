@@ -2,33 +2,33 @@ import Image from 'next/image';
 import Link from 'next/link';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
-import brokeape from './../../public/brokeape.svg';
+import { useState, useContext, useEffect } from 'react';
+import { UserContext } from '../../context/UserContext';
 
 export default function NFTCard({ item, edit = false }) {
-  const { Id, Badge, Stock, Title, Price } = item;
+  const { listNfts } = item;
+
   return (
     <div className="relative flex flex-col items-center shadow-md rounded-md cursor-pointer">
       <div className="overflow-hidden rounded-xl bg-white relative flex flex-col">
-        <div className="absolute bg-wise-purple text-md text-white p-0.5 z-10 mt-2 ml-4 rounded-lg">
-          {Badge}
-        </div>
         <div>
           <Carousel>
-            <Image src={brokeape} width="1024" height="1025" />
-            <Image src={brokeape} width="1024" height="1025" />
+            {listNfts.map((nft) => (
+              <Image src={nft.image_url} width="1024" height="1025" />
+            ))}
           </Carousel>
         </div>
         <div className="flex flex-col p-4 gap-2">
           <div className="flex justify-between">
-            <p className="font-medium">List:{Id}</p>
-            <p className="text-indigo-600 font-semibold">{Stock} Nfts</p>
+            <p className="text-indigo-600 font-semibold">
+              {listNfts.length} Nfts
+            </p>
           </div>
-          <p className="text-2xl">{Title}</p>
-          <p>{Price}</p>
+          <p className="text-2xl">{item.listTitle}</p>
           {/* TIPO */}
           <div className="flex justify-end mt-4 gap-2">
             {/* OPCIONES DE VISTA --- TO DO*/}
-            <Link href="/assets" passHref>
+            <Link href="/myListings/[id]" as={`/myListings/${item._id}`}>
               <button type="button" className="btn btn-purple">
                 <i className="fa fa-eye text-sm" />
               </button>

@@ -1,7 +1,6 @@
 export const NFTs = [
   {
     Id: 1,
-    Badge: 'For Sale',
     Edition: 371,
     Stock: 128,
     Title: 'Lame Cat List',
@@ -9,7 +8,6 @@ export const NFTs = [
   },
   {
     Id: 2,
-    Badge: 'For Sale',
     Edition: 371,
     Stock: 128,
     Title: 'CryptoCunt List',
@@ -17,7 +15,6 @@ export const NFTs = [
   },
   {
     Id: 3,
-    Badge: 'For Sale',
     Edition: 371,
     Stock: 128,
     Title: 'Broke Ape List',

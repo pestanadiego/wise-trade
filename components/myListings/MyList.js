@@ -1,10 +1,20 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { UserContext } from '../../context/UserContext';
 import Link from 'next/link';
 import NFTCard from '../ui/NFTCard';
 import { NFTs } from './Info';
+import client from '../../lib/sanityClient';
 
 export default function MyList() {
   const [option, setOption] = useState('Current');
+  const [myListings, setMyListings] = useState('');
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    if (user) {
+      console.log(user.listings);
+    }
+  }, [user]);
 
   return (
     <div>
@@ -36,11 +46,15 @@ export default function MyList() {
           </Link>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row items-center justify-between gap-3 mt-6">
-        {NFTs.map((nft) => {
-          return <NFTCard key={nft.Id} item={nft} edit={true} />;
-        })}
-      </div>
+      {!user || user.listings == null ? (
+        <h1 className="text-center text-wise-grey">No Listings Found</h1>
+      ) : (
+        <div className="flex flex-col md:flex-row items-center justify-between gap-3 mt-6">
+          {user.listings.map((nft) => {
+            return <NFTCard key={nft.Id} item={nft} edit={true} />;
+          })}
+        </div>
+      )}
     </div>
   );
 }

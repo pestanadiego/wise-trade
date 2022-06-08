@@ -9,8 +9,9 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 import brokeape from '../../public/brokeape.svg';
 
-export default function Assets() {
-  const { address } = useContext(UserContext);
+export default function Assets(item) {
+  const { user, address } = useContext(UserContext);
+
   return (
     <section>
       {!address ? (
@@ -21,12 +22,6 @@ export default function Assets() {
             <div className="flex-1 flex-col gap-8 ">
               <div className="overflow-hidden rounded-xl">
                 <Carousel>
-                  <Image
-                    src={brokeape}
-                    layout="responsive"
-                    width="1000px"
-                    height="1000px"
-                  />
                   <Image
                     src={brokeape}
                     layout="responsive"

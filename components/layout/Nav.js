@@ -13,20 +13,20 @@ export default function Nav() {
   const [seen, setSeen] = useState(false);
   const [status, setStatus] = useState(true);
 
-  try{
-    for (let i = 0; i < user.swaps.length; i++){
-      if(user.swaps[i].status === "pending" && seen === false){
+  try {
+    for (let i = 0; i < user.swaps.length; i++) {
+      if (user.swaps[i].status === 'pending' && seen === false) {
         setSeen(true);
-        console.log("Prendio");
+        console.log('Prendio');
       }
     }
-  }catch{
-    console.log("Error")
+  } catch {
+    console.log('Error');
   }
 
   const handleSeen = () => {
     setStatus(false);
-    console.log("Apago");
+    console.log('Apago');
   };
 
   return (
@@ -64,7 +64,7 @@ export default function Nav() {
                 <Link href="/trade">Make a trade</Link>
               </li>
               <li className="nav-item pl-4 pr-8 py-3 hover:underline underline-offset-8">
-                <Link href="/marketPlace">Marketplace</Link>
+                <Link href="/marketplace">Marketplace</Link>
               </li>
               {!address ? (
                 <button
@@ -152,19 +152,26 @@ export default function Nav() {
                                       ? 'bg-wise-purple text-white'
                                       : 'text-gray-900'
                                   } group flex w-full items-center rounded-md px-2 py-2 text-xs`}
-                                  onClick = {handleSeen}
-                                > {seen && status? (
-                                    <div>{active ? (
-                                      <i className="fas fa-hourglass-half px-2 text-white animate-ping" />
-                                    ) : (
-                                      <i className="fas fa-hourglass-half px-2 text-wise-purple animate-ping" />
-                                    )}</div>
-                                    ) : (
-                                    <div>{active ? (
-                                      <i className="fas fa-hourglass-half px-2 text-white" />
-                                    ) : (
-                                      <i className="fas fa-hourglass-half px-2 text-wise-purple" />
-                                    )}</div>)}
+                                  onClick={handleSeen}
+                                >
+                                  {' '}
+                                  {seen && status ? (
+                                    <div>
+                                      {active ? (
+                                        <i className="fas fa-hourglass-half px-2 text-white animate-ping" />
+                                      ) : (
+                                        <i className="fas fa-hourglass-half px-2 text-wise-purple animate-ping" />
+                                      )}
+                                    </div>
+                                  ) : (
+                                    <div>
+                                      {active ? (
+                                        <i className="fas fa-hourglass-half px-2 text-white" />
+                                      ) : (
+                                        <i className="fas fa-hourglass-half px-2 text-wise-purple" />
+                                      )}
+                                    </div>
+                                  )}
                                   PENDING TRADES
                                 </button>
                               )}

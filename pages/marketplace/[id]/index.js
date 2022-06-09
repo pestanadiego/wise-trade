@@ -1,3 +1,5 @@
-import { useRouter } from 'next/router';
-import Link from 'next/link';
+import Assets from '../../../components/marketplace/assets';
 
+export default function ViewMaketplaceListing() {
+  return <Assets />;
+}

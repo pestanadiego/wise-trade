@@ -75,7 +75,7 @@ export default function Assets(item) {
                       </div>
                     </div>
                     <div className="flex-1 gap-8 flex-col">
-                      <Link href="/marketPlace">
+                      <Link href="/marketplace">
                         <div className="flex cursor-pointer mb-3 items-center text-wise-purple">
                           <AiFillCaretLeft />
                           Back

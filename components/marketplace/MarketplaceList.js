@@ -21,7 +21,7 @@ export default function MarketplaceList() {
 
   return (
     <div className="flex justify-center">
-      <div className="flex flex-wrap justify-center items-center gap-10 md:flex-row mt-6">
+      <div className="flex flex-wrap md:flex-row items-center justify-evenly gap-3 mt-6">
         {listings.map((nft) => {
           return <NFTCard key={nft._Id} item={nft} />;
         })}

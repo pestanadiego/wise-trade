@@ -28,13 +28,13 @@ export default function NFTCard({ item, edit = false }) {
           {/* TIPO */}
           <div className="flex content-end justify-end mt-4 gap-2">
             {/* OPCIONES DE VISTA --- TO DO*/}
-            <Link href="/myListings/[id]" as={`/myListings/${item._id}`}>
-              <button type="button" className="btn btn-purple">
-                <i className="fa fa-eye text-sm" />
-              </button>
-            </Link>
-            {edit && (
+            {edit ? (
               <>
+                <Link href="/myListings/[id]" as={`/myListings/${item._id}`}>
+                  <button type="button" className="btn btn-purple">
+                    <i className="fa fa-eye text-sm" />
+                  </button>
+                </Link>
                 <Link href="/assets" passHref>
                   <button type="button" className="btn btn-white">
                     <i className="fa fa-pencil text-sm" />
@@ -46,6 +46,12 @@ export default function NFTCard({ item, edit = false }) {
                   </button>
                 </Link>
               </>
+            ) : (
+              <Link href="/marketplace/[id]" as={`/marketplace/${item._id}`}>
+                <button type="button" className="btn btn-purple">
+                  <i className="fa fa-eye text-sm" />
+                </button>
+              </Link>
             )}
           </div>
         </div>

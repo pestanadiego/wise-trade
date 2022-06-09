@@ -2,8 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
-import { useState, useContext, useEffect } from 'react';
-import { UserContext } from '../../context/UserContext';
 
 export default function NFTCard({ item, edit = false }) {
   const { listNfts } = item;

@@ -9,6 +9,19 @@ export default function Nav() {
   const { address, connectWallet, disconnectWallet } = useContext(UserContext);
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
+  const { user } = useContext(UserContext);
+  let status = false;
+  try{
+    for (let i = 0; i < user.swaps.length; i++){
+      if(user.swaps[i].status === "pending"){
+        status = true;
+      }
+    }
+  }catch{
+    console.log("Error")
+  }
+
+  
 
   return (
     <>
@@ -41,10 +54,10 @@ export default function Nav() {
             id="example-navbar-danger"
           >
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto text-wise-blue uppercase text-xs">
-              <li className="nav-item px-4 py-3">
+              <li className="nav-item px-4 py-3 hover:underline underline-offset-8">
                 <Link href="/trade">Make a trade</Link>
               </li>
-              <li className="nav-item pl-4 pr-8 py-3">
+              <li className="nav-item pl-4 pr-8 py-3 hover:underline underline-offset-8">
                 <Link href="/marketPlace">Marketplace</Link>
               </li>
               {!address ? (
@@ -126,19 +139,22 @@ export default function Nav() {
                         <div className="px-1 py-1">
                           <Link href="/approveTrades">
                             <Menu.Item>
-                              {({ active }) => (
+                              {({ active, status }) => (
                                 <button
                                   className={`${
                                     active
                                       ? 'bg-wise-purple text-white'
                                       : 'text-gray-900'
                                   } group flex w-full items-center rounded-md px-2 py-2 text-xs`}
-                                >
-                                  {active ? (
-                                    <i className="fas fa-hourglass-half px-2 text-white" />
-                                  ) : (
-                                    <i className="fas fa-hourglass-half px-2 text-wise-purple" />
-                                  )}
+                                > {status ? (<div>{active ? (
+                                  <i className="fas fa-hourglass-half px-2 text-white" />
+                                ) : (
+                                  <i className="fas fa-hourglass-half px-2 text-wise-purple" />
+                                )}</div>):(<div>{active ? (
+                                  <i className="fas fa-hourglass-half px-2 text-white animate-ping" />
+                                ) : (
+                                  <i className="fas fa-hourglass-half px-2 text-wise-purple animate-ping" />
+                                )}</div>)}
                                   PENDING TRADES
                                 </button>
                               )}

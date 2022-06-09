@@ -7,6 +7,7 @@ import Loader from '../ui/Loader';
 import ProgressBar from './ProgressBar';
 import AssetSelection from './AssetSelection';
 import AssetApproval from './AssetApproval';
+import Link from 'next/link';
 // eslint-disable-next-line import/no-relative-packages
 import WiseTradeV1 from '../../smart_contracts/artifacts/contracts/WiseTradeV1.sol/WiseTradeV1.json';
 // eslint-disable-next-line import/extensions
@@ -222,6 +223,14 @@ export default function MakeTrade() {
                           </div>
                         ))}
                       </div>
+                    </div>
+                    <div className="flex flex-row gap-5 justify-center my-3">
+                      <button 
+                        className="btn btn-purple mb-3 w-50">
+                        <Link href="approveTrades">Pending Trades</Link></button>
+                      <button 
+                        className="btn btn-purple mb-3 w-50">
+                        <Link href="history">Trade History</Link></button>
                     </div>
                   </div>
                 )}

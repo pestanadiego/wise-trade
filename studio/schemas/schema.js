@@ -138,6 +138,11 @@ export default createSchema({
           type: 'string',
         },
         {
+          name: 'status',
+          title: 'status',
+          type: 'string',
+        },
+        {
           name: 'listTitle',
           title: 'title',
           type: 'string',

@@ -44,6 +44,7 @@ export default function CreateListing() {
     const listingDoc = {
       _type: 'listing',
       address,
+      status: 'pending',
       listTitle: title,
       listDescription: description,
       listNfts,

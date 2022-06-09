@@ -51,15 +51,6 @@ export default function MyList() {
           </div>
         )}
       </div>
-      {!user || user.listings == null ? (
-        <h1 className="text-center text-wise-grey">No Listings Found</h1>
-      ) : (
-        <div className="flex flex-wrap md:flex-row items-center justify-start gap-10 mt-6">
-          {user.listings.map((nft) => {
-            return <NFTCard key={nft.Id} item={nft} edit={true} />;
-          })}
-        </div>
-      )}
     </>
   );
 }

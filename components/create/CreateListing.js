@@ -1,5 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
+import { useRouter } from 'next/router';
 import Modal from '../ui/Modal';
 import TradeOptions from '../trade/TradeOptions';
 import Multiselect from 'multiselect-react-dropdown';
@@ -9,6 +10,7 @@ import toast from 'react-hot-toast';
 import utils from '../../utils/utils';
 
 export default function CreateListing() {
+  const router = useRouter();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [openModal, setOpenModal] = useState(false);
@@ -73,6 +75,7 @@ export default function CreateListing() {
         toast.success('The listing was successfully created', {
           position: 'bottom-right',
         });
+        router.push('/myListings');
       });
     } catch (err) {
       console.log(err);

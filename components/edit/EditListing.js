@@ -41,6 +41,7 @@ export default function EditListing({ listing }) {
 
     const listingDoc = {
       _type: 'listing',
+      _id: listing._id,
       address,
       listTitle: title,
       listDescription: description,
@@ -48,25 +49,28 @@ export default function EditListing({ listing }) {
       listTags: selectedTags,
     };
 
-    // Se agrega a Sanity y se modifica el user
-    const createListing = await client.create(listingDoc).then(async (res) => {
-      const modifyUserListings = await client
-        .patch(address)
-        .setIfMissing({ listings: [] })
-        .insert('after', 'listings[-1]', [res])
-        .commit({ autoGenerateArrayKeys: true });
+    // Se modifica en Sanity y se modifica el user
+    const replaceListing = await client
+      .createOrReplace(listingDoc)
+      .then(async (res) => {
+        // Se busca la posición en el array del listing que se quiere cambiar
+        let index;
+        for (let i = 0; i < user.listings.length; i++) {
+          if (user.listings[i]._id === listing._id) {
+            index = i;
+          }
+        }
+        const modifyListings = await client
+          .patch(address)
+          .insert('replace', `listings[${index}]`, [res])
+          .commit({ autoGenerateArrayKeys: true });
 
-      // Se actualiza el UserContext
-      if (user.listings == null) {
-        const updatedUser = { ...user, listings: [res] };
-        setUser(updatedUser);
-      } else {
+        // Se actualiza el UserContext
         const updatedListings = user.listings;
-        updatedListings.push(res);
-        const updatedUser = { ...user, updatedListings };
+        updatedListings[index] = res;
+        const updatedUser = { ...user, listings: updatedListings };
         setUser(updatedUser);
-      }
-    });
+      });
   };
 
   const handleModificationOfListing = async () => {
@@ -75,6 +79,7 @@ export default function EditListing({ listing }) {
         toast.success('The listing was successfully modified', {
           position: 'bottom-right',
         });
+        router.push('/myListings');
       });
     } catch (err) {
       console.log(err);
@@ -89,18 +94,23 @@ export default function EditListing({ listing }) {
   };
 
   const getCollections = async () => {
-    const response = await fetch(
-      'https://testnets-api.opensea.io/api/v1/collections?offset=0&limit=20',
-      { method: 'GET' }
-    ).then((res) => res.json());
-    const collection = response.collections.map(
-      (resCollection) => resCollection.name
-    );
-    collection.push('Lame Cats');
-    collection.push('Crypto Cunts');
-    collection.push('Broke Ape Boat Club');
-    setTags(collection);
-    return collection;
+    try {
+      const response = await fetch(
+        'https://testnets-api.opensea.io/api/v1/collections?offset=0&limit=20',
+        { method: 'GET' }
+      ).then((res) => res.json());
+      const collection = response.collections.map(
+        (resCollection) => resCollection.name
+      );
+      collection.push('Lame Cats');
+      collection.push('Crypto Cunts');
+      collection.push('Broke Ape Boat Club');
+      setTags(collection);
+      return collection;
+    } catch (error) {
+      console.log(error);
+      toast('The collections were unable to be retrieved. Try again');
+    }
   };
 
   useEffect(() => {

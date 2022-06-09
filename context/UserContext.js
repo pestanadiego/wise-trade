@@ -1,6 +1,5 @@
 import { createContext, useMemo, useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import Router from 'next/router';
 import Web3Modal from 'web3modal';
 import providerOptions from '../utils/providerOptions';
 import toast from 'react-hot-toast';
@@ -91,7 +90,6 @@ export default function UserContextProvider({ children }) {
       // eslint-disable-next-line no-unused-vars
       const result = await client.create(userDoc);
       setUser(userDoc);
-      Router.push('/profile');
     }
   };
 

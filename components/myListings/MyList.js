@@ -7,9 +7,19 @@ import client from '../../lib/sanityClient';
 
 export default function MyList() {
   const [openModal, setOpenModal] = useState(false);
+  const [hasTraded, setHasTraded] = useState(false);
   const [option, setOption] = useState('Current');
   const [myListings, setMyListings] = useState('');
   const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    for (let i = 0; i < user.listings.length; i++) {
+      if (user.listings[i].status === 'traded') {
+        setHasTraded(true);
+        break;
+      }
+    }
+  }, []);
 
   return (
     <>
@@ -28,11 +38,11 @@ export default function MyList() {
               </p>
               <p
                 className={`title cursor-pointer ${
-                  option === 'Sold' && 'underline underline-offset-8'
+                  option === 'Traded' && 'underline underline-offset-8'
                 }`}
-                onClick={() => setOption('Sold')}
+                onClick={() => setOption('Traded')}
               >
-                Sold
+                Traded
               </p>
             </div>
             <Link href="/create">
@@ -42,14 +52,36 @@ export default function MyList() {
             </Link>
           </div>
         </div>
-        {!user || user.listings == null ? (
+        {!user || user.listings == null || user.listings === [] ? (
           <h1 className="mt-2 text-center text-wise-grey">No Listings Found</h1>
         ) : (
-          <div className="flex flex-col md:flex-row items-center justify-between gap-3 mt-6">
-            {user.listings.map((nft) => {
-              return <NFTCard key={nft.Id} item={nft} edit={true} />;
-            })}
-          </div>
+          <>
+            {option === 'Current' ? (
+              <div className="flex flex-col md:flex-row items-center justify-between gap-3 mt-6">
+                {user.listings.map((nft) => {
+                  if (nft.status === 'pending' || nft.status !== 'traded') {
+                    return <NFTCard key={nft.Id} item={nft} edit={true} />;
+                  }
+                })}
+              </div>
+            ) : (
+              <div className="flex flex-col md:flex-row items-center justify-between gap-3 mt-6">
+                {!hasTraded ? (
+                  <h1 className="mt-2 text-center text-wise-grey">
+                    No traded listings found
+                  </h1>
+                ) : (
+                  <>
+                    {user.listings.map((nft) => {
+                      if (nft.status === 'traded') {
+                        return <NFTCard key={nft.Id} item={nft} edit={true} />;
+                      }
+                    })}
+                  </>
+                )}
+              </div>
+            )}
+          </>
         )}
       </div>
     </>

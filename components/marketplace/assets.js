@@ -6,7 +6,6 @@ import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import utils from '../../utils/utils';
-import { object } from 'underscore';
 import Loader from '../ui/Loader';
 import MyListAsset from '../myListings/MyListAsset';
 import MarketplaceAsset from './MarketplaceAsset';

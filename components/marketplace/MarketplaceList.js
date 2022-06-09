@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import NFTCard from '../ui/NFTCard';
-import { NFTs } from '../myListings/Info';
 import client from '../../lib/sanityClient';
 import Loader from '../ui/Loader';
 

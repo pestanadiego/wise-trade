@@ -71,7 +71,7 @@ export default function TradeOptions({
         <div>
           {tokens.length === 0 ? (
             <div className="flex justify-center items-center mb-9">
-              <Loader size={16} />
+              <Loader />
             </div>
           ) : (
             <div className="flex flex-row flex-wrap justify-center gap-3 mb-9">

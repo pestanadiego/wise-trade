@@ -181,7 +181,7 @@ export default function ApprovalBeforeAccept({
                       className="btn-disabled mb-3 text-sm"
                       disabled
                     >
-                      <Loader size={8} />
+                      <Loader />
                     </button>
                   ) : (
                     <button
@@ -212,11 +212,7 @@ export default function ApprovalBeforeAccept({
               onClick={handleAcceptSwap}
               disabled={(!validApproval || isLoadingConfirm) && true}
             >
-              {isLoading || isLoadingConfirm ? (
-                <Loader size={8} />
-              ) : (
-                'Confirm Swap'
-              )}
+              {isLoading || isLoadingConfirm ? <Loader /> : 'Confirm Swap'}
             </button>
           </div>
         </div>

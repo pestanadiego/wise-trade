@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
-import Loader from '../ui/Loader';
 import utils from '../../utils/utils';
 import Modal from '../ui/Modal';
 import TradeOptions from './TradeOptions';

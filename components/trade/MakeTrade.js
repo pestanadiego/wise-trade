@@ -249,7 +249,7 @@ export default function MakeTrade() {
                         className="btn-disabled mb-3 text-sm"
                         disabled
                       >
-                        <Loader size={5} />
+                        <Loader />
                       </button>
                     ) : (
                       <button
@@ -260,7 +260,7 @@ export default function MakeTrade() {
                         onClick={handleProposal}
                         disabled={(!validApproval || isLoading) && true}
                       >
-                        {isLoading ? <Loader size={5} /> : 'Confirm Swap'}
+                        {isLoading ? <Loader /> : 'Confirm Swap'}
                       </button>
                     )}
                   </div>

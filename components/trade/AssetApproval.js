@@ -96,7 +96,7 @@ export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
               className="btn-disabled mb-3 text-sm"
               disabled
             >
-              <Loader size={5} />
+              <Loader />
             </button>
           ) : (
             <button

@@ -10,19 +10,24 @@ export default function Nav() {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const { user } = useContext(UserContext);
-  
-  var status = false;
+  const [seen, setSeen] = useState(false);
+  const [status, setStatus] = useState(true);
+
   try{
     for (let i = 0; i < user.swaps.length; i++){
-      if(user.swaps[i].status === "pending"){
-        status = true;
+      if(user.swaps[i].status === "pending" && seen === false){
+        setSeen(true);
+        console.log("Prendio");
       }
     }
   }catch{
     console.log("Error")
   }
 
-  
+  const handleSeen = () => {
+    setStatus(false);
+    console.log("Apago");
+  };
 
   return (
     <>
@@ -147,7 +152,8 @@ export default function Nav() {
                                       ? 'bg-wise-purple text-white'
                                       : 'text-gray-900'
                                   } group flex w-full items-center rounded-md px-2 py-2 text-xs`}
-                                > {status ? (
+                                  onClick = {handleSeen}
+                                > {seen && status? (
                                     <div>{active ? (
                                       <i className="fas fa-hourglass-half px-2 text-white animate-ping" />
                                     ) : (

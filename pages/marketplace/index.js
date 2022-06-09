@@ -7,11 +7,6 @@ export default function Marketplace() {
 
   return (
     <div className="container">
-      {!address ? (
-        <h1 className="text-center text-wise-grey">
-          Connect your wallet to see the marketplace
-        </h1>
-      ) : (
         <div className="mt-14 lg:mt-28 mb-9">
           {/* HEADING */}
           <div>
@@ -22,7 +17,6 @@ export default function Marketplace() {
           </div>
           <MarketplaceList />
         </div>
-      )}
     </div>
   );
 }

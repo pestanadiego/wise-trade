@@ -1,11 +1,8 @@
 /* eslint-disable jsx-a11y/alt-text */
-import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import utils from '../../utils/utils';
 import Loader from '../ui/Loader';
 import MyListAsset from '../myListings/MyListAsset';
 import MarketplaceAsset from './MarketplaceAsset';

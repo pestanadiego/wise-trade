@@ -2,8 +2,6 @@ import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import Link from 'next/link';
 import NFTCard from '../ui/NFTCard';
-import client from '../../lib/sanityClient';
-import { set } from 'lodash';
 
 export default function MyList() {
   const [option, setOption] = useState('Current');

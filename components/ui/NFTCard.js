@@ -9,7 +9,7 @@ export default function NFTCard({ item, edit = false }) {
   const { listNfts } = item;
 
   return (
-    <div className="relative flex flex-col items-center shadow-md rounded-md cursor-pointer max-w-xs h-[35rem]">
+    <div className="relative flex flex-col shadow-md rounded-md cursor-pointer max-w-xs h-[35rem] mb-10">
       <div className="overflow-hidden rounded-xl bg-white flex flex-col">
         <div>
           <Carousel>
@@ -26,7 +26,7 @@ export default function NFTCard({ item, edit = false }) {
           </div>
           <h1 className="text-2xl">{item.listTitle}</h1>
           {/* TIPO */}
-          <div className="flex content-end justify-end mt-4 gap-2">
+          <div className="flex content-end justify-end mt-4 gap-2 absolute bottom-5 right-5">
             {/* OPCIONES DE VISTA --- TO DO*/}
             <Link href="/myListings/[id]" as={`/myListings/${item._id}`}>
               <button type="button" className="btn btn-purple">

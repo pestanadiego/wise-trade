@@ -30,7 +30,6 @@ export default function NFTCard({ item, edit = false }) {
             <p className="text-2xl">{item.listTitle}</p>
             {/* TIPO */}
             <div className="flex justify-end mt-4 gap-2">
-              {/* OPCIONES DE VISTA --- TO DO*/}
               <Link href="/myListings/[id]" as={`/myListings/${item._id}`}>
                 <button type="button" className="btn btn-purple">
                   <i className="fa fa-eye text-sm" />

@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import Link from 'next/link';
 import NFTCard from '../ui/NFTCard';
+import toast from 'react-hot-toast';
 
 export default function MyList() {
   const [openModal, setOpenModal] = useState(false);
@@ -11,11 +12,17 @@ export default function MyList() {
 
   useEffect(() => {
     if (user) {
-      for (let i = 0; i < user.listings.length; i++) {
-        if (user.listings[i].status === 'traded') {
-          setHasTraded(true);
-          break;
+      try {
+        for (let i = 0; i < user.listings.length; i++) {
+          if (user.listings[i].status === 'traded') {
+            setHasTraded(true);
+            break;
+          }
         }
+      } catch (error) {
+        toast.error('No Listings found', {
+          position: 'bottom-right',
+        });
       }
     }
   }, [user]);

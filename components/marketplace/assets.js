@@ -23,12 +23,16 @@ export default function Assets({ edit = false }) {
     if (id != undefined) {
       const query = `*[_id == "${id}"]`;
       const response = await client.fetch(query);
-      const res = response[0];
+      if (response.length > 0) {
+        const res = response[0];
 
-      if (res.address === address && edit) {
-        setIsListOwner(true);
+        if (res.address === address && edit) {
+          setIsListOwner(true);
+        }
+        setAsset(res);
+      } else {
+        setAsset(null);
       }
-      setAsset(res);
       setIsLoading(false);
     }
   };
@@ -39,11 +43,7 @@ export default function Assets({ edit = false }) {
 
   return (
     <section>
-      {!address ? (
-        <div className="text-center text-wise-grey">
-          Connect your wallet to see this page
-        </div>
-      ) : (
+      {
         <>
           {isLoading ? (
             <div className="flex justify-center items-center">
@@ -52,7 +52,7 @@ export default function Assets({ edit = false }) {
           ) : (
             <>
               (
-              {!user || user.listings == null ? (
+              {asset == null ? (
                 <h1 className="text-center text-wise-grey">
                   This Listing does not exist
                 </h1>
@@ -77,7 +77,7 @@ export default function Assets({ edit = false }) {
             </>
           )}
         </>
-      )}
+      }
     </section>
   );
 }

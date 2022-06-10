@@ -178,6 +178,54 @@ export default createSchema({
           ],
         },
         {
+          name: 'listOffers',
+          title: 'offers',
+          type: 'array',
+          of: [
+            {
+              name: 'offer',
+              title: 'offer',
+              type: 'document',
+              fields: [
+                {
+                  name: 'offerAddress',
+                  title: 'address',
+                  type: 'string',
+                },
+                {
+                  name: 'offerNfts',
+                  title: 'nfts',
+                  type: 'array',
+                  of: [
+                    {
+                      title: 'Counterpart NFT',
+                      type: 'object',
+                      fields: [
+                        {
+                          name: 'nid',
+                          type: 'number',
+                          title: 'Id Collection',
+                        },
+                        {
+                          name: 'image_url',
+                          type: 'string',
+                          title: 'Image Url',
+                        },
+                        { name: 'name', type: 'string', title: 'Name' },
+                        {
+                          name: 'nftAddress',
+                          type: 'string',
+                          title: 'Collection Address',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
           name: 'listTags',
           title: 'tags',
           type: 'array',

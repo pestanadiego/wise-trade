@@ -20,7 +20,7 @@ export default function MarketplaceList() {
   }, [listings]);
 
   return (
-    <div className="justify-center">
+    <div className="flex justify-center">
       {isLoading || listings == [] ? (
         <Loader />
       ) : (

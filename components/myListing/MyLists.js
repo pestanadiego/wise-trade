@@ -56,7 +56,7 @@ export default function MyList() {
         ) : (
           <>
             {option === 'Current' ? (
-              <div className="flex flex-col md:flex-row items-center justify-between gap-3 mt-6">
+              <div className="flex flex-col md:flex-row items-center justify-start gap-4 mt-6">
                 {user.listings.map((nft) => {
                   if (nft.status === 'pending' || nft.status !== 'traded') {
                     return <NFTCard key={nft.Id} item={nft} edit={true} />;
@@ -64,7 +64,7 @@ export default function MyList() {
                 })}
               </div>
             ) : (
-              <div className="flex flex-col md:flex-row items-center justify-between gap-3 mt-6">
+              <div className="flex flex-col md:flex-row items-center justify-start gap-4 mt-6">
                 {!hasTraded ? (
                   <h1 className="mt-2 text-center text-wise-grey">
                     No traded listings found

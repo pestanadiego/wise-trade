@@ -48,6 +48,7 @@ export default function CreateListing() {
       listTitle: title,
       listDescription: description,
       listNfts,
+      listOffers: [],
       listTags: selectedTags,
     };
 
@@ -134,18 +135,22 @@ export default function CreateListing() {
   };
 
   const getCollections = async () => {
-    const response = await fetch(
-      'https://testnets-api.opensea.io/api/v1/collections?offset=0&limit=20',
-      { method: 'GET' }
-    ).then((res) => res.json());
-    const collection = response.collections.map(
-      (resCollection) => resCollection.name
-    );
-    collection.push('Lame Cats');
-    collection.push('Crypto Cunts');
-    collection.push('Broke Ape Boat Club');
-    setTags(collection);
-    return collection;
+    try {
+      const response = await fetch(
+        'https://testnets-api.opensea.io/api/v1/collections?offset=0&limit=20',
+        { method: 'GET' }
+      ).then((res) => res.json());
+      const collection = response.collections.map(
+        (resCollection) => resCollection.name
+      );
+      collection.push('Lame Cats');
+      collection.push('Crypto Cunts');
+      collection.push('Broke Ape Boat Club');
+      setTags(collection);
+      return collection;
+    } catch {
+      toast.error('Unable to connect to OpenSea. Try again or use VPN.');
+    }
   };
 
   useEffect(() => {

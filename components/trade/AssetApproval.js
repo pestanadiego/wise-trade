@@ -6,6 +6,8 @@ import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 
 export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
+  console.log('tokens to transfer', tokensToTransfer);
+  console.log('set Valid approval', setValidApproval);
   const { provider } = useContext(UserContext);
   const [counter, setCounter] = useState(0);
   const [allSuccessful, setAllSuccessful] = useState(false);

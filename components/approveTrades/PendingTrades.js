@@ -14,6 +14,7 @@ export default function PendingTrades() {
   const [isLoadingReject, setIsLoadingReject] = useState(false);
   const [accept, setAccept] = useState(false);
   const [transactions, setTransactions] = useState([]);
+  const [declineTransaction, setDeclineTransaction] = useState([]);
 
   const swapsToApprove = () => {
     if (user.swaps == null) {
@@ -126,7 +127,9 @@ export default function PendingTrades() {
       ) : (
         <section>
           {!user ? (
-            <h1 className="text-center text-wise-grey">Loading...</h1>
+            <div className="flex justify-center">
+              <Loader />
+            </div>
           ) : (
             <div className="container flex flex-col-reverse items-center mt-4 lg:mt-8 mb-9">
               {transactions.length !== 0 ? (
@@ -223,7 +226,7 @@ export default function PendingTrades() {
                                           }}
                                         >
                                           {isLoadingReject ? (
-                                            <Loader size={8} />
+                                            <Loader />
                                           ) : (
                                             'Reject'
                                           )}
@@ -244,7 +247,7 @@ export default function PendingTrades() {
                                           }}
                                         >
                                           {isLoadingReject ? (
-                                            <Loader size={5} />
+                                            <Loader />
                                           ) : (
                                             'Cancel'
                                           )}

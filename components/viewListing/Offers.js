@@ -177,7 +177,7 @@ export default function Offers({ asset }) {
                                       className="btn btn-purple"
                                       onClick={() => {
                                         setAccept(true);
-                                        setAcceptTransaction(offer);
+                                        setAcceptTransaction(asset);
                                       }}
                                     >
                                       Accept
@@ -195,11 +195,7 @@ export default function Offers({ asset }) {
                                         await handleDecline();
                                       }}
                                     >
-                                      {isLoadingReject ? (
-                                        <Loader size={8} />
-                                      ) : (
-                                        'Reject'
-                                      )}
+                                      {isLoadingReject ? <Loader /> : 'Reject'}
                                     </button>
                                   </div>
                                 </td>
@@ -211,8 +207,8 @@ export default function Offers({ asset }) {
                     </table>
                   ) : (
                     <ApprovalBeforeAccept
-                      tokensToApprove={acceptTransaction.counterpartNfts}
-                      tokensToReceive={acceptTransaction.initiatorNfts}
+                      tokensToApprove={acceptTransaction.listNfts}
+                      tokensToReceive={acceptTransaction.listOffers}
                       swap={acceptTransaction}
                     />
                   )}

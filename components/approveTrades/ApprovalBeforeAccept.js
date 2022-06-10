@@ -12,6 +12,7 @@ export default function ApprovalBeforeAccept({
   tokensToApprove,
   swap,
 }) {
+  console.log('swaaaaaps', swap);
   const { provider, user, setUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const [finishedSwap, setFinishedSwap] = useState(false);

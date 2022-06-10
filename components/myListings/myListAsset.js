@@ -5,6 +5,7 @@ import { AiFillCaretLeft } from 'react-icons/ai';
 import { IoMdShareAlt } from 'react-icons/io';
 import utils from '../../utils/utils';
 import { useRouter } from 'next/router';
+
 export default function MyListAsset({ asset }) {
   const router = useRouter();
   const { id } = router.query;

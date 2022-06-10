@@ -1,12 +1,8 @@
 /* eslint-disable jsx-a11y/alt-text */
-import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import utils from '../../utils/utils';
-import { object } from 'underscore';
 import Loader from '../ui/Loader';
 import MyListAsset from '../myListings/MyListAsset';
 import MarketplaceAsset from './MarketplaceAsset';
@@ -24,14 +20,12 @@ export default function Assets({ edit = false }) {
   });
 
   const getAsset = async () => {
-    console.log('id', id);
     if (id != undefined) {
       const query = `*[_id == "${id}"]`;
       const response = await client.fetch(query);
       const res = response[0];
 
       if (res.address === address && edit) {
-        console.log('entre');
         setIsListOwner(true);
       }
       setAsset(res);

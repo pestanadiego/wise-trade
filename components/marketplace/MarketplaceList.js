@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import NFTCard from '../ui/NFTCard';
-import { NFTs } from '../myListings/Info';
 import client from '../../lib/sanityClient';
 import Loader from '../ui/Loader';
 
 export default function MarketplaceList() {
   const [listings, setListings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
   const getListings = () => {
     const query = '*[_type == "listing"]';
     client.fetch(query).then((response) => {

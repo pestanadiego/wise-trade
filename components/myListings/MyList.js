@@ -2,13 +2,9 @@ import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import Link from 'next/link';
 import NFTCard from '../ui/NFTCard';
-import { NFTs } from './Info';
-import client from '../../lib/sanityClient';
-import { set } from 'lodash';
 
 export default function MyList() {
   const [option, setOption] = useState('Current');
-  const [myListings, setMyListings] = useState('');
   const { user } = useContext(UserContext);
 
   return (

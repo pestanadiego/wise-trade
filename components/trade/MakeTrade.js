@@ -190,47 +190,70 @@ export default function MakeTrade() {
                 )}
                 {progress === 3 && (
                   <div className="container m-3 flex flex-col">
-                    <div className="flex flex-col justify-center items-center mb-6">
-                      <p className="text-wise-grey">NFTs you'd let go:</p>
-                      <div className="flex flex-row gap-5 justify-center my-3">
-                        {tokensToTransfer.map((token) => (
-                          <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
-                            <Image
-                              src={token.image_url}
-                              width={120}
-                              height={120}
-                              className="object-fill"
-                            />
-                            <p className="my-3 text-center">{token.id}</p>
-                            <p className="mb-3 text-center">{token.name}</p>
+                    <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+                      <div className="border-2 rounded-xl w-full md:w-1/2">
+                        <div className="flex flex-col justify-center items-center m-4">
+                          <p className="title">NFTs you'd let go</p>
+                          <div className="flex flex-row gap-5 justify-end my-3">
+                            {tokensToTransfer.map((token) => (
+                              <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] h-[230px] max-h-[230px] inline-block">
+                                <Image
+                                  src={token.image_url}
+                                  width={120}
+                                  height={120}
+                                  className="object-fill"
+                                />
+                                <p className="my-3 text-center">{token.id}</p>
+                                <p className="mb-3 text-center">{token.name}</p>
+                              </div>
+                            ))}
                           </div>
-                        ))}
+                        </div>
+                      </div>
+                      <div className>
+                        <i className="fa fa-arrow-down md:-rotate-90 text-xl text-wise-blue" />
+                      </div>
+                      <div className="border-2 rounded-xl w-full md:w-1/2">
+                        <div className="flex flex-col justify-center items-center m-4">
+                          <p className="title">NFTs you'd get</p>
+                          <div className="flex flex-row gap-5 justify-end my-3">
+                            {tokensToReceive.map((token) => (
+                              <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] h-[230px] max-h-[230px]">
+                                <Image
+                                  src={token.image_url}
+                                  width={120}
+                                  height={120}
+                                  className="object-fill"
+                                />
+                                <p className="my-3 text-center">{token.id}</p>
+                                <p className="mb-3 text-center">{token.name}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div className="flex flex-col justify-center items-center">
-                      <p className="text-wise-grey">NFTs you'd get:</p>
-                      <div className="flex flex-row gap-5 justify-center my-3">
-                        {tokensToReceive.map((token) => (
-                          <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px]">
-                            <Image
-                              src={token.image_url}
-                              width={120}
-                              height={120}
-                              className="object-fill"
-                            />
-                            <p className="my-3 text-center">{token.id}</p>
-                            <p className="mb-3 text-center">{token.name}</p>
-                          </div>
-                        ))}
+                    <div className="flex flex-col md:flex-row items-center gap-5 justify-center mt-5">
+                      <div className="w-1/2 text-center">
+                        <button className="btn btn-purple w-[170px]">
+                          <Link href="approveTrades">Pending Trades</Link>
+                        </button>
+                        <p className="text-wise-grey font-thin text-sm mt-3">
+                          Go to{' '}
+                          <span className="font-bold">Pending Trades</span> if
+                          you want to cancel the trade
+                        </p>
                       </div>
-                    </div>
-                    <div className="flex flex-row gap-5 justify-center my-3">
-                      <button 
-                        className="btn btn-purple mb-3 w-50">
-                        <Link href="approveTrades">Pending Trades</Link></button>
-                      <button 
-                        className="btn btn-purple mb-3 w-50">
-                        <Link href="history">Trade History</Link></button>
+                      <div className="w-1/2 text-center">
+                        <button className="btn btn-purple w-[170px]">
+                          <Link href="history">Trade History</Link>
+                        </button>
+                        <p className="text-wise-grey font-thin text-sm mt-3">
+                          Go to{' '}
+                          <span className="font-bold">Trade History </span>
+                          for more information of your trades
+                        </p>
+                      </div>
                     </div>
                   </div>
                 )}

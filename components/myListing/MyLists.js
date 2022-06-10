@@ -5,7 +5,6 @@ import NFTCard from '../ui/NFTCard';
 import toast from 'react-hot-toast';
 
 export default function MyList() {
-  const [openModal, setOpenModal] = useState(false);
   const [hasTraded, setHasTraded] = useState(false);
   const [option, setOption] = useState('Current');
   const { user } = useContext(UserContext);

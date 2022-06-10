@@ -12,8 +12,10 @@ import toast from 'react-hot-toast';
 export default function MarketplaceAsset({ asset }) {
   const [openModal, setOpenModal] = useState(false);
   const [nftsSelection, setNftsSelection] = useState([]);
+  const [validSelection, setValidSelection] = useState(false);
   const { address, user } = useContext(UserContext);
   const [isOpen, setOpen] = useState(false);
+
   //Toggle make offer
   const toggleOffer = () => {
     try {
@@ -29,8 +31,6 @@ export default function MarketplaceAsset({ asset }) {
     }
   };
 
-  // Validación
-  const [validSelection, setValidSelection] = useState(false);
   // handle make offer a sanity
   const handleOfferClick = async () => {
     try {
@@ -41,6 +41,7 @@ export default function MarketplaceAsset({ asset }) {
       });
     }
   };
+
   useEffect(() => {
     // Mensaje de error para la selección
 
@@ -50,23 +51,29 @@ export default function MarketplaceAsset({ asset }) {
       setValidSelection(true);
     }
   }, [nftsSelection]);
+
   return (
     <>
-      <div className="bg-white text-gray-900 p-10 mt-0 flex items-center flex-col">
+      <div className="relative bg-white text-gray-900 p-10 mt-0 flex items-center flex-col z-0">
         <div className="flex gap-8 flex-row flex-wrap">
-          <div className="flex flex-col gap-8 ">
-            <div className="flex overflow-hidden rounded-xl">
+          <div className="flex flex-col gap-8">
+            <div className="flex overflow-hidden">
               <Carousel className="max-w-md">
                 {asset.listNfts.map((nft) => (
-                  <Image src={nft.image_url} width="450" height="450" />
+                  <Image
+                    src={nft.image_url}
+                    className="rounded-xl"
+                    width="450"
+                    height="450"
+                  />
                 ))}
               </Carousel>
             </div>
           </div>
           <div className="flex-1 gap-8 flex-col">
             <Link href={'/marketplace'}>
-              <div className="flex cursor-pointer mb-3 items-center text-wise-purple">
-                <button className="btn btn-purple">Back</button>
+              <div className="flex cursor-pointer mb-3 items-center">
+                <button className="btn btn-white">Back</button>
               </div>
             </Link>
             <div className="flex  mb-3 gap-2">
@@ -79,9 +86,6 @@ export default function MarketplaceAsset({ asset }) {
               <p className="text-3xl inline-block mt-3 mr-4">
                 {asset.listTitle}
               </p>
-              <p className="p-2 text-sm font-medium text-gray-500 mt-3 rounded-2xl border-2 border-gray-500 ">
-                Marketplace
-              </p>
             </span>
             <br />
             <p className="text-xl font-medium mb-3 text-gray-500">
@@ -92,7 +96,10 @@ export default function MarketplaceAsset({ asset }) {
             </p>
             <div className="flex gap-4 items-end">
               <div className="flex items-center mb-3 gap-2 cursor-pointer">
-                <button className="btn btn-purple" onClick={toggleOffer}>
+                <button
+                  className={isOpen ? 'btn btn-white' : 'btn btn-purple'}
+                  onClick={toggleOffer}
+                >
                   {isOpen ? 'Cancel' : 'Make Offer'}
                 </button>
               </div>
@@ -131,13 +138,15 @@ export default function MarketplaceAsset({ asset }) {
           )}
 
           {openModal && (
-            <Modal setOpenModal={setOpenModal}>
-              <TradeOptions
-                address={address}
-                setTokensToTransfer={setNftsSelection}
-                setOpenModal={setOpenModal}
-              />
-            </Modal>
+            <div className="relative z-1">
+              <Modal setOpenModal={setOpenModal}>
+                <TradeOptions
+                  address={address}
+                  setTokensToTransfer={setNftsSelection}
+                  setOpenModal={setOpenModal}
+                />
+              </Modal>
+            </div>
           )}
         </div>
       )}

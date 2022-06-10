@@ -18,9 +18,7 @@ export default function Nav() {
         setSeen(true);
       }
     }
-  } catch {
-
-  }
+  } catch {}
 
   const handleSeen = () => {
     setStatus(false);
@@ -83,7 +81,13 @@ export default function Nav() {
                         {openMenu ? (
                           <i className="fas fa-minus ml-2" />
                         ) : (
-                          <i className="fas fa-chevron-down ml-2" />
+                          <>
+                            {status && seen ? (
+                              <i className="fas fa-chevron-down ml-2 animate-ping" />
+                            ) : (
+                              <i className="fas fa-chevron-down ml-2" />
+                            )}
+                          </>
                         )}
                       </Menu.Button>
                     </div>

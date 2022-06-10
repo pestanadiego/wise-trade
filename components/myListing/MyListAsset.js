@@ -9,11 +9,11 @@ export default function MyListAsset({ asset }) {
   const router = useRouter();
   const { id } = router.query;
   return (
-    <div className="bg-white text-gray-900 p-10 mt-0 flex flex-col">
+    <div className="bg-white text-gray-900 p-10 mt-0 flex items-center flex-col">
       <div className="flex gap-8 flex-row flex-wrap">
         <div className="flex flex-col gap-8 ">
           <div className="flex overflow-hidden rounded-xl">
-            <Carousel>
+            <Carousel className="max-w-md">
               {asset.listNfts.map((nft) => (
                 <Image src={nft.image_url} width="450" height="450" />
               ))}

@@ -1,9 +1,8 @@
+//Odio los Merges
 import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import Link from 'next/link';
 import NFTCard from '../ui/NFTCard';
-import { NFTs } from './Info';
-import client from '../../lib/sanityClient';
 
 export default function MyList() {
   const [openModal, setOpenModal] = useState(false);

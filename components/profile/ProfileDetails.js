@@ -1,9 +1,9 @@
 import { useContext, useState, useEffect } from 'react';
-// eslint-disable-next-line import/named
 import { UserContext } from '../../context/UserContext';
 import utils from '../../utils/utils';
 import client from '../../lib/sanityClient';
 import EditProfile from './EditProfile';
+import toast from 'react-hot-toast';
 
 export default function ProfileDetails() {
   const { address, user, setUser } = useContext(UserContext);
@@ -14,7 +14,9 @@ export default function ProfileDetails() {
     setUser({ ...user, email });
     // eslint-disable-next-line no-unused-vars
     const update = await client.patch(address).set({ email }).commit();
-    alert('Your email address was added successfully');
+    toast.success('Your email address was added successfully', {
+      position: 'bottom-right',
+    });
   };
 
   useEffect(() => {

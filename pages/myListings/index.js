@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-unresolved
-import MyList from '../../components/myListings/MyList';
+import MyList from '../../components/myListing/MyLists';
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 

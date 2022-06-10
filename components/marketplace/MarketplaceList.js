@@ -6,6 +6,7 @@ import Loader from '../ui/Loader';
 export default function MarketplaceList() {
   const [listings, setListings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
   const getListings = () => {
     const query = '*[_type == "listing"]';
     client.fetch(query).then((response) => {

@@ -10,6 +10,8 @@ export default function NFTCard({ item, edit = false }) {
   const [openModal, setOpenModal] = useState(false);
   const { listNfts } = item;
 
+  console.log('edit', edit);
+
   return (
     <>
       <div className="relative flex flex-col shadow-md rounded-md cursor-pointer w-[15rem] h-[30rem] mb-4">
@@ -30,13 +32,14 @@ export default function NFTCard({ item, edit = false }) {
             <h1 className="text-2xl">{item.listTitle}</h1>
             {/* TIPO */}
             <div className="flex content-end justify-end mt-4 gap-2 absolute bottom-5 right-5">
-              <Link href="/myListings/[id]" as={`/myListings/${item._id}`}>
-                <button type="button" className="btn btn-purple">
-                  <i className="fa fa-eye text-sm" />
-                </button>
-              </Link>
-              {edit && (
+              {/* OPCIONES DE VISTA --- TO DO*/}
+              {edit ? (
                 <>
+                  <Link href="/myListings/[id]" as={`/myListings/${item._id}`}>
+                    <button type="button" className="btn btn-purple">
+                      <i className="fa fa-eye text-sm" />
+                    </button>
+                  </Link>
                   <Link
                     href="/myListings/edit/[id]"
                     as={`/myListings/edit/${item._id}`}
@@ -53,6 +56,12 @@ export default function NFTCard({ item, edit = false }) {
                     <i className="fa fa-trash-can text-sm" />
                   </button>
                 </>
+              ) : (
+                <Link href="/marketplace/[id]" as={`/marketplace/${item._id}`}>
+                  <button type="button" className="btn btn-purple">
+                    <i className="fa fa-eye text-sm" />
+                  </button>
+                </Link>
               )}
             </div>
           </div>

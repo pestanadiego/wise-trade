@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { UserContext } from '../../context/UserContext';
 import utils from '../../utils/utils';
 import { Menu, Transition } from '@headlessui/react';
-import { ChevronDownIcon } from '@heroicons/react/solid';
 
 export default function Nav() {
   const { address, connectWallet, disconnectWallet } = useContext(UserContext);
@@ -17,16 +16,14 @@ export default function Nav() {
     for (let i = 0; i < user.swaps.length; i++) {
       if (user.swaps[i].status === 'pending' && seen === false) {
         setSeen(true);
-        console.log('Prendio');
       }
     }
   } catch {
-    console.log('Error');
+
   }
 
   const handleSeen = () => {
     setStatus(false);
-    console.log('Apago');
   };
 
   return (

@@ -1,24 +1,31 @@
-//Odio los Merges
 import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import Link from 'next/link';
 import NFTCard from '../ui/NFTCard';
+import toast from 'react-hot-toast';
 
 export default function MyList() {
   const [openModal, setOpenModal] = useState(false);
   const [hasTraded, setHasTraded] = useState(false);
   const [option, setOption] = useState('Current');
-  const [myListings, setMyListings] = useState('');
   const { user } = useContext(UserContext);
 
   useEffect(() => {
-    for (let i = 0; i < user.listings.length; i++) {
-      if (user.listings[i].status === 'traded') {
-        setHasTraded(true);
-        break;
+    if (user) {
+      try {
+        for (let i = 0; i < user.listings.length; i++) {
+          if (user.listings[i].status === 'traded') {
+            setHasTraded(true);
+            break;
+          }
+        }
+      } catch (error) {
+        toast.error('No Listings found', {
+          position: 'bottom-right',
+        });
       }
     }
-  }, []);
+  }, [user]);
 
   return (
     <>
@@ -71,11 +78,15 @@ export default function MyList() {
                   </h1>
                 ) : (
                   <>
-                    {user.listings.map((nft) => {
-                      if (nft.status === 'traded') {
-                        return <NFTCard key={nft.Id} item={nft} edit={true} />;
-                      }
-                    })}
+                    <div className="flex flex-wrap md:flex-row items-center justify-start gap-10 mt-6">
+                      {user.listings.map((nft) => {
+                        if (nft.status === 'traded') {
+                          return (
+                            <NFTCard key={nft.Id} item={nft} edit={true} />
+                          );
+                        }
+                      })}
+                    </div>
                   </>
                 )}
               </div>

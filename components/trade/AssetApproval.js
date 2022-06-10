@@ -4,6 +4,7 @@ import erc721abi from '../../smart_contracts/artifacts/contracts/erc721abi.json'
 import { ethers } from 'ethers';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
+import toast from 'react-hot-toast';
 
 export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
   const { provider } = useContext(UserContext);
@@ -57,7 +58,9 @@ export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
               })
               .catch((error) => {
                 console.log(error);
-                alert('You have to approve all the NFTs.');
+                toast.error('You have to approve all the NFTs.', {
+                  position: 'bottom-right',
+                });
                 setIsLoading(false);
               });
           } else {

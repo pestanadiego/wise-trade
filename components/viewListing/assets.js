@@ -4,8 +4,8 @@ import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Loader from '../ui/Loader';
-import MyListAsset from '../myListing/MyListAsset';
-import MarketplaceAsset from './MarketplaceAsset';
+import MyListAsset from './MyListAsset';
+import MarketplaceAsset from '../marketplace/MarketplaceAsset';
 import client from '../../lib/sanityClient';
 
 export default function Assets({ edit = false }) {

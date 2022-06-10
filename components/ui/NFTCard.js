@@ -14,7 +14,7 @@ export default function NFTCard({ item, edit = false }) {
 
   return (
     <>
-      <div className="relative flex flex-col shadow-md rounded-md cursor-pointer w-[15rem] h-[30rem] mb-10">
+      <div className="relative flex flex-col shadow-md rounded-md cursor-pointer w-[15rem] h-[30rem] mb-4">
         <div className="overflow-hidden rounded-xl bg-white flex flex-col">
           <div>
             <Carousel>

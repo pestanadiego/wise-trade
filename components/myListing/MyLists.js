@@ -1,5 +1,5 @@
 //Odio los Merges
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import Link from 'next/link';
 import NFTCard from '../ui/NFTCard';

@@ -2,8 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
+import { useState } from 'react';
 
 export default function NFTCard({ item, edit = false }) {
+  const [openModal, setOpenModal] = useState(false);
   const { listNfts } = item;
 
   return (
@@ -54,6 +56,11 @@ export default function NFTCard({ item, edit = false }) {
           </div>
         </div>
       </div>
+      {openModal && (
+        <Modal setOpenModal={setOpenModal}>
+          <Delete item={item} setOpenModal={setOpenModal} />
+        </Modal>
+      )}
     </div>
   );
 }

@@ -2,23 +2,21 @@ import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { useRouter } from 'next/router';
 import Modal from '../ui/Modal';
-import Link from 'next/link';
 import TradeOptions from '../trade/TradeOptions';
 import Multiselect from 'multiselect-react-dropdown';
-import NftsSelection from './NftsSelection';
+import NftsSelection from '../create/NftsSelection';
 import client from '../../lib/sanityClient';
 import toast from 'react-hot-toast';
 import utils from '../../utils/utils';
-import Router from 'next/router';
 
-export default function CreateListing() {
+export default function EditListing({ listing }) {
   const router = useRouter();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState(listing.listTitle);
+  const [description, setDescription] = useState(listing.listDescription);
   const [openModal, setOpenModal] = useState(false);
   const [tags, setTags] = useState([]);
-  const [selectedTags, setSelectedTags] = useState([]);
-  const [nftsSelection, setNftsSelection] = useState([]);
+  const [selectedTags, setSelectedTags] = useState(listing.listTags);
+  const [nftsSelection, setNftsSelection] = useState(listing.listNfts);
   const { address, setUser, user } = useContext(UserContext);
   // Validación
   const [validInputs, setValidInputs] = useState(false);
@@ -29,7 +27,7 @@ export default function CreateListing() {
   const [errorTitle, setErrorTitle] = useState('');
   const [errorDescription, setErrorDescription] = useState('');
 
-  const addListingToSanity = async () => {
+  const modifyListingOnSanity = async () => {
     // Se crea el documento del listing
     const listNfts = nftsSelection.map((selection) => {
       return {
@@ -43,109 +41,76 @@ export default function CreateListing() {
 
     const listingDoc = {
       _type: 'listing',
+      _id: listing._id,
       address,
-      status: 'pending',
       listTitle: title,
       listDescription: description,
       listNfts,
       listTags: selectedTags,
     };
 
-    // Se agrega a Sanity y se modifica el user
-    const createListing = await client.create(listingDoc).then(async (res) => {
-      const modifyUserListings = await client
-        .patch(address)
-        .setIfMissing({ listings: [] })
-        .insert('after', 'listings[-1]', [res])
-        .commit({ autoGenerateArrayKeys: true });
+    // Se modifica en Sanity y se modifica el user
+    const replaceListing = await client
+      .createOrReplace(listingDoc)
+      .then(async (res) => {
+        // Se busca la posición en el array del listing que se quiere cambiar
+        let index;
+        for (let i = 0; i < user.listings.length; i++) {
+          if (user.listings[i]._id === listing._id) {
+            index = i;
+          }
+        }
+        const modifyListings = await client
+          .patch(address)
+          .insert('replace', `listings[${index}]`, [res])
+          .commit({ autoGenerateArrayKeys: true });
 
-      // Se actualiza el UserContext
-      if (user.listings == null) {
-        const updatedUser = { ...user, listings: [res] };
-        setUser(updatedUser);
-      } else {
+        // Se actualiza el UserContext
         const updatedListings = user.listings;
-        updatedListings.push(res);
-        const updatedUser = { ...user, updatedListings };
+        updatedListings[index] = res;
+        const updatedUser = { ...user, listings: updatedListings };
         setUser(updatedUser);
-      }
-    });
+      });
   };
 
-  const handleCreationOfListing = async () => {
+  const handleModificationOfListing = async () => {
     try {
-      await addListingToSanity().then(() => {
-        if (user.email == '') {
-          toast.custom(
-            (t) => (
-              <div
-                className={`${
-                  t.visible ? 'animate-enter' : 'animate-leave'
-                } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
-              >
-                <div className="flex-1 w-0 p-4">
-                  <div className="flex items-start">
-                    <div className="ml-3 flex-1">
-                      <p className="text-sm font-medium text-gray-900">
-                        No email detected!
-                      </p>
-                      <p className="mt-1 text-sm text-gray-500">
-                        Set up your email to receive notifications
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex border-l border-gray-200">
-                  <Link href="/profile">
-                    <button
-                      onClick={() => toast.dismiss(t.id)}
-                      className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    >
-                      Setup
-                    </button>
-                  </Link>
-                </div>
-                <div className="flex border-l border-gray-200">
-                  <button
-                    onClick={() => toast.remove(t.id)}
-                    className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            ),
-            {
-              duration: 20000,
-            }
-          );
-        }
-        toast.success('The listing was successfully created', {
+      await modifyListingOnSanity().then(() => {
+        toast.success('The listing was successfully modified', {
           position: 'bottom-right',
         });
-        Router.push('/myListings');
+        router.push('/myListings');
       });
     } catch (err) {
       console.log(err);
-      toast.error('An error occurred while creating the listing', {
+      toast.error('An error occurred while modifying the listing', {
         position: 'bottom-right',
       });
     }
   };
 
+  const handleDiscard = () => {
+    router.push('/myListings');
+  };
+
   const getCollections = async () => {
-    const response = await fetch(
-      'https://testnets-api.opensea.io/api/v1/collections?offset=0&limit=20',
-      { method: 'GET' }
-    ).then((res) => res.json());
-    const collection = response.collections.map(
-      (resCollection) => resCollection.name
-    );
-    collection.push('Lame Cats');
-    collection.push('Crypto Cunts');
-    collection.push('Broke Ape Boat Club');
-    setTags(collection);
-    return collection;
+    try {
+      const response = await fetch(
+        'https://testnets-api.opensea.io/api/v1/collections?offset=0&limit=20',
+        { method: 'GET' }
+      ).then((res) => res.json());
+      const collection = response.collections.map(
+        (resCollection) => resCollection.name
+      );
+      collection.push('Lame Cats');
+      collection.push('Crypto Cunts');
+      collection.push('Broke Ape Boat Club');
+      setTags(collection);
+      return collection;
+    } catch (error) {
+      console.log(error);
+      toast('The collections were unable to be retrieved. Try again');
+    }
   };
 
   useEffect(() => {
@@ -189,7 +154,7 @@ export default function CreateListing() {
     } else {
       setValidInputs(false);
     }
-  }, [title, description, nftsSelection, selectedTags.length]);
+  }, [title, description, nftsSelection]);
 
   return (
     <>
@@ -232,12 +197,14 @@ export default function CreateListing() {
         {/* SELECCIÓN */}
         <div className="w-full sm:w-2/3 lg:w-1/2 mb-2">
           <h1 className="title mb-2">NFTs</h1>
-          <NftsSelection
-            setNftsSelection={setNftsSelection}
-            nftsSelection={nftsSelection}
-            setOpenModal={setOpenModal}
-            address={address}
-          />
+          {
+            <NftsSelection
+              setNftsSelection={setNftsSelection}
+              nftsSelection={nftsSelection}
+              setOpenModal={setOpenModal}
+              address={address}
+            />
+          }
           {validSelection === false && (
             <div className="flex flex-row gap-2 items-baseline">
               <i className="fa fa-circle-exclamation text-red-500 text-sm" />
@@ -256,6 +223,7 @@ export default function CreateListing() {
             closeIcon="cancel"
             placeholder="Select a maximum of four"
             isObject={false}
+            selectedValues={selectedTags}
             onKeyPressFn={function noRefCheck() {}}
             onRemove={(remove) => {
               setSelectedTags(remove);
@@ -297,12 +265,19 @@ export default function CreateListing() {
             </div>
           )}
         </div>
-        <button
-          className={validInputs ? 'mt-4 btn btn-purple' : 'mt-4 btn-disabled'}
-          onClick={handleCreationOfListing}
-        >
-          Create
-        </button>
+        <div className="flex gap-3">
+          <button
+            className={
+              validInputs ? 'mt-4 btn btn-purple' : 'mt-4 btn-disabled'
+            }
+            onClick={handleModificationOfListing}
+          >
+            Save
+          </button>
+          <button className="mt-4 btn btn-white" onClick={handleDiscard}>
+            Discard
+          </button>
+        </div>
       </div>
       {openModal && (
         <Modal setOpenModal={setOpenModal}>

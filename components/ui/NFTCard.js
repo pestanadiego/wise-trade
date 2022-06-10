@@ -1,14 +1,18 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 import { useState } from 'react';
+import Modal from '../ui/Modal';
+import Delete from '../delete/Delete';
 
 export default function NFTCard({ item, edit = false }) {
   const [openModal, setOpenModal] = useState(false);
   const { listNfts } = item;
 
   return (
+    <>
     <div className="relative flex flex-col shadow-md rounded-md cursor-pointer w-[15rem] h-[30rem] mb-10">
       <div className="overflow-hidden rounded-xl bg-white flex flex-col">
         <div>
@@ -28,31 +32,31 @@ export default function NFTCard({ item, edit = false }) {
           {/* TIPO */}
           <div className="flex content-end justify-end mt-4 gap-2 absolute bottom-5 right-5">
             {/* OPCIONES DE VISTA --- TO DO*/}
-            {edit ? (
-              <>
-                <Link href="/myListings/[id]" as={`/myListings/${item._id}`}>
-                  <button type="button" className="btn btn-purple">
-                    <i className="fa fa-eye text-sm" />
-                  </button>
-                </Link>
-                <Link href="/assets" passHref>
-                  <button type="button" className="btn btn-white">
-                    <i className="fa fa-pencil text-sm" />
-                  </button>
-                </Link>
-                <Link href="/assets" passHref>
-                  <button type="button" className="btn btn-white">
+            <Link href="/myListings/[id]" as={`/myListings/${item._id}`}>
+              <button type="button" className="btn btn-purple">
+                <i className="fa fa-eye text-sm" />
+              </button>
+            </Link>
+            {edit && (
+                <>
+                  <Link
+                    href="/myListings/edit/[id]"
+                    as={`/myListings/edit/${item._id}`}
+                  >
+                    <button type="button" className="btn btn-white">
+                      <i className="fa fa-pencil text-sm" />
+                    </button>
+                  </Link>
+                  <button
+                    onClick={() => setOpenModal(true)}
+                    type="button"
+                    className="btn btn-white"
+                  >
                     <i className="fa fa-trash-can text-sm" />
                   </button>
-                </Link>
-              </>
-            ) : (
-              <Link href="/marketplace/[id]" as={`/marketplace/${item._id}`}>
-                <button type="button" className="btn btn-purple">
-                  <i className="fa fa-eye text-sm" />
-                </button>
-              </Link>
-            )}
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -61,6 +65,6 @@ export default function NFTCard({ item, edit = false }) {
           <Delete item={item} setOpenModal={setOpenModal} />
         </Modal>
       )}
-    </div>
+    </>
   );
 }

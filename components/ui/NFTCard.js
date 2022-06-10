@@ -10,6 +10,8 @@ export default function NFTCard({ item, edit = false }) {
   const [openModal, setOpenModal] = useState(false);
   const { listNfts } = item;
 
+  console.log('edit', edit);
+
   return (
     <>
       <div className="relative flex flex-col shadow-md rounded-md cursor-pointer w-[15rem] h-[30rem] mb-10">
@@ -33,6 +35,11 @@ export default function NFTCard({ item, edit = false }) {
               {/* OPCIONES DE VISTA --- TO DO*/}
               {edit ? (
                 <>
+                  <Link href="/myListings/[id]" as={`/myListings/${item._id}`}>
+                    <button type="button" className="btn btn-purple">
+                      <i className="fa fa-eye text-sm" />
+                    </button>
+                  </Link>
                   <Link
                     href="/myListings/edit/[id]"
                     as={`/myListings/edit/${item._id}`}

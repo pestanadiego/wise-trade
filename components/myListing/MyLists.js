@@ -10,13 +10,15 @@ export default function MyList() {
   const { user } = useContext(UserContext);
 
   useEffect(() => {
-    for (let i = 0; i < user.listings.length; i++) {
-      if (user.listings[i].status === 'traded') {
-        setHasTraded(true);
-        break;
+    if (user) {
+      for (let i = 0; i < user.listings.length; i++) {
+        if (user.listings[i].status === 'traded') {
+          setHasTraded(true);
+          break;
+        }
       }
     }
-  }, []);
+  }, [user]);
 
   return (
     <>

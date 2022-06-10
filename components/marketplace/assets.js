@@ -51,7 +51,6 @@ export default function Assets({ edit = false }) {
             </div>
           ) : (
             <>
-              (
               {asset == null ? (
                 <h1 className="text-center text-wise-grey">
                   This Listing does not exist
@@ -73,7 +72,6 @@ export default function Assets({ edit = false }) {
                   )}
                 </>
               )}
-              )
             </>
           )}
         </>

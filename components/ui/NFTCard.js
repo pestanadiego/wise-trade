@@ -14,7 +14,7 @@ export default function NFTCard({ item, edit = false }) {
 
   return (
     <>
-      <div className="relative flex flex-col shadow-md rounded-md cursor-pointer w-[15rem] h-[30rem] mb-4">
+      <div className="relative flex flex-col shadow-md rounded-md cursor-pointer w-[15rem] h-[30rem] mb-4 z-0">
         <div className="overflow-hidden rounded-xl bg-white flex flex-col">
           <div>
             <Carousel>
@@ -32,7 +32,6 @@ export default function NFTCard({ item, edit = false }) {
             <h1 className="text-2xl">{item.listTitle}</h1>
             {/* TIPO */}
             <div className="flex content-end justify-end mt-4 gap-2 absolute bottom-5 right-5">
-              {/* OPCIONES DE VISTA --- TO DO*/}
               {edit ? (
                 <>
                   <Link href="/myListings/[id]" as={`/myListings/${item._id}`}>
@@ -68,9 +67,11 @@ export default function NFTCard({ item, edit = false }) {
         </div>
       </div>
       {openModal && (
-        <Modal setOpenModal={setOpenModal}>
-          <Delete item={item} setOpenModal={setOpenModal} />
-        </Modal>
+        <div className="relative z-10">
+          <Modal setOpenModal={setOpenModal}>
+            <Delete item={item} setOpenModal={setOpenModal} />
+          </Modal>
+        </div>
       )}
     </>
   );

@@ -56,7 +56,7 @@ export default function Delete({ item, setOpenModal }) {
   return (
     <div className="flex flex-col justify-center items-center">
       <h1 className="title">Are you sure you want to delete this listing?</h1>
-      <div className="flex flex-row gap-3 my-3">
+      <div className="flex flex-row gap-3 my-6">
         <button className="btn btn-purple" onClick={handleDeletionOfListing}>
           Yes
         </button>

@@ -2,7 +2,6 @@ import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import Link from 'next/link';
 import NFTCard from '../ui/NFTCard';
-import toast from 'react-hot-toast';
 
 export default function MyList() {
   const [hasTraded, setHasTraded] = useState(false);
@@ -11,17 +10,11 @@ export default function MyList() {
 
   useEffect(() => {
     if (user) {
-      try {
-        for (let i = 0; i < user.listings.length; i++) {
-          if (user.listings[i].status === 'traded') {
-            setHasTraded(true);
-            break;
-          }
+      for (let i = 0; i < user.listings.length; i++) {
+        if (user.listings[i].status === 'traded') {
+          setHasTraded(true);
+          break;
         }
-      } catch (error) {
-        toast.error('No Listings found', {
-          position: 'bottom-right',
-        });
       }
     }
   }, [user]);
@@ -70,18 +63,18 @@ export default function MyList() {
                 })}
               </div>
             ) : (
-              <div className="flex flex-col md:flex-row items-center justify-start gap-4 mt-6">
+              <div>
                 {!hasTraded ? (
                   <h1 className="mt-2 text-center text-wise-grey">
                     No traded listings found
                   </h1>
                 ) : (
                   <>
-                    <div className="flex flex-wrap md:flex-row items-center justify-start gap-10 mt-6">
+                    <div className="flex flex-col md:flex-row items-center justify-start gap-4 mt-6">
                       {user.listings.map((nft) => {
                         if (nft.status === 'traded') {
                           return (
-                            <NFTCard key={nft.Id} item={nft} edit={true} />
+                            <NFTCard key={nft.Id} item={nft} edit={false} />
                           );
                         }
                       })}

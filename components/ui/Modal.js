@@ -2,7 +2,7 @@ export default function Modal({ setOpenModal, children }) {
   return (
     <>
       <div
-        className="fixed top-0 left-0 right-0 bottom-0 bg-black/70 z-100000"
+        className="fixed top-0 left-0 right-0 bottom-0 bg-black/70 z-1000"
         onClick={() => {
           setOpenModal(false);
         }}

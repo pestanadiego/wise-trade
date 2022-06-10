@@ -218,8 +218,7 @@ export default function PendingTrades() {
                                           }
                                           disabled={isLoadingReject}
                                           onClick={async () => {
-                                            setDeclineTransaction(transaction);
-                                            await handleDecline();
+                                            await handleDecline(transaction);
                                           }}
                                         >
                                           {isLoadingReject ? (

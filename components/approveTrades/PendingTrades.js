@@ -98,7 +98,7 @@ export default function PendingTrades() {
         setIsLoadingReject(true);
         pre.wait().then(async (receipt) => {
           console.log(receipt);
-          if (receipt.confirmations === 1) {
+          if (receipt.confirmations === 1 || receipt.confirmations === 0) {
             console.log(receipt);
             await modifyRejectionInSanity(declineTransaction);
           }

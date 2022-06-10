@@ -4,7 +4,7 @@ import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Loader from '../ui/Loader';
-import MyListAsset from '../myListings/MyListAsset';
+import MyListAsset from '../myListing/MyListAsset';
 import MarketplaceAsset from './MarketplaceAsset';
 import client from '../../lib/sanityClient';
 

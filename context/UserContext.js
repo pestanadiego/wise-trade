@@ -75,21 +75,34 @@ export default function UserContextProvider({ children }) {
     if (!address) {
       return null;
     }
-    const userExist = await client.getDocument(address);
+    try {
+      const userExist = await client.getDocument(address);
 
-    if (userExist) {
-      setUser(userExist);
-    } else {
-      const userDoc = {
-        _type: 'user',
-        _id: address,
-        email: '',
-        walletAddress: address,
-      };
+      if (userExist) {
+        setUser(userExist);
+      } else {
+        const userDoc = {
+          _type: 'user',
+          _id: address,
+          email: '',
+          walletAddress: address,
+        };
 
-      // eslint-disable-next-line no-unused-vars
-      const result = await client.create(userDoc);
-      setUser(userDoc);
+        // eslint-disable-next-line no-unused-vars
+        const result = await client.create(userDoc);
+        setUser(userDoc);
+      }
+    } catch {
+      setAddress(null);
+      setProvider(null);
+      setError(
+        toast.error(
+          'Unable to load data. Check your connection and try again',
+          {
+            position: 'bottom-right',
+          }
+        )
+      );
     }
   };
 

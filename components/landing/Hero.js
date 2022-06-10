@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import hero from '../../public/hero.svg';
-import sendEmail from '../../lib/email';
-import offerTemplate from '../../utils/templates';
 
 export default function Hero() {
   return (
@@ -26,7 +24,7 @@ export default function Hero() {
               type="button"
               className="btn btn-white hover:bg-wise-purple hover:text-white"
             >
-              Check Trades
+              <Link href="/marketplace">Check Marketplace</Link>
             </button>
           </div>
         </div>

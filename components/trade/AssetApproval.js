@@ -21,7 +21,7 @@ export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
         signer
       );
 
-      // Primero se verifica si ya está aprobado
+      // Primero se verifica si ya está aprobado.
       const isApproved = await contract
         .getApproved(tokensToTransfer[i].id)
         .then(async (res) => {

@@ -1,10 +1,6 @@
-import { useContext } from 'react';
-import { UserContext } from '../../context/UserContext';
 import MarketplaceList from '../../components/marketplace/MarketplaceList';
 
 export default function Marketplace() {
-  const { address } = useContext(UserContext);
-
   return (
     <div className="container">
         <div className="mt-14 lg:mt-28 mb-9">

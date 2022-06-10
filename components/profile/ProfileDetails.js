@@ -1,5 +1,4 @@
 import { useContext, useState, useEffect } from 'react';
-// eslint-disable-next-line import/named
 import { UserContext } from '../../context/UserContext';
 import utils from '../../utils/utils';
 import client from '../../lib/sanityClient';

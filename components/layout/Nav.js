@@ -17,16 +17,14 @@ export default function Nav() {
     for (let i = 0; i < user.swaps.length; i++) {
       if (user.swaps[i].status === 'pending' && seen === false) {
         setSeen(true);
-        console.log('Prendio');
       }
     }
   } catch {
-    console.log('Error');
+
   }
 
   const handleSeen = () => {
     setStatus(false);
-    console.log('Apago');
   };
 
   return (

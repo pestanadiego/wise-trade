@@ -188,6 +188,11 @@ export default createSchema({
               type: 'document',
               fields: [
                 {
+                  name: 'createdAt',
+                  title: 'createdAt',
+                  type: 'date',
+                },
+                {
                   name: 'offerAddress',
                   title: 'address',
                   type: 'string',

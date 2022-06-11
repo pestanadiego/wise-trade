@@ -13,9 +13,9 @@ export default function Offers({ asset }) {
   const [acceptTransaction, setAcceptTransaction] = useState([]);
   const [isLoadingReject, setIsLoadingReject] = useState(false);
   const [accept, setAccept] = useState(false);
+  const [offers, setOffers] = useState([]);
   const router = useRouter();
   const { id } = router.query;
-  const offers = asset.listOffers;
   console.log('aaaa', asset);
   console.log('offers', offers);
 
@@ -24,8 +24,10 @@ export default function Offers({ asset }) {
   };
 
   useEffect(() => {
-    console.log('accept transaction', acceptTransaction.listOffers);
-  }, [user, acceptTransaction, accept]);
+    if (asset.listOffers != undefined && asset.listOffers != null) {
+      setOffers(asset.listOffers);
+    }
+  }, [user, acceptTransaction, accept, offers]);
 
   return (
     <section>

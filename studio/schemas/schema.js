@@ -162,7 +162,7 @@ export default createSchema({
               type: 'object',
               fields: [
                 {
-                  name: 'nid',
+                  name: 'id',
                   type: 'number',
                   title: 'Id Collection',
                 },
@@ -202,7 +202,7 @@ export default createSchema({
                       type: 'object',
                       fields: [
                         {
-                          name: 'nid',
+                          name: 'id',
                           type: 'number',
                           title: 'Id Collection',
                         },

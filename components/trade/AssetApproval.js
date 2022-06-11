@@ -17,6 +17,8 @@ export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
   const handleApprove = async () => {
     for (let i = 0; i < tokensToTransfer.length; i++) {
       // Abi
+      console.log('nid', tokensToTransfer[i].nid);
+      console.log('id', tokensToTransfer[i].id);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
         tokensToTransfer[i].nftAddress,

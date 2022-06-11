@@ -51,9 +51,23 @@ export default function MyListAsset({ asset }) {
                   </p>
                 </span>
               </div>
+              <div classname="my-6">
+                <p className="title text-sm">Prefered Collections:</p>
+                {asset.listTags.length > 0 ? (
+                  <>
+                    {asset.listTags.map((tag) => (
+                      <p className="text-wise-grey">
+                        -{'>'} {tag}
+                      </p>
+                    ))}
+                  </>
+                ) : (
+                  <p className="text-wise-grey">None</p>
+                )}
+              </div>
               <div className="">
                 <Link href={'/myListings'}>
-                  <div className="flex cursor-pointer mb-3items-">
+                  <div className="flex cursor-pointer mb-3items- mt-5">
                     <button className="btn btn-white">
                       <i className="fa fa-arrow-left" />
                     </button>

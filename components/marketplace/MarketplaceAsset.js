@@ -201,14 +201,14 @@ export default function MarketplaceAsset({ asset }) {
             </div>
             <div classname="my-6">
               <p className="title text-sm">Prefered Collections:</p>
-              {(asset.listTags.length>0) ? (
+              {asset.listTags.length > 0 ? (
                 <>
-                {asset.listTags.map((tag) => (
-                  <p className="text-wise-grey">-> {tag}</p>
-                ))}
+                  {asset.listTags.map((tag) => (
+                    <p className="text-wise-grey">-> {tag}</p>
+                  ))}
                 </>
               ) : (
-                	<p className="text-wise-grey">None</p>
+                <p className="text-wise-grey">None</p>
               )}
             </div>
             <div className="">

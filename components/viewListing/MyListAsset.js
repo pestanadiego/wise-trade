@@ -10,7 +10,7 @@ export default function MyListAsset({ asset }) {
   return (
     <section>
       <section>
-        <div className="relative bg-white text-wise-blue mt-14 lg:mt-28 mb-3 flex items-center flex-col z-0 w-full px-5 lg:mx-0">
+        <div className="relative bg-white text-wise-blue mt-14 lg:mt-28 md:mb-0 mb-3 flex items-center flex-col z-0 w-full px-5 lg:mx-0">
           <div className="flex flex-col gap-0 md:gap-8 md:flex-row flex-wrap mb-6 md:mb-0">
             <div className="flex flex-col">
               <div className="flex overflow-hidden justify-center">
@@ -64,7 +64,8 @@ export default function MyListAsset({ asset }) {
           </div>
         </div>
       </section>
-      <section>
+      <section className="flex flex-col justify-center items-center">
+        <h1 className="title text-center -mb-3">Offers</h1>
         <Offers asset={asset} />
       </section>
     </section>

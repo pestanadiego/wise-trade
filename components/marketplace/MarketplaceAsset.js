@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Carousel } from 'react-responsive-carousel';
 import { useState, useContext, useEffect, useRef } from 'react';
 import { UserContext } from '../../context/UserContext';
+import { animateScroll as scroll } from 'react-scroll';
 import NftsSelection from '../create/NftsSelection';
 import utils from '../../utils/utils';
 import client from '../../lib/sanityClient';
@@ -231,7 +232,7 @@ export default function MarketplaceAsset({ asset }) {
                 className={isOpen ? 'btn btn-white' : 'btn btn-purple'}
                 onClick={() => {
                   toggleOffer();
-                  scrollToRef.current.scrollIntoView();
+                  scroll.scrollToBottom();
                 }}
               >
                 {isOpen ? 'Cancel' : 'Make Offer'}

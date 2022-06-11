@@ -46,7 +46,7 @@ export default function Offers({ asset }) {
               {offers.length !== 0 ? (
                 <div>
                   {!accept && (
-                    <table className="min-w-max w-full table-auto bg-white shadow-md border-2 rounded-xl my-10">
+                    <table className="min-w-max w-full table-auto bg-white shadow-md border-2 rounded-xl">
                       <thead>
                         <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                           <th className="py-3 px-6 text-center">From</th>

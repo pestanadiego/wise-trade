@@ -30,6 +30,15 @@ export default function NFTCard({ item, edit = false }) {
               </p>
             </div>
             <h1 className="text-2xl">{item.listTitle}</h1>
+            {/* <div classname="">
+              {(item.listTags.length>0) ? (
+                <>
+                  <p className="text-wise-grey absolute bottom-20 text-[0.9rem]">Prefered Collection: {item.listTags[0]}</p>
+                </>
+              ) : (
+                	<p className="text-wise-grey absolute bottom-20 text-[0.9rem]">Prefered Collection: None</p>
+              )}
+            </div> */}
             {/* TIPO */}
             <div className="flex content-end justify-end mt-4 gap-2 absolute bottom-5 right-5">
               {edit ? (

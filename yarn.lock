@@ -5550,16 +5550,9 @@
     "bn.js" "^4.10.0"
     "ethereumjs-util" "^4.3.0"
 
-"ethereumjs-abi@0.6.8":
-  "resolved" "git+ssh://git@github.com/ethereumjs/ethereumjs-abi.git"
-  "version" "0.6.8"
-  dependencies:
-    "bn.js" "^4.11.8"
-    "ethereumjs-util" "^6.0.0"
-
-"ethereumjs-abi@git+https://github.com/ethereumjs/ethereumjs-abi.git":
+"ethereumjs-abi@0.6.8", "ethereumjs-abi@git+https://github.com/ethereumjs/ethereumjs-abi.git":
   "integrity" "sha512-qs8G5KwnIO/thOQjv1RvR/4oiTsy6IaCsN+ory5dbiqFXz8sd239aWJH0wmsVNPimL5X1KzQheUpi6xAo6FU4w=="
-  "resolved" "git+ssh://git@github.com/ethereumjs/ethereumjs-abi.git#ee3994657fa7a427238e6ba92a84d0b529bbcde0"
+  "resolved" "git+ssh://git@github.com/ethereumjs/ethereumjs-abi.git"
   "version" "0.6.8"
   dependencies:
     "bn.js" "^4.11.8"
@@ -8506,6 +8499,11 @@
   "resolved" "https://registry.npmjs.org/lodash.once/-/lodash.once-4.1.1.tgz"
   "version" "4.1.1"
 
+"lodash.throttle@^4.1.1":
+  "integrity" "sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ=="
+  "resolved" "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz"
+  "version" "4.1.1"
+
 "lodash.truncate@^4.4.2":
   "integrity" "sha1-WjUNoLERO4N+z//VgSy+WNbq4ZM="
   "resolved" "https://registry.npmjs.org/lodash.truncate/-/lodash.truncate-4.4.2.tgz"
@@ -10275,7 +10273,7 @@
     "uncontrollable" "^7.2.1"
     "warning" "^4.0.3"
 
-"react-dom@^0.14.9 || >=15.3.0", "react-dom@^15.3.0 || ^16.0.0-alpha", "react-dom@^16 || ^17 || ^18", "react-dom@^16.0.0 || ^17.0.0 || ^18.0.0", "react-dom@^17.0.2 || ^18.0.0-0", "react-dom@>= 16.8.0", "react-dom@>=16", "react-dom@>=16.14.0", "react-dom@>=16.6.0", "react-dom@>=16.8.0", "react-dom@18.1.0":
+"react-dom@^0.14.9 || >=15.3.0", "react-dom@^15.3.0 || ^16.0.0-alpha", "react-dom@^15.5.4 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react-dom@^16 || ^17 || ^18", "react-dom@^16.0.0 || ^17.0.0 || ^18.0.0", "react-dom@^17.0.2 || ^18.0.0-0", "react-dom@>= 16.8.0", "react-dom@>=16", "react-dom@>=16.14.0", "react-dom@>=16.6.0", "react-dom@>=16.8.0", "react-dom@18.1.0":
   "integrity" "sha512-fU1Txz7Budmvamp7bshe4Zi32d0ll7ect+ccxNu9FlObT605GOEB8BfO4tmRJ39R5Zj831VCpvQ05QPBW5yb+w=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-18.1.0.tgz"
   "version" "18.1.0"
@@ -10343,6 +10341,14 @@
     "prop-types" "^15.5.8"
     "react-easy-swipe" "^0.0.21"
 
+"react-scroll@^1.8.7":
+  "integrity" "sha512-fBOIwweAlhicx8RqP9tQXn/Uhd+DTtVRjw+0VBsIn1Z+MjRYLhTZ0tMoTAU1vOD3dce8mI6copexI4yWII+Luw=="
+  "resolved" "https://registry.npmjs.org/react-scroll/-/react-scroll-1.8.7.tgz"
+  "version" "1.8.7"
+  dependencies:
+    "lodash.throttle" "^4.1.1"
+    "prop-types" "^15.7.2"
+
 "react-spinners@^0.12.0":
   "integrity" "sha512-kC/3g4Dk3kBaVfYVu7f+Zxd9wTxt6Lzws5cP3jCuE03TZwTNtwS++ZGUNF8BR3M8UrUFXP0gil0L9LONOsUkjw=="
   "resolved" "https://registry.npmjs.org/react-spinners/-/react-spinners-0.12.0.tgz"
@@ -10372,7 +10378,7 @@
     "prop-types" "^15.7.2"
     "react-lifecycles-compat" "^3.0.4"
 
-"react@*", "react@^0.14.9 || >=15.3.0", "react@^15.3.0 || ^16.0.0-alpha", "react@^16 || ^17 || ^18", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.7.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0-rc.1 || ^18.0.0", "react@^17.0.2 || ^18.0.0-0", "react@^18.1.0", "react@>= 16", "react@>= 16.8.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=0.14.0", "react@>=15.0.0", "react@>=16", "react@>=16.14.0", "react@>=16.6.0", "react@>=16.8.0", "react@18.1.0":
+"react@*", "react@^0.14.9 || >=15.3.0", "react@^15.3.0 || ^16.0.0-alpha", "react@^15.5.4 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16 || ^17 || ^18", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.7.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0-rc.1 || ^18.0.0", "react@^17.0.2 || ^18.0.0-0", "react@^18.1.0", "react@>= 16", "react@>= 16.8.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=0.14.0", "react@>=15.0.0", "react@>=16", "react@>=16.14.0", "react@>=16.6.0", "react@>=16.8.0", "react@18.1.0":
   "integrity" "sha512-4oL8ivCz5ZEPyclFQXaNksK3adutVS8l2xzZU0cqEFrE9Sb7fC0EFK5uEk74wIreL1DERyjvsU915j1pcT2uEQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.1.0.tgz"
   "version" "18.1.0"

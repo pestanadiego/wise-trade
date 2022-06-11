@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .heading {
-    @apply text-wise-blue font-bold text-3xl leading-5 tracking-tight text-center mb-4;
+    @apply text-wise-blue font-bold text-3xl tracking-tight text-center mb-4;
 }
 
 .sub-heading {

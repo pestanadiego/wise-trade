@@ -1,8 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { Carousel } from 'react-responsive-carousel';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { UserContext } from '../../context/UserContext';
 import NftsSelection from '../create/NftsSelection';
 import utils from '../../utils/utils';
@@ -12,7 +11,7 @@ import TradeOptions from '../trade/TradeOptions';
 import toast from 'react-hot-toast';
 
 export default function MarketplaceAsset({ asset }) {
-  const router = useRouter();
+  const scrollToRef = useRef();
   const [openModal, setOpenModal] = useState(false);
   const [nftsSelection, setNftsSelection] = useState([]);
   const [validSelection, setValidSelection] = useState(false);
@@ -98,12 +97,12 @@ export default function MarketplaceAsset({ asset }) {
               <div
                 className={`${
                   t.visible ? 'animate-enter' : 'animate-leave'
-                } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+                } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-wise-blue ring-opacity-5`}
               >
                 <div className="flex-1 w-0 p-4">
                   <div className="flex items-start">
                     <div className="ml-3 flex-1">
-                      <p className="text-sm font-medium text-gray-900">
+                      <p className="text-sm font-medium text-wise-blue">
                         No email detected!
                       </p>
                       <p className="mt-1 text-sm text-gray-500">
@@ -158,10 +157,10 @@ export default function MarketplaceAsset({ asset }) {
 
   return (
     <>
-      <div className="relative bg-white text-gray-900 p-10 mt-0 flex items-center flex-col z-0">
-        <div className="flex gap-8 flex-row flex-wrap">
-          <div className="flex flex-col gap-8">
-            <div className="flex overflow-hidden">
+      <div className="relative bg-white text-wise-blue mt-14 lg:mt-28 mb-3 flex items-center flex-col z-0 w-full px-5 lg:mx-0">
+        <div className="flex flex-col gap-0 md:gap-8 md:flex-row flex-wrap mb-6 md:mb-0">
+          <div className="flex flex-col">
+            <div className="flex overflow-hidden justify-center">
               <Carousel className="max-w-md">
                 {asset.listNfts.map((nft) => (
                   <Image
@@ -175,53 +174,66 @@ export default function MarketplaceAsset({ asset }) {
             </div>
           </div>
           <div className="flex-1 gap-8 flex-col">
-            <Link href={'/marketplace'}>
-              <div className="flex cursor-pointer mb-3 items-center">
-                <button className="btn btn-white">Back</button>
-              </div>
-            </Link>
-            <div className="flex  mb-3 gap-2">
-              <span className="flex flex-col gap-1">
-                <p className="text-gray-500 text-sm">Owner</p>
-                <p>{utils.truncateAddress(asset.address)}</p>
-              </span>
-            </div>
             <span className="flex flex-row">
-              <p className="text-3xl inline-block mt-3 mr-4">
+              <p className="text-wise-blue font-bold text-3xl tracking-tight mb-4 mr-4">
                 {asset.listTitle}
               </p>
             </span>
-            <br />
-            <p className="text-xl font-medium mb-3 text-gray-500">
-              Accepting Trades
-            </p>
-            <p className="whitespace-pre-wrap mb-3 max-w-md">
-              {asset.listDescription}
-            </p>
-            <div className="flex gap-4 items-end">
-              {address !== asset.address && (
-                <div className="flex items-center mb-3 gap-2 cursor-pointer">
-                  <button
-                    className={isOpen ? 'btn btn-white' : 'btn btn-purple'}
-                    onClick={toggleOffer}
-                  >
-                    {isOpen ? 'Cancel' : 'Make Offer'}
+            <div className="my-1 border-wise-purple border-2 rounded-full py-2 w-[160px] text-center">
+              <p className="text-md text-wise-purple">Accepting Trades</p>
+            </div>
+            <div className="flex my-3">
+              <span className="flex flex-col gap-1">
+                <p className="title text-sm">Owner</p>
+                <p className="sub-heading">
+                  {utils.truncateAddress(asset.address)}
+                </p>
+              </span>
+            </div>
+            <div className="flex my-6 gap-2">
+              <span className="flex flex-col gap-1">
+                <p className="title text-sm">Description</p>
+                <p className="text-lg text-left font-medium text-wise-grey">
+                  {asset.listDescription}
+                </p>
+              </span>
+            </div>
+            <div className="">
+              <Link href={'/marketplace'}>
+                <div className="flex cursor-pointer mb-3items-">
+                  <button className="btn btn-white">
+                    <i className="fa fa-arrow-left" />
                   </button>
                 </div>
-              )}
+              </Link>
             </div>
           </div>
         </div>
+        <div className="flex gap-3 justify-center">
+          {address !== asset.address && (
+            <div className="flex items-center mb-1 gap-2 cursor-pointer">
+              <button
+                className={isOpen ? 'btn btn-white' : 'btn btn-purple'}
+                onClick={() => {
+                  toggleOffer();
+                  scrollToRef.current.scrollIntoView();
+                }}
+              >
+                {isOpen ? 'Cancel' : 'Make Offer'}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
       {/* SELECCIÓN */}
-      {!address ? (
-        <div className="text-wise-grey text-center"></div>
-      ) : (
-        <div>
+      {address && (
+        <div ref={scrollToRef}>
           {isOpen && (
             <div className="flex flex-col items-center">
               <div className="w-full sm:w-2/3 lg:w-1/2 mb-2">
-                <h1 className="title mb-2">Offer</h1>
+                <h1 className="title mt-6 mb-3 text-center">
+                  Select the NFTs you want to offer in exchange
+                </h1>
                 <NftsSelection
                   setNftsSelection={setNftsSelection}
                   nftsSelection={nftsSelection}
@@ -250,7 +262,6 @@ export default function MarketplaceAsset({ asset }) {
               </button>
             </div>
           )}
-
           {openModal && (
             <div className="relative z-1">
               <Modal setOpenModal={setOpenModal}>

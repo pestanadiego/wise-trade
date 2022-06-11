@@ -226,7 +226,7 @@ export default function AcceptOffer({
         </>
       ) : (
         <div className="mt-14 lg:mt-28 mb-9 flex justify-center flex-col items-center">
-          <p className="heading">Almost Done</p>
+          <p className="heading md:text-4 lg:text-5xl">Almost Done</p>
           <p className="sub-heading mb-8">Wait for the counterpart approval</p>
           <div className="container m-3 flex flex-col">
             <div className="flex flex-col md:flex-row items-center justify-center gap-4">

@@ -13,6 +13,8 @@ export default function AcceptOffer({
   counterpartyAddress,
   tokensToTransfer,
   tokensToReceive,
+  i,
+  asset,
 }) {
   const [validApproval, setValidApproval] = useState(false);
   const [confirmedSwap, setConfirmedSwap] = useState(false);
@@ -73,13 +75,45 @@ export default function AcceptOffer({
           if (receipt.confirmations === 1) {
             console.log(receipt);
             setConfirmedSwap(true);
-            await addSwapToSanity(counter);
+            await addSwapToSanity(counter).then(async () => {
+              await deleteOfferOnSanity();
+            });
           }
           setIsLoading(false);
         });
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+
+  const deleteOfferOnSanity = async () => {
+    // Se elimina la oferta del listing
+    const offerToRemove = [`listOffers[${i}]`];
+    await client
+      .patch(asset._id)
+      .unset(offerToRemove)
+      .commit()
+      .then(async () => {
+        // Se busca el índice del listing
+        let index;
+        for (let n = 0; n < user.listings.length; n++) {
+          if (user.listings[n]._id === asset._id) {
+            index = n;
+          }
+        }
+        // Se elimina la oferta del listing en el users
+        const updatedListing = asset;
+        updatedListing.listOffers.splice(i, 1);
+        await client
+          .patch(address)
+          .insert('replace', `listings[${index}]`, [updatedListing])
+          .commit({ autoGenerateArrayKeys: true });
+        // Se actualiza en el UserContext
+        const newListings = user.listings;
+        newListings[index] = updatedListing;
+        const updatedUser = { ...user, listings: newListings };
+        setUser(updatedUser);
       });
   };
 
@@ -191,7 +225,9 @@ export default function AcceptOffer({
           </div>
         </>
       ) : (
-        <>
+        <div className="mt-14 lg:mt-28 mb-9 flex justify-center flex-col items-center">
+          <p className="heading">Almost Done</p>
+          <p className="sub-heading mb-8">Wait for the counterpart approval</p>
           <div className="container m-3 flex flex-col">
             <div className="flex flex-col md:flex-row items-center justify-center gap-4">
               <div className="border-2 rounded-xl w-full md:w-1/2">
@@ -257,7 +293,7 @@ export default function AcceptOffer({
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
     </section>
   );

@@ -190,7 +190,7 @@ export default createSchema({
                 {
                   name: 'createdAt',
                   title: 'createdAt',
-                  type: 'date',
+                  type: 'string',
                 },
                 {
                   name: 'offerAddress',

@@ -7,8 +7,6 @@ import { UserContext } from '../../context/UserContext';
 import toast from 'react-hot-toast';
 
 export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
-  console.log('tokens to transfer', tokensToTransfer);
-  console.log('set Valid approval', setValidApproval);
   const { provider } = useContext(UserContext);
   const [counter, setCounter] = useState(0);
   const [allSuccessful, setAllSuccessful] = useState(false);

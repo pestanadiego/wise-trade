@@ -7,20 +7,64 @@ import { UserContext } from '../../context/UserContext';
 import utils from '../../utils/utils';
 import client from '../../lib/sanityClient';
 import AcceptOffer from './AcceptOffer';
+import toast from 'react-hot-toast';
 
 export default function Offers({ asset }) {
-  const { user, address } = useContext(UserContext);
+  const { setUser, user, address } = useContext(UserContext);
   const [acceptTransaction, setAcceptTransaction] = useState([]);
   const [isLoadingReject, setIsLoadingReject] = useState(false);
   const [accept, setAccept] = useState(false);
   const [offers, setOffers] = useState([]);
   const router = useRouter();
   const { id } = router.query;
-  console.log('aaaa', asset);
-  console.log('offers', offers);
 
-  const modifyRejectionInSanity = async (declineTransaction) => {
-    // TODO borrar offer de sanity
+  const deleteOfferOnSanity = async (i) => {
+    // Se elimina la oferta del listing
+    console.log(i);
+    const offerToRemove = [`listOffers[${i}]`];
+    await client
+      .patch(asset._id)
+      .unset(offerToRemove)
+      .commit()
+      .then(async () => {
+        // Se busca el índice del listing
+        let index;
+        for (let n = 0; n < user.listings.length; n++) {
+          if (user.listings[n]._id === asset._id) {
+            index = n;
+          }
+        }
+        // Se elimina la oferta del listing en el users
+        const updatedListing = asset;
+        updatedListing.listOffers.splice(i, 1);
+        await client
+          .patch(address)
+          .insert('replace', `listings[${index}]`, [updatedListing])
+          .commit({ autoGenerateArrayKeys: true });
+        // Se actualiza en el UserContext
+        const newListings = user.listings;
+        newListings[index] = updatedListing;
+        const updatedUser = { ...user, listings: newListings };
+        setUser(updatedUser);
+      });
+  };
+
+  const handleRejectOffer = async (i) => {
+    try {
+      await deleteOfferOnSanity(i).then(() => {
+        toast.success('The offer was successfully rejected', {
+          position: 'bottom-right',
+        });
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        'The offer could not be rejected. Check your connection and try again',
+        {
+          position: 'bottom-right',
+        }
+      );
+    }
   };
 
   useEffect(() => {
@@ -66,7 +110,7 @@ export default function Offers({ asset }) {
                                   {utils.truncateAddress(offer.offerAddress)}
                                 </td>
                                 <td className="py-3 px-9 text-center whitespace-nowrap">
-                                  {/* {offer._createdAt.substr(0, 10)} */}
+                                  {offer.createdAt.substr(0, 10)}
                                 </td>
                                 <td className="py-3 px-9 text-center">
                                   {offer.offerNfts.map((nft) => (
@@ -107,9 +151,10 @@ export default function Offers({ asset }) {
                                           : 'btn btn-purple'
                                       }
                                       disabled={isLoadingReject}
-                                      onClick={async () => {
-                                        setDeclineTransaction(offer);
-                                        await handleDecline();
+                                      onClick={() => {
+                                        handleRejectOffer(
+                                          offers.indexOf(offer)
+                                        );
                                       }}
                                     >
                                       {isLoadingReject ? <Loader /> : 'Reject'}

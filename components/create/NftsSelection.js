@@ -6,6 +6,7 @@ export default function NftsSelection({
   nftsSelection,
   setOpenModal,
   address,
+  offer = false,
 }) {
   return (
     <div className="flex flex-col justify-center align-center border rounded-md mb-2">
@@ -20,7 +21,9 @@ export default function NftsSelection({
           onClick={() => setOpenModal(true)}
         >
           <i className="fa fa-plus text-wise-grey text-5xl mb-3" />
-          <p className="text-wise-grey">Add NFTs to list</p>
+          <p className="text-wise-grey">
+            {offer ? 'Add NFTs to offer' : 'Add NFTs to list'}
+          </p>
         </div>
       ) : (
         <div>

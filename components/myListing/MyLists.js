@@ -62,7 +62,7 @@ export default function MyList() {
         ) : (
           <>
             {option === 'Current' ? (
-              <div className="flex flex-col md:flex-row items-center justify-start gap-4 mt-6">
+              <div className="flex flex-wrap md:flex-row items-center justify-start gap-4 mt-6">
                 {user.listings.map((nft) => {
                   if (nft.status === 'pending' || nft.status !== 'traded') {
                     return <NFTCard key={nft.Id} item={nft} edit={true} />;

@@ -10,7 +10,7 @@ import client from '../../lib/sanityClient';
 import Modal from '../ui/Modal';
 import TradeOptions from '../trade/TradeOptions';
 import toast from 'react-hot-toast';
-import { sendEmail } from '../../lib/email';
+import emailjs from 'emailjs-com';
 import templates from '../../utils/templates';
 
 export default function MarketplaceAsset({ asset }) {
@@ -20,6 +20,25 @@ export default function MarketplaceAsset({ asset }) {
   const [validSelection, setValidSelection] = useState(false);
   const { address, user } = useContext(UserContext);
   const [isOpen, setOpen] = useState(false);
+
+  // Envio de correo
+  const sendEmail = async (templateParams) => {
+    emailjs
+      .send(
+        'service_d58pjr8',
+        'template_944ppm3',
+        templateParams,
+        '4wZHVd3VM5CaULioQ'
+      )
+      .then(
+        (res) => {
+          console.log(res);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
 
   //Toggle make offer
   const toggleOffer = () => {
@@ -141,9 +160,9 @@ export default function MarketplaceAsset({ asset }) {
           );
         }
         // Se envía correo al dueño del listing
-        await client.getDocument(asset.address).then((res) => {
+        await client.getDocument(asset.address).then(async (res) => {
           if (res.email) {
-            sendEmail(templates.offerTemplate(res.email));
+            await sendEmail(templates.offerTemplate(res.email));
           } else {
             console.log(res);
           }

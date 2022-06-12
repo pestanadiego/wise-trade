@@ -3,8 +3,10 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import Loader from '../ui/Loader';
+import emailjs from 'emailjs-com';
 import { UserContext } from '../../context/UserContext';
 import utils from '../../utils/utils';
+import templates from '../../utils/templates';
 import client from '../../lib/sanityClient';
 import AcceptOffer from './AcceptOffer';
 import toast from 'react-hot-toast';
@@ -17,6 +19,25 @@ export default function Offers({ asset }) {
   const [offers, setOffers] = useState([]);
   const router = useRouter();
   const { id } = router.query;
+
+  // Envio de correo
+  const sendEmail = async (templateParams) => {
+    emailjs
+      .send(
+        'service_d58pjr8',
+        'template_p1v1yrj',
+        templateParams,
+        '4wZHVd3VM5CaULioQ'
+      )
+      .then(
+        (res) => {
+          console.log(res);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
 
   const deleteOfferOnSanity = async (i) => {
     // Se elimina la oferta del listing
@@ -51,11 +72,23 @@ export default function Offers({ asset }) {
 
   const handleRejectOffer = async (i) => {
     try {
-      await deleteOfferOnSanity(i).then(() => {
-        toast.success('The offer was successfully rejected', {
-          position: 'bottom-right',
+      // Se le notifica al usuario que realizó la oferta que fue rechazada
+      await client
+        .getDocument(asset.listOffers[i].offerAddress)
+        .then(async (res) => {
+          if (res.email) {
+            await sendEmail(
+              templates.offerRejectedTemplate(res.email, asset.listTitle)
+            );
+          } else {
+            console.log(res);
+          }
+          await deleteOfferOnSanity(i).then(() => {
+            toast.success('The offer was successfully rejected', {
+              position: 'bottom-right',
+            });
+          });
         });
-      });
     } catch (error) {
       console.log(error);
       toast.error(

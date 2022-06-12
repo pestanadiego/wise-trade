@@ -10,6 +10,8 @@ import client from '../../lib/sanityClient';
 import Modal from '../ui/Modal';
 import TradeOptions from '../trade/TradeOptions';
 import toast from 'react-hot-toast';
+import { sendEmail } from '../../lib/email';
+import templates from '../../utils/templates';
 
 export default function MarketplaceAsset({ asset }) {
   const scrollToRef = useRef();
@@ -87,7 +89,7 @@ export default function MarketplaceAsset({ asset }) {
 
   const handleOffer = async () => {
     try {
-      await creatingOfferOnSanity().then(() => {
+      await creatingOfferOnSanity().then(async () => {
         // Notificación de éxito
         toast.success('The offer was successfully created', {
           position: 'bottom-right',
@@ -138,6 +140,14 @@ export default function MarketplaceAsset({ asset }) {
             }
           );
         }
+        // Se envía correo al dueño del listing
+        await client.getDocument(asset.address).then((res) => {
+          if (res.email) {
+            sendEmail(templates.offerTemplate(res.email));
+          } else {
+            console.log(res);
+          }
+        });
         // Cambios
         setOpen(false);
       });

@@ -7,4 +7,13 @@ const offerTemplate = (email) => {
   return template;
 };
 
-export default offerTemplate;
+const offerAcceptedTemplate = (email) => {
+  const template = {
+    title: 'Your offer has been accepted',
+    email,
+    notes: 'Lorem ipsum',
+  };
+  return template;
+};
+
+export default { offerTemplate, offerAcceptedTemplate };

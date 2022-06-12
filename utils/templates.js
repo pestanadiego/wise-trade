@@ -1,4 +1,4 @@
-const offerTemplate = (email) => {
+const offerTemplate = (email, listingName, listingId) => {
   const template = {
     title: 'You have an offer on your listing',
     email,

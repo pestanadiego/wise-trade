@@ -162,7 +162,9 @@ export default function MarketplaceAsset({ asset }) {
         // Se envía correo al dueño del listing
         await client.getDocument(asset.address).then(async (res) => {
           if (res.email) {
-            await sendEmail(templates.offerTemplate(res.email));
+            await sendEmail(
+              templates.offerTemplate(res.email, asset.listTitle, asset._id)
+            );
           } else {
             console.log(res);
           }

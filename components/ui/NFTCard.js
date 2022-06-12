@@ -40,11 +40,14 @@ export default function NFTCard({ item, edit = false }) {
               )}
             </div> */}
             {/* TIPO */}
-            <div className="flex content-end justify-end mt-4 gap-2 absolute bottom-5 right-5">
+            <div className="flex content-end justify-end mt-4 gap-2 absolute bottom-5 right-5 sm:right-2 lg:right-5">
               {edit ? (
                 <>
                   <Link href="/myListings/[id]" as={`/myListings/${item._id}`}>
-                    <button type="button" className="btn btn-purple">
+                    <button
+                      type="button"
+                      className="shadow-md px-4 py-3 lg:px-6 rounded-md transition duration-300 hover:bg-wise-white hover:text-black active:scale-95 btn-purple"
+                    >
                       <i className="fa fa-eye text-sm" />
                     </button>
                   </Link>
@@ -52,14 +55,17 @@ export default function NFTCard({ item, edit = false }) {
                     href="/myListings/edit/[id]"
                     as={`/myListings/edit/${item._id}`}
                   >
-                    <button type="button" className="btn btn-white">
+                    <button
+                      type="button"
+                      className="shadow-md px-4 py-3 lg:px-6 rounded-md transition duration-300 hover:bg-wise-white hover:text-black active:scale-95  btn-white"
+                    >
                       <i className="fa fa-pencil text-sm" />
                     </button>
                   </Link>
                   <button
                     onClick={() => setOpenModal(true)}
                     type="button"
-                    className="btn btn-white"
+                    className="shadow-md px-4 py-3 lg:px-6 rounded-md transition duration-300 hover:bg-wise-white hover:text-black active:scale-95  btn-white"
                   >
                     <i className="fa fa-trash-can text-sm" />
                   </button>

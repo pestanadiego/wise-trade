@@ -2,7 +2,8 @@ const offerTemplate = (email) => {
   const template = {
     title: 'You have an offer on your listing',
     email,
-    notes: 'Lorem ipsum',
+    notes: `You receive an offer to your listing: ${listingName}}`,
+    wisetrade: `<a href="localhost:8080/myListing/${listingId}">your listing</a>`,
   };
   return template;
 };

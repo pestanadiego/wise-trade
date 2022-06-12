@@ -114,7 +114,7 @@ export default function MarketplaceAsset({ asset }) {
           position: 'bottom-right',
         });
         // Notificación de correo
-        if (user.email == '') {
+        if (user.email === '') {
           toast.custom(
             (t) => (
               <div
@@ -161,7 +161,7 @@ export default function MarketplaceAsset({ asset }) {
         }
         // Se envía correo al dueño del listing
         await client.getDocument(asset.address).then(async (res) => {
-          if (res.email) {
+          if (res.email !== '') {
             await sendEmail(
               templates.offerTemplate(res.email, asset.listTitle, asset._id)
             );

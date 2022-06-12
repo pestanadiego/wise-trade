@@ -101,7 +101,7 @@ export default function AcceptOffer({
               await client
                 .getDocument(asset.listOffers[i].offerAddress)
                 .then(async (res) => {
-                  if (res.email) {
+                  if (res.email || res.email !== '') {
                     await sendEmail(
                       templates.offerAcceptedTemplate(
                         res.email,
@@ -187,6 +187,8 @@ export default function AcceptOffer({
       initiatorNfts: initiatorNftsMapped,
       counterpartNfts: counterpartNftsMapped,
       status: 'pending',
+      isListing: true,
+      listingId: asset._id,
     };
 
     const createSwap = await client.create(swapDoc).then(async (res) => {

@@ -57,7 +57,7 @@ export default function NFTCard({ item, edit = false }) {
                   >
                     <button
                       type="button"
-                      className="shadow-md px-4 py-3 lg:px-6 rounded-md transition duration-300 hover:bg-wise-white hover:text-black active:scale-95  btn-white"
+                      className="shadow-md text-wise-blue px-4 py-3 lg:px-6 rounded-md transition duration-300 hover:bg-wise-purple hover:text-white active:scale-95  btn-white"
                     >
                       <i className="fa fa-pencil text-sm" />
                     </button>
@@ -65,7 +65,7 @@ export default function NFTCard({ item, edit = false }) {
                   <button
                     onClick={() => setOpenModal(true)}
                     type="button"
-                    className="shadow-md px-4 py-3 lg:px-6 rounded-md transition duration-300 hover:bg-wise-white hover:text-black active:scale-95  btn-white"
+                    className="shadow-md text-wise-blue px-4 py-3 lg:px-6 rounded-md transition duration-300 hover:bg-wise-purple hover:text-white active:scale-95  btn-white"
                   >
                     <i className="fa fa-trash-can text-sm" />
                   </button>

@@ -62,6 +62,8 @@ export default function MakeTrade() {
       initiatorNfts: initiatorNftsMapped,
       counterpartNfts: counterpartNftsMapped,
       status: 'pending',
+      isListing: false,
+      listingId: '',
     };
 
     const createSwap = await client.create(swapDoc).then(async (res) => {

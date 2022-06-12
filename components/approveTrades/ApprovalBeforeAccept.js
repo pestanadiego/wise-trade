@@ -13,7 +13,7 @@ export default function ApprovalBeforeAccept({
   tokensToApprove,
   swap,
 }) {
-  const { provider, user, setUser } = useContext(UserContext);
+  const { provider, user, address, setUser } = useContext(UserContext);
   const [counter, setCounter] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingConfirm, setIsLoadingConfirm] = useState(false);
@@ -86,6 +86,34 @@ export default function ApprovalBeforeAccept({
     }
   };
 
+  const checkIfSwapIsAnOffer = async () => {
+    // Se actualiza el listing
+    console.log('EL BICHO ES LISTING?', swap.listingId);
+    console.log('DE PINGA, Y EL ID?', swap.listingId);
+    if (swap.isListing) {
+      await client
+        .patch(swap.listingId)
+        .set({ status: 'traded' })
+        .then(async () => {
+          // Se actualiza el usuario que hizo el listing
+          await client.getDocument(swap.from).then(async (res) => {
+            console.log('YISUS', res);
+            const updatedListings = [];
+            for (let i = 0; i < res.listings.length; i++) {
+              if (res.listings[i]._id === swap.listingId) {
+                res.listings[i] = { ...res.listings[i], status: 'traded' };
+              }
+              updatedListings.push(res.listings[i]);
+            }
+            await client
+              .patch(swap.from)
+              .set({ listings: updatedListings })
+              .commit();
+          });
+        });
+    }
+  };
+
   const modifySwapInSanity = async () => {
     console.log(swap._id);
 
@@ -153,7 +181,9 @@ export default function ApprovalBeforeAccept({
         pre.wait().then(async (receipt) => {
           console.log(receipt);
           if (receipt.confirmations === 0 || receipt.confirmations === 1) {
-            await modifySwapInSanity().then((res) => {});
+            await modifySwapInSanity().then(async (res) => {
+              await checkIfSwapIsAnOffer();
+            });
           }
           setIsLoadingConfirm(false);
           setFinishedSwap(true);

@@ -37,7 +37,6 @@ export default function offerAccept() {
         console.log(parseInt(offerId) + 1);
         console.log('juan', res.listOffers.length === parseInt(offerId) + 1);
         if (res.listOffers.length >= parseInt(offerId) + 1) {
-          console.log('solo la puntica');
           res.listOffers[offerId].offerNfts.forEach((offer) => {
             arrListOffers.push({
               id: offer.nid,

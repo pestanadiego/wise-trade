@@ -76,7 +76,7 @@ export default function Offers({ asset }) {
       await client
         .getDocument(asset.listOffers[i].offerAddress)
         .then(async (res) => {
-          if (res.email) {
+          if (res.email || res.email !== '') {
             await sendEmail(
               templates.offerRejectedTemplate(res.email, asset.listTitle)
             );

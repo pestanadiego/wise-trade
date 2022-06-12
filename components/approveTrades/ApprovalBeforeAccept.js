@@ -88,16 +88,14 @@ export default function ApprovalBeforeAccept({
 
   const checkIfSwapIsAnOffer = async () => {
     // Se actualiza el listing
-    console.log('EL BICHO ES LISTING?', swap.listingId);
-    console.log('DE PINGA, Y EL ID?', swap.listingId);
     if (swap.isListing) {
       await client
         .patch(swap.listingId)
         .set({ status: 'traded' })
+        .commit()
         .then(async () => {
           // Se actualiza el usuario que hizo el listing
           await client.getDocument(swap.from).then(async (res) => {
-            console.log('YISUS', res);
             const updatedListings = [];
             for (let i = 0; i < res.listings.length; i++) {
               if (res.listings[i]._id === swap.listingId) {
@@ -181,7 +179,7 @@ export default function ApprovalBeforeAccept({
         pre.wait().then(async (receipt) => {
           console.log(receipt);
           if (receipt.confirmations === 0 || receipt.confirmations === 1) {
-            await modifySwapInSanity().then(async (res) => {
+            await modifySwapInSanity().then(async () => {
               await checkIfSwapIsAnOffer();
             });
           }

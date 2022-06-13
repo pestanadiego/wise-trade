@@ -33,7 +33,7 @@ export default function offerAccept() {
             nftAddress: nft.nftAddress,
           });
         });
-        if (res.listOffers.length >= offerId + 1) {
+        if (res.listOffers.length >= parseInt(offerId) + 1) {
           res.listOffers[offerId].offerNfts.forEach((offer) => {
             arrListOffers.push({
               id: offer.nid,

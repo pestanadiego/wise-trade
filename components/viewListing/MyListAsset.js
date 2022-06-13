@@ -79,7 +79,7 @@ export default function MyListAsset({ asset }) {
         </div>
       </section>
       <section className="flex flex-col justify-center items-center">
-        <h1 className="title text-center -mb-3">Offers</h1>
+        <h1 className="title text-center mb-3 lg:-mb-3">Offers</h1>
         <Offers asset={asset} />
       </section>
     </section>

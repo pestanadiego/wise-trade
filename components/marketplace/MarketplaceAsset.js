@@ -47,7 +47,7 @@ export default function MarketplaceAsset({ asset }) {
 
     const offerDoc = {
       _type: 'offer',
-      createdAt: new Date(),
+      createdAt: new Date().toString(),
       offerAddress: address,
       offerNfts,
     };

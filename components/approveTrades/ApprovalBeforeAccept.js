@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { ethers } from 'ethers';
+import erc721abi from '../../smart_contracts/artifacts/contracts/erc721abi.json';
 import Loader from '../ui/Loader';
 import client from '../../lib/sanityClient';
 import WiseTradeV1 from '../../smart_contracts/artifacts/contracts/WiseTradeV1.sol/WiseTradeV1.json';
@@ -12,60 +13,77 @@ export default function ApprovalBeforeAccept({
   tokensToApprove,
   swap,
 }) {
-  console.log('swaaaaaps', swap);
   const { provider, user, setUser } = useContext(UserContext);
+  const [counter, setCounter] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [finishedSwap, setFinishedSwap] = useState(false);
   const [isLoadingConfirm, setIsLoadingConfirm] = useState(false);
+  const [finishedSwap, setFinishedSwap] = useState(false);
   const [validApproval, setValidApproval] = useState(false);
-  const [success, setSuccess] = useState(() => {
-    const arr = [];
-    for (let i = 0; i < tokensToApprove.length; i++) {
-      arr.push(false);
-    }
-    return arr;
-  });
+  const [allSuccessful, setAllSuccessful] = useState(false);
 
-  const handleApprove = async (token, i) => {
-    console.log(token);
-    console.log('tokens', tokensToApprove);
-    console.log('success antes', success);
-    // Abi
-    const abi = [
-      'function approve(address to, uint256 tokenId) public returns (bool success)',
-    ];
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(token.nftAddress, abi, signer);
-    console.log(success);
-    // Contract
-    await contract
-      .approve('0x4849A0D150556Aa910Bf9155D1BBA21c960FC291', token.id)
-      .then((pre) => {
-        console.log(pre);
-        setIsLoading(true);
-        pre.wait().then((receipt) => {
-          if (receipt.confirmations === 1) {
-            success[i] = true;
-            const updatedSuccess = [];
-            console.log('antes', success);
-            for (let i = 0; i < success.length; i++) {
-              updatedSuccess.push(success[i]);
-            }
-            setSuccess(updatedSuccess);
-            console.log(receipt);
-            console.log(success);
+  const handleApprove = async () => {
+    for (let i = 0; i < tokensToApprove.length; i++) {
+      // Abi
+      console.log('nid', tokensToApprove[i].nid);
+      console.log('id', tokensToApprove[i].id);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(
+        tokensToApprove[i].nftAddress,
+        erc721abi,
+        signer
+      );
+
+      // Primero se verifica si ya está aprobado.
+      const isApproved = await contract
+        .getApproved(tokensToApprove[i].id)
+        .then(async (res) => {
+          console.log(res);
+          if (res !== '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291') {
+            // De lo contrario, se aprueba
+            await contract
+              .approve(
+                '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291',
+                tokensToApprove[i].id
+              )
+              .then((pre) => {
+                setIsLoading(true);
+                console.log(pre);
+                pre.wait().then((receipt) => {
+                  if (
+                    receipt.confirmations === 1 ||
+                    receipt.confirmations === 0
+                  ) {
+                    setCounter(counter++);
+                    console.log(counter);
+                    console.log(receipt);
+                    if (tokensToApprove.length === counter) {
+                      setIsLoading(false);
+                      setAllSuccessful(true);
+                      setValidApproval(true);
+                    }
+                  } else {
+                    console.log('Error');
+                  }
+                });
+                console.log(pre);
+              })
+              .catch((error) => {
+                console.log(error);
+                toast.error('You have to approve all the NFTs.', {
+                  position: 'bottom-right',
+                });
+                setIsLoading(false);
+              });
           } else {
-            console.log('Error');
-            console.log(receipt);
+            setCounter(counter++);
+            if (tokensToApprove.length === counter) {
+              setIsLoading(false);
+              setAllSuccessful(true);
+              setValidApproval(true);
+            }
           }
-          setIsLoading(false);
         });
-        console.log(pre);
-        console.log(success);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    }
   };
 
   const modifySwapInSanity = async () => {
@@ -134,9 +152,8 @@ export default function ApprovalBeforeAccept({
         setIsLoadingConfirm(true);
         pre.wait().then(async (receipt) => {
           console.log(receipt);
-          if (receipt.confirmations === 1) {
-            console.log(receipt);
-            await modifySwapInSanity();
+          if (receipt.confirmations === 0 || receipt.confirmations === 1) {
+            await modifySwapInSanity().then((res) => {});
           }
           setIsLoadingConfirm(false);
           setFinishedSwap(true);
@@ -147,23 +164,13 @@ export default function ApprovalBeforeAccept({
       });
   };
 
-  useEffect(() => {
-    for (let i = 0; i < success.length; i++) {
-      if (success[i] === false) {
-        setValidApproval(false);
-        break;
-      }
-      setValidApproval(true);
-    }
-  }, [success]);
-
   return (
     <div>
       {!finishedSwap ? (
         <div className="flex flex-col items-center">
           <div className="flex flex-col flex-wrap justify-center items-center gap-3 mb-6">
             <p className="sub-heading mb-6">
-              Approve your NFTs to finish the swap
+              Approve your NFTs to finish the trade
             </p>
             <div className="flex flex-row gap-5 justify-center">
               {tokensToApprove.map((token, i) => (
@@ -176,89 +183,97 @@ export default function ApprovalBeforeAccept({
                   />
                   <p className="my-3 text-center">{token.id}</p>
                   <p className="mb-3 text-center">{token.name}</p>
-                  {isLoading ? (
-                    <button
-                      type="button"
-                      className="btn-disabled mb-3 text-sm"
-                      disabled
-                    >
-                      <Loader />
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      className={
-                        success[i]
-                          ? 'btn-disabled mb-3 text-sm'
-                          : 'btn bg-wise-purple mb-3 text-sm'
-                      }
-                      disabled={success[i] && true}
-                      onClick={() => handleApprove(token, i)}
-                    >
-                      {success[i] ? 'Approved' : 'Approve'}
-                    </button>
-                  )}
                 </div>
               ))}
             </div>
+          </div>
+          <div>
+            {isLoading ? (
+              <button
+                type="button"
+                className="btn-disabled mb-3 text-sm"
+                disabled
+              >
+                <Loader />
+              </button>
+            ) : (
+              <button
+                type="button"
+                className={
+                  allSuccessful
+                    ? 'btn-disabled mb-3 text-sm'
+                    : 'btn bg-wise-purple mb-3 text-sm text-white'
+                }
+                disabled={allSuccessful && true}
+                onClick={handleApprove}
+              >
+                {allSuccessful ? 'Approved' : 'Approve'}
+              </button>
+            )}
           </div>
           <div className="mt-3">
             <button
               type="button"
               className={
-                !validApproval || isLoadingConfirm
-                  ? 'btn-disabled'
-                  : 'btn btn-purple'
+                validApproval && !isLoadingConfirm // Si no funciona quitar !isLoadingConfirm
+                  ? 'btn btn-purple'
+                  : 'btn-disabled'
               }
               onClick={handleAcceptSwap}
               disabled={(!validApproval || isLoadingConfirm) && true}
             >
-              {isLoading || isLoadingConfirm ? <Loader /> : 'Confirm Swap'}
+              {isLoadingConfirm ? <Loader /> : 'Confirm Swap'}
             </button>
           </div>
         </div>
       ) : (
         <div className="container m-3 flex flex-col">
-          <div className="flex flex-col justify-center items-center mb-6">
-            <h1 className="text-wise-grey text-center text-lg">
-              Trade completed
-            </h1>
-            <p classname="text-wise-blue text-2xl">NFTs you'd let go:</p>
-            <div className="flex flex-row gap-5 justify-center my-3">
-              {tokensToApprove.map((token) => (
-                <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] inline-block">
-                  <Image
-                    src={token.image_url}
-                    width={120}
-                    height={120}
-                    className="object-fill"
-                  />
-                  <p className="my-3 text-center">{token.id}</p>
-                  <p className="mb-3 text-center">{token.name}</p>
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+            <div className="border-2 rounded-xl w-full md:w-1/2">
+              <div className="flex flex-col justify-center items-center m-4">
+                <p className="title">NFTs you'd let go</p>
+                <div className="flex flex-row gap-5 justify-end my-3">
+                  {tokensToApprove.map((token) => (
+                    <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] h-[230px] max-h-[230px] inline-block">
+                      <Image
+                        src={token.image_url}
+                        width={120}
+                        height={120}
+                        className="object-fill"
+                      />
+                      <p className="my-3 text-center">{token.id}</p>
+                      <p className="mb-3 text-center">{token.name}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+            </div>
+            <div className>
+              <i className="fa fa-arrow-down md:-rotate-90 text-xl text-wise-blue" />
+            </div>
+            <div className="border-2 rounded-xl w-full md:w-1/2">
+              <div className="flex flex-col justify-center items-center m-4">
+                <p className="title">NFTs you'd get</p>
+                <div className="flex flex-row gap-5 justify-end my-3">
+                  {tokensToReceive.map((token) => (
+                    <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] h-[230px] max-h-[230px]">
+                      <Image
+                        src={token.image_url}
+                        width={120}
+                        height={120}
+                        className="object-fill"
+                      />
+                      <p className="my-3 text-center">{token.id}</p>
+                      <p className="mb-3 text-center">{token.name}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
-          <div className="flex flex-col justify-center items-center">
-            <p>NFTs you'd get:</p>
-            <div className="flex flex-row gap-5 justify-center my-3">
-              {tokensToReceive.map((token) => (
-                <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px]">
-                  <Image
-                    src={token.image_url}
-                    width={120}
-                    height={120}
-                    className="object-fill"
-                  />
-                  <p className="my-3 text-center">{token.id}</p>
-                  <p className="mb-3 text-center">{token.name}</p>
-                </div>
-              ))}
-            </div>
+          <div className="flex items-center justify-center mt-5">
             <Link href="/">
-              <button type="button" className="btn btn-purple">
-                Exit
-              </button>
+              <button className="btn btn-purple">Exit</button>
             </Link>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 import { useState } from 'react';
@@ -7,14 +8,30 @@ import Modal from '../ui/Modal';
 import Delete from '../delete/Delete';
 
 export default function NFTCard({ item, edit = false }) {
+  const router = useRouter();
   const [openModal, setOpenModal] = useState(false);
   const { listNfts } = item;
 
-  console.log('edit', edit);
+  const handleClick = () => {
+    if (edit) {
+      router.push({
+        pathname: '/myListings/[id]',
+        query: { id: item._id },
+      });
+    } else {
+      router.push({
+        pathname: '/marketplace/[id]',
+        query: { id: item._id },
+      });
+    }
+  };
 
   return (
     <>
-      <div className="relative flex flex-col shadow-md rounded-md cursor-pointer w-[15rem] h-[30rem] mb-4 z-0">
+      <div
+        className="relative flex flex-col shadow-md hover:shadow-lg hover:ease-in rounded-md cursor-pointer w-[15rem] h-[30rem] mb-4 z-0 transition-all"
+        onClick={handleClick}
+      >
         <div className="overflow-hidden rounded-xl bg-white flex flex-col">
           <div>
             <Carousel>

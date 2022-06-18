@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { useRouter } from 'next/router';
 import client from '../../lib/sanityClient';
@@ -8,8 +8,10 @@ import utils from '../../utils/utils';
 export default function Delete({ item, setOpenModal }) {
   const router = useRouter();
   const { address, user, setUser } = useContext(UserContext);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const deletingListingOnSanity = async () => {
+    setIsDeleting(true);
     // Se elimina en Sanity y se elimina en el user
     const deleteListing = await client.delete(item._id).then(async () => {
       // Se elimina en el user
@@ -34,6 +36,7 @@ export default function Delete({ item, setOpenModal }) {
       updatedListings.splice(index, 1);
       const updatedUser = { ...user, listings: updatedListings };
       setUser(updatedUser);
+      setIsDeleting(false);
     });
   };
 
@@ -58,7 +61,11 @@ export default function Delete({ item, setOpenModal }) {
     <div className="flex flex-col justify-center items-center">
       <h1 className="title">Are you sure you want to delete this listing?</h1>
       <div className="flex flex-row gap-3 my-6">
-        <button className="btn btn-purple" onClick={handleDeletionOfListing}>
+        <button
+          className="btn btn-purple"
+          onClick={handleDeletionOfListing}
+          disabled={isDeleting}
+        >
           Yes
         </button>
         <button className="btn btn-white" onClick={() => setOpenModal(false)}>

@@ -11,13 +11,15 @@ import utils from '../../utils/utils';
 
 export default function EditListing({ listing }) {
   const router = useRouter();
+  const { address, setUser, user } = useContext(UserContext);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [title, setTitle] = useState(listing.listTitle);
   const [description, setDescription] = useState(listing.listDescription);
   const [openModal, setOpenModal] = useState(false);
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState(listing.listTags);
   const [nftsSelection, setNftsSelection] = useState(listing.listNfts);
-  const { address, setUser, user } = useContext(UserContext);
+
   // Validación
   const [validInputs, setValidInputs] = useState(false);
   const [validTitle, setValidTitle] = useState(false);
@@ -49,6 +51,7 @@ export default function EditListing({ listing }) {
       listTags: selectedTags,
     };
 
+    setIsUpdating(true);
     // Se modifica en Sanity y se modifica el user
     const replaceListing = await client
       .createOrReplace(listingDoc)
@@ -70,6 +73,7 @@ export default function EditListing({ listing }) {
         updatedListings[index] = res;
         const updatedUser = { ...user, listings: updatedListings };
         setUser(updatedUser);
+        setIsUpdating(false);
       });
   };
 
@@ -271,6 +275,7 @@ export default function EditListing({ listing }) {
               validInputs ? 'mt-4 btn btn-purple' : 'mt-4 btn-disabled'
             }
             onClick={handleModificationOfListing}
+            disabled={isUpdating}
           >
             Save
           </button>

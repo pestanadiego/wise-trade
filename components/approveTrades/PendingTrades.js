@@ -132,150 +132,172 @@ export default function PendingTrades() {
             </div>
           ) : (
             <div className="container flex flex-col-reverse items-center mt-4 lg:mt-8 mb-9">
-              {transactions.length !== 0 ? (
-                <div>
-                  {!accept ? (
-                    <table className="min-w-max w-full table-auto bg-white shadow-md border-2 rounded-xl my-10">
-                      <thead>
-                        <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                          <th className="py-3 px-6 text-center">From</th>
-                          <th className="py-3 px-6 text-center">To</th>
-                          <th className="py-3 px-6 text-center">Date</th>
-                          <th className="py-3 px-6 text-center">
-                            NFTs Proposed
-                          </th>
-                          <th className="py-3 px-6 text-center">
-                            NFTs Requested
-                          </th>
-                          <th className="py-3 px-6 text-center">Status</th>
-                          <th className="py-3 px-6 text-center">Actions</th>
-                        </tr>
-                      </thead>
-                      {transactions.length !== 0 && (
-                        <tbody className="text-gray-600 text-sm font-light">
-                          {transactions
-                            .slice(0)
-                            .reverse()
-                            .map((transaction) =>
-                              transaction.status === 'pending' &&
-                              (transaction.from === address ||
-                                transaction.to === address) ? (
-                                <tr className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
-                                  <td className="py-3 px-9 text-center whitespace-nowrap">
-                                    {utils.truncateAddress(transaction.from)}
-                                  </td>
-                                  <td className="py-3 px-9 text-center">
-                                    {utils.truncateAddress(transaction.to)}
-                                  </td>
-                                  <td className="py-3 px-9 text-center whitespace-nowrap">
-                                    {transaction._createdAt.substr(0, 10)}
-                                  </td>
-                                  <td className="py-3 px-9 text-center">
-                                    {transaction.initiatorNfts.map((nft) => (
-                                      <div className="flex flex-col my-2 overflow">
-                                        <Image
-                                          src={nft.image_url}
-                                          className="border-2 rounded-md"
-                                          width={90}
-                                          height={90}
-                                        />
-                                      </div>
-                                    ))}
-                                  </td>
-                                  <td className="py-3 px-9 text-center">
-                                    {transaction.counterpartNfts.map((nft) => (
-                                      <div className="flex flex-col my-2 overflow">
-                                        <Image
-                                          src={nft.image_url}
-                                          className="border-2 rounded-md"
-                                          width={90}
-                                          height={90}
-                                        />
-                                      </div>
-                                    ))}
-                                  </td>
-                                  <td className="py-3 px-9 text-center">
-                                    <span className="bg-yellow-200 text-yellow-600 py-1 px-6 rounded-full text-xs">
-                                      PENDING
-                                    </span>
-                                  </td>
-                                  <td className="py-3 px-3 justify-center">
-                                    {transaction.from !== address ? (
-                                      <div className="container flex justify-center gap-3">
-                                        <button
-                                          type="button"
-                                          className="btn btn-purple"
-                                          onClick={() => {
-                                            setAccept(true);
-                                            setAcceptTransaction(transaction);
-                                          }}
-                                        >
-                                          Accept
-                                        </button>
-                                        <button
-                                          type="button"
-                                          className={
-                                            isLoadingReject
-                                              ? 'btn-disabled'
-                                              : 'btn btn-purple'
-                                          }
-                                          disabled={isLoadingReject}
-                                          onClick={async () => {
-                                            await handleDecline(transaction);
-                                          }}
-                                        >
-                                          {isLoadingReject ? (
-                                            <Loader />
-                                          ) : (
-                                            'Reject'
+              <div className="overflow-x-auto">
+                <div className="min-w-screen min-h-screenflex items-center justify-center font-sans overflow-hidden">
+                  <div className="w-full lg:w-5/6">
+                    {transactions.length !== 0 ? (
+                      <div className="inline-block rounded-lg border-2 shadow-md my-10">
+                        {!accept ? (
+                          <table className="min-w-max table-auto bg-white shadow-md rounded-xl">
+                            <thead>
+                              <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                <th className="py-3 px-6 text-center hidden lg:table-cell">
+                                  From
+                                </th>
+                                <th className="py-3 px-6 text-center hidden lg:table-cell">
+                                  To
+                                </th>
+                                <th className="py-3 px-6 text-center hidden md:table-cell">
+                                  Date
+                                </th>
+                                <th className="py-3 px-6 text-center text-xs md:text-sm">
+                                  NFTs Proposed
+                                </th>
+                                <th className="py-3 px-6 text-center text-xs md:text-sm">
+                                  NFTs Requested
+                                </th>
+                                <th className="py-3 px-6 text-center text-xs md:text-sm">
+                                  Actions
+                                </th>
+                              </tr>
+                            </thead>
+                            {transactions.length !== 0 && (
+                              <tbody className="text-gray-600 text-sm font-light">
+                                {transactions
+                                  .slice(0)
+                                  .reverse()
+                                  .map((transaction) =>
+                                    transaction.status === 'pending' &&
+                                    (transaction.from === address ||
+                                      transaction.to === address) ? (
+                                      <tr className="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
+                                        <td className="py-3 px-9 text-center whitespace-nowrap hidden lg:table-cell">
+                                          {utils.truncateAddress(
+                                            transaction.from
                                           )}
-                                        </button>
-                                      </div>
+                                        </td>
+                                        <td className="py-3 px-9 text-center hidden lg:table-cell">
+                                          {utils.truncateAddress(
+                                            transaction.to
+                                          )}
+                                        </td>
+                                        <td className="py-3 px-9 text-center whitespace-nowrap hidden md:table-cell">
+                                          {transaction._createdAt.substr(0, 10)}
+                                        </td>
+                                        <td className="py-3 px-9 text-center">
+                                          {transaction.initiatorNfts.map(
+                                            (nft) => (
+                                              <div className="flex flex-col my-2 overflow">
+                                                <Image
+                                                  src={nft.image_url}
+                                                  className="border-2 rounded-md"
+                                                  width={90}
+                                                  height={90}
+                                                />
+                                              </div>
+                                            )
+                                          )}
+                                        </td>
+                                        <td className="py-3 px-9 text-center">
+                                          {transaction.counterpartNfts.map(
+                                            (nft) => (
+                                              <div className="flex flex-col my-2 overflow">
+                                                <Image
+                                                  src={nft.image_url}
+                                                  className="border-2 rounded-md"
+                                                  width={90}
+                                                  height={90}
+                                                />
+                                              </div>
+                                            )
+                                          )}
+                                        </td>
+                                        <td className="py-3 px-3 justify-center">
+                                          {transaction.from !== address ? (
+                                            <div className="container flex flex-col lg:flex-row justify-center gap-3">
+                                              <button
+                                                type="button"
+                                                className="btn btn-purple"
+                                                onClick={() => {
+                                                  setAccept(true);
+                                                  setAcceptTransaction(
+                                                    transaction
+                                                  );
+                                                }}
+                                              >
+                                                Accept
+                                              </button>
+                                              <button
+                                                type="button"
+                                                className={
+                                                  isLoadingReject
+                                                    ? 'btn-disabled'
+                                                    : 'btn btn-purple'
+                                                }
+                                                disabled={isLoadingReject}
+                                                onClick={async () => {
+                                                  await handleDecline(
+                                                    transaction
+                                                  );
+                                                }}
+                                              >
+                                                {isLoadingReject ? (
+                                                  <Loader />
+                                                ) : (
+                                                  'Reject'
+                                                )}
+                                              </button>
+                                            </div>
+                                          ) : (
+                                            <div className="flex justify-center space-x-10">
+                                              <button
+                                                type="button"
+                                                className={
+                                                  isLoadingReject
+                                                    ? 'btn-disabled'
+                                                    : 'btn btn-purple'
+                                                }
+                                                disabled={isLoadingReject}
+                                                onClick={async () => {
+                                                  await handleDecline(
+                                                    transaction
+                                                  );
+                                                }}
+                                              >
+                                                {isLoadingReject ? (
+                                                  <Loader />
+                                                ) : (
+                                                  'Cancel'
+                                                )}
+                                              </button>
+                                            </div>
+                                          )}
+                                        </td>
+                                      </tr>
                                     ) : (
-                                      <div className="flex justify-center space-x-10">
-                                        <button
-                                          type="button"
-                                          className={
-                                            isLoadingReject
-                                              ? 'btn-disabled'
-                                              : 'btn btn-purple'
-                                          }
-                                          disabled={isLoadingReject}
-                                          onClick={async () => {
-                                            await handleDecline(transaction);
-                                          }}
-                                        >
-                                          {isLoadingReject ? (
-                                            <Loader />
-                                          ) : (
-                                            'Cancel'
-                                          )}
-                                        </button>
-                                      </div>
-                                    )}
-                                  </td>
-                                </tr>
-                              ) : (
-                                ''
-                              )
+                                      ''
+                                    )
+                                  )}
+                                {}
+                              </tbody>
                             )}
-                          {}
-                        </tbody>
-                      )}
-                    </table>
-                  ) : (
-                    <ApprovalBeforeAccept
-                      tokensToApprove={acceptTransaction.counterpartNfts}
-                      tokensToReceive={acceptTransaction.initiatorNfts}
-                      swap={acceptTransaction}
-                    />
-                  )}
+                          </table>
+                        ) : (
+                          <ApprovalBeforeAccept
+                            tokensToApprove={acceptTransaction.counterpartNfts}
+                            tokensToReceive={acceptTransaction.initiatorNfts}
+                            swap={acceptTransaction}
+                          />
+                        )}
+                      </div>
+                    ) : (
+                      <h1 className="text-wise-grey text-center text-lg font-light">
+                        There are no trades to be approved
+                      </h1>
+                    )}
+                  </div>
                 </div>
-              ) : (
-                <h1 className="text-wise-grey text-center text-lg font-light">
-                  There are no trades to be approved
-                </h1>
-              )}
+              </div>
             </div>
           )}
         </section>

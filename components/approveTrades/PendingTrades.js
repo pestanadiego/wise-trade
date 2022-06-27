@@ -218,7 +218,7 @@ export default function PendingTrades() {
                                               <button
                                                 type="button"
                                                 disabled={isLoadingReject}
-                                                className="btn btn-purple"
+                                                className="btn btn-purple w-24"
                                                 onClick={() => {
                                                   setAccept(true);
                                                   setAcceptTransaction(
@@ -232,8 +232,8 @@ export default function PendingTrades() {
                                                 type="button"
                                                 className={
                                                   isLoadingReject
-                                                    ? 'btn-disabled'
-                                                    : 'btn btn-purple'
+                                                    ? 'btn-disabled w-24'
+                                                    : 'btn btn-purple w-24'
                                                 }
                                                 disabled={isLoadingReject}
                                                 onClick={async () => {
@@ -243,7 +243,7 @@ export default function PendingTrades() {
                                                 }}
                                               >
                                                 {isLoadingReject ? (
-                                                  <Loader />
+                                                  <Loader isButton isDisabled />
                                                 ) : (
                                                   'Reject'
                                                 )}
@@ -266,7 +266,7 @@ export default function PendingTrades() {
                                                 }}
                                               >
                                                 {isLoadingReject ? (
-                                                  <Loader isDisabled />
+                                                  <Loader isButton isDisabled />
                                                 ) : (
                                                   'Cancel'
                                                 )}

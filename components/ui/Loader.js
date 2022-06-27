@@ -1,11 +1,17 @@
-export default function Loader({ isDisabled = false }) {
+import { useEffect } from 'react';
+
+export default function Loader({ isButton = false, isDisabled = false }) {
   return (
     <svg
       role="status"
       className={
-        isDisabled
-          ? 'inline w-1/3 h-1/3  text-gray-800 animate-spin fill-gray-300'
-          : 'inline w-1/3 h-1/3  text-gray-200 animate-spin dark:text-gray-200 fill-wise-purple'
+        isButton
+          ? isDisabled
+            ? `inline w-[24px] h-[24px]  text-gray-800 animate-spin fill-gray-300`
+            : `inline w-[24px] h-[24px]  text-gray-200 animate-spin dark:text-gray-200 fill-wise-purple`
+          : isDisabled
+          ? `inline w-[64px] h-[64px]  text-gray-800 animate-spin fill-gray-300`
+          : `inline w-[64px] h-[64px]  text-gray-200 animate-spin dark:text-gray-200 fill-wise-purple`
       }
       viewBox="0 0 100 101"
       fill="none"

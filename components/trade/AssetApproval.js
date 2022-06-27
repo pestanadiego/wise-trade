@@ -101,7 +101,7 @@ export default function AssetApproval({ tokensToTransfer, setValidApproval }) {
               className="btn-disabled mb-3 text-sm w-28"
               disabled
             >
-              <Loader isDisabled />
+              <Loader isButton isDisabled />
             </button>
           ) : (
             <button

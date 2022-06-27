@@ -283,23 +283,21 @@ export default function MakeTrade() {
                   </div>
                 )}
                 {progress === 2 && (
-                  <div className="flex flex-col justify-center text-center">
+                  <div className="flex flex-col justify-center items-center">
                     {isLoading ? (
                       <button
                         type="button"
-                        className="btn-disabled mb-3 text-sm"
+                        className="btn-disabled mb-3 text-sm w-32"
                         disabled
                       >
-                        <Loader isDisabled />
+                        <Loader isButton isDisabled />
                       </button>
                     ) : (
                       <div>
                         <button
                           type="button"
                           className={
-                            validApproval
-                              ? 'btn btn-purple'
-                              : 'btn-disabled w-2'
+                            validApproval ? 'btn btn-purple' : 'btn-disabled'
                           }
                           onClick={handleProposal}
                           disabled={(!validApproval || isLoading) && true}

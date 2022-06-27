@@ -219,10 +219,10 @@ export default function ApprovalBeforeAccept({
             {isLoading ? (
               <button
                 type="button"
-                className="btn-disabled mb-3 text-sm"
+                className="btn-disabled mb-3 text-sm w-28"
                 disabled
               >
-                <Loader />
+                <Loader isButton isDisabled />
               </button>
             ) : (
               <button
@@ -243,14 +243,18 @@ export default function ApprovalBeforeAccept({
             <button
               type="button"
               className={
-                validApproval && !isLoadingConfirm // Si no funciona quitar !isLoadingConfirm
-                  ? 'btn btn-purple'
-                  : 'btn-disabled'
+                validApproval && !isLoadingConfirm
+                  ? 'btn btn-purple w-32'
+                  : 'btn-disabled w-32'
               }
               onClick={handleAcceptSwap}
               disabled={(!validApproval || isLoadingConfirm) && true}
             >
-              {isLoadingConfirm ? <Loader /> : 'Confirm Swap'}
+              {isLoadingConfirm ? (
+                <Loader isButton isDisabled />
+              ) : (
+                'Confirm Swap'
+              )}
             </button>
           </div>
         </div>

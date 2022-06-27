@@ -252,7 +252,7 @@ export default function AcceptOffer({
                     className="btn-disabled mb-3 text-sm"
                     disabled
                   >
-                    <Loader />
+                    <Loader isButton isDisabled />
                   </button>
                 ) : (
                   <button
@@ -263,7 +263,11 @@ export default function AcceptOffer({
                     onClick={handleProposal}
                     disabled={(!validApproval || isLoading) && true}
                   >
-                    {isLoading ? <Loader /> : 'Confirm Swap'}
+                    {isLoading ? (
+                      <Loader isButton isDisabled />
+                    ) : (
+                      'Confirm Swap'
+                    )}
                   </button>
                 )}
               </div>

@@ -50,36 +50,3 @@
 .input {
     @apply border py-3 px-4 mb-2 text-wise-grey placeholder-wise-grey rounded-md focus:shadow-sm;
 }
-
-@keyframes ldio-hespw6hnyfe {
-  0% { transform: rotate(0deg) }
-  50% { transform: rotate(180deg) }
-  100% { transform: rotate(360deg) }
-}
-.ldio-hespw6hnyfe div {
-  position: absolute;
-  animation: ldio-hespw6hnyfe 1s linear infinite;
-  width: 40px;
-  height: 40px;
-  top: 6px;
-  left: 6px;
-  border-radius: 50%;
-  box-shadow: 0 2.6px 0 0 #737373;
-  transform-origin: 20px ;
-}
-.loadingio-spinner-eclipse-k8slfveoyl {
-  width: 41px;
-  height: 41px;
-  display: inline-block;
-  overflow: hidden;
-  background: rgba(NaN, NaN, NaN,0);
-}
-.ldio-hespw6hnyfe {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform: translateZ(0) scale(0.81);
-  backface-visibility: hidden;
-  transform-origin: 0 0; /* see note above */
-}
-.ldio-hespw6hnyfe div { box-sizing: content-box; }

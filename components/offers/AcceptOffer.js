@@ -10,6 +10,7 @@ import emailjs from 'emailjs-com';
 import utils from '../../utils/utils';
 import templates from '../../utils/templates';
 import client from '../../lib/sanityClient';
+import { tuple } from 'rsuite/esm/@types/utils';
 
 export default function AcceptOffer({
   counterpartyAddress,
@@ -71,7 +72,7 @@ export default function AcceptOffer({
 
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
-      '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291',
+      '0xB7dBbA436f5c4873B27C90De74eEFCDA0812C65a',
       WiseTradeV1.abi,
       signer
     );
@@ -83,11 +84,18 @@ export default function AcceptOffer({
     // proposeSwap
     await contract
       .proposeSwap(
-        counterpartyAddress,
-        nftAddressesInit,
-        nftIdsInit,
-        nftAddressesCounter,
-        nftIdsCounter
+        [
+          address,
+          nftAddressesInit,
+          nftIdsInit,
+          0,
+          counterpartyAddress,
+          nftAddressesCounter,
+          nftIdsCounter,
+          0,
+        ],
+        ethers.utils.parseEther('0.005'),
+        { value: ethers.utils.parseEther('0.005') }
       )
       .then((pre) => {
         setIsLoading(true);

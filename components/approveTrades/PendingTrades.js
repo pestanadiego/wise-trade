@@ -88,7 +88,7 @@ export default function PendingTrades() {
   const handleDecline = async (declineTransaction) => {
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
-      '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291',
+      '0xB7dBbA436f5c4873B27C90De74eEFCDA0812C65a',
       WiseTradeV1.abi,
       signer
     );
@@ -217,6 +217,7 @@ export default function PendingTrades() {
                                             <div className="container flex flex-col lg:flex-row justify-center gap-3">
                                               <button
                                                 type="button"
+                                                disabled={isLoadingReject}
                                                 className="btn btn-purple"
                                                 onClick={() => {
                                                   setAccept(true);
@@ -254,8 +255,8 @@ export default function PendingTrades() {
                                                 type="button"
                                                 className={
                                                   isLoadingReject
-                                                    ? 'btn-disabled'
-                                                    : 'btn btn-purple'
+                                                    ? 'btn-disabled w-24'
+                                                    : 'btn btn-purple w-24'
                                                 }
                                                 disabled={isLoadingReject}
                                                 onClick={async () => {
@@ -265,7 +266,7 @@ export default function PendingTrades() {
                                                 }}
                                               >
                                                 {isLoadingReject ? (
-                                                  <Loader />
+                                                  <Loader isDisabled />
                                                 ) : (
                                                   'Cancel'
                                                 )}

@@ -117,7 +117,7 @@ export default function MakeTrade() {
 
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
-      '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291',
+      '0xB7dBbA436f5c4873B27C90De74eEFCDA0812C65a',
       WiseTradeV1.abi,
       signer
     );
@@ -129,11 +129,18 @@ export default function MakeTrade() {
     // proposeSwap
     await contract
       .proposeSwap(
-        counterpartyAddress,
-        nftAddressesInit,
-        nftIdsInit,
-        nftAddressesCounter,
-        nftIdsCounter
+        [
+          address,
+          nftAddressesInit,
+          nftIdsInit,
+          0,
+          counterpartyAddress,
+          nftAddressesCounter,
+          nftIdsCounter,
+          0,
+        ],
+        ethers.utils.parseEther('0.005'),
+        { value: ethers.utils.parseEther('0.005') }
       )
       .then((pre) => {
         setIsLoading(true);
@@ -276,27 +283,35 @@ export default function MakeTrade() {
                   </div>
                 )}
                 {progress === 2 && (
-                  <div className="flex gap-3">
+                  <div className="flex flex-col justify-center text-center">
                     {isLoading ? (
                       <button
                         type="button"
                         className="btn-disabled mb-3 text-sm"
                         disabled
                       >
-                        <Loader />
+                        <Loader isDisabled />
                       </button>
                     ) : (
-                      <button
-                        type="button"
-                        className={
-                          validApproval ? 'btn btn-purple' : 'btn-disabled'
-                        }
-                        onClick={handleProposal}
-                        disabled={(!validApproval || isLoading) && true}
-                      >
-                        {isLoading ? <Loader /> : 'Confirm Swap'}
-                      </button>
+                      <div>
+                        <button
+                          type="button"
+                          className={
+                            validApproval
+                              ? 'btn btn-purple'
+                              : 'btn-disabled w-2'
+                          }
+                          onClick={handleProposal}
+                          disabled={(!validApproval || isLoading) && true}
+                        >
+                          Confirm Swap
+                        </button>
+                      </div>
                     )}
+                    <p className="text-wise-blue mt-3 text-sm">
+                      <i className="fa fa-info-circle p-2" />
+                      Every trade has an added fee of 0.005 ETH
+                    </p>
                   </div>
                 )}
               </div>

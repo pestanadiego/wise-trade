@@ -38,11 +38,11 @@ export default function ApprovalBeforeAccept({
         .getApproved(tokensToApprove[i].id)
         .then(async (res) => {
           console.log(res);
-          if (res !== '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291') {
+          if (res !== '0xB7dBbA436f5c4873B27C90De74eEFCDA0812C65a') {
             // De lo contrario, se aprueba
             await contract
               .approve(
-                '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291',
+                '0xB7dBbA436f5c4873B27C90De74eEFCDA0812C65a',
                 tokensToApprove[i].id
               )
               .then((pre) => {
@@ -168,12 +168,12 @@ export default function ApprovalBeforeAccept({
     console.log(swap);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
-      '0x4849A0D150556Aa910Bf9155D1BBA21c960FC291',
+      '0xB7dBbA436f5c4873B27C90De74eEFCDA0812C65a',
       WiseTradeV1.abi,
       signer
     );
     await contract
-      .acceptSwap(swap.idOfSwap)
+      .acceptSwap(swap.idOfSwap, ethers.utils.parseEther('0.001'))
       .then((pre) => {
         setIsLoadingConfirm(true);
         pre.wait().then(async (receipt) => {
@@ -219,10 +219,10 @@ export default function ApprovalBeforeAccept({
             {isLoading ? (
               <button
                 type="button"
-                className="btn-disabled mb-3 text-sm"
+                className="btn-disabled mb-3 text-sm w-28"
                 disabled
               >
-                <Loader />
+                <Loader isButton isDisabled />
               </button>
             ) : (
               <button
@@ -243,14 +243,18 @@ export default function ApprovalBeforeAccept({
             <button
               type="button"
               className={
-                validApproval && !isLoadingConfirm // Si no funciona quitar !isLoadingConfirm
-                  ? 'btn btn-purple'
-                  : 'btn-disabled'
+                validApproval && !isLoadingConfirm
+                  ? 'btn btn-purple w-32'
+                  : 'btn-disabled w-32'
               }
               onClick={handleAcceptSwap}
               disabled={(!validApproval || isLoadingConfirm) && true}
             >
-              {isLoadingConfirm ? <Loader /> : 'Confirm Swap'}
+              {isLoadingConfirm ? (
+                <Loader isButton isDisabled />
+              ) : (
+                'Confirm Swap'
+              )}
             </button>
           </div>
         </div>

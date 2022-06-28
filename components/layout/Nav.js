@@ -28,7 +28,7 @@ export default function Nav() {
     <>
       <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 mb-3 mt-4">
         <div className="container px-4 mx-auto flex flex-wrap items-baseline justify-between">
-          <div className="w-full py-4 relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
+          <div className="w-full py-4 relative flex items-baseline justify-between lg:w-auto lg:static lg:block lg:justify-start">
             <Link href="/">
               <p className="text-transparent bg-clip-text bg-gradient-to-r from-wise-blue to-wise-purple font-bold text-3xl pb-6 cursor-pointer">
                 Wise
@@ -55,10 +55,10 @@ export default function Nav() {
             id="example-navbar-danger"
           >
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto text-wise-blue uppercase text-xs">
-              <li className="nav-item px-4 py-3 hover:underline underline-offset-8">
+              <li className="nav-item lg:px-4 py-3 hover:underline underline-offset-8">
                 <Link href="/trade">Make a trade</Link>
               </li>
-              <li className="nav-item pl-4 pr-8 py-3 hover:underline underline-offset-8">
+              <li className="nav-item lg:pl-4 pr-8 pt-3 pb-6 lg:py-3 hover:underline underline-offset-8">
                 <Link href="/marketplace">Marketplace</Link>
               </li>
               {!address ? (

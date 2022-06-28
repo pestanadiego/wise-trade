@@ -13,13 +13,14 @@ import Router from 'next/router';
 
 export default function CreateListing() {
   const router = useRouter();
+  const { address, setUser, user } = useContext(UserContext);
+  const [isCreating, setIsCreating] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [nftsSelection, setNftsSelection] = useState([]);
-  const { address, setUser, user } = useContext(UserContext);
   // Validación
   const [validInputs, setValidInputs] = useState(false);
   const [validTitle, setValidTitle] = useState(false);
@@ -52,6 +53,7 @@ export default function CreateListing() {
       listTags: selectedTags,
     };
 
+    setIsCreating(true);
     // Se agrega a Sanity y se modifica el user
     const createListing = await client.create(listingDoc).then(async (res) => {
       const modifyUserListings = await client
@@ -70,6 +72,7 @@ export default function CreateListing() {
         const updatedUser = { ...user, updatedListings };
         setUser(updatedUser);
       }
+      setIsCreating(false);
     });
   };
 
@@ -305,6 +308,7 @@ export default function CreateListing() {
         <button
           className={validInputs ? 'mt-4 btn btn-purple' : 'mt-4 btn-disabled'}
           onClick={handleCreationOfListing}
+          disabled={!validInputs || isCreating}
         >
           Create
         </button>

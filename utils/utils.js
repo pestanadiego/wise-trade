@@ -32,7 +32,7 @@ const validateTitle = (title) => {
     return 'The title cannot exceed 64 characters';
   } else if (!isString(title)) {
     return 'The input value must be a string';
-  } else if (title === '') {
+  } else if (title === '' || title.trim().length === 0) {
     return 'The title must not be empty';
   } else {
     return 'OK';

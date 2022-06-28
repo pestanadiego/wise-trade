@@ -11,6 +11,10 @@ contract WiseTradeV1 is Ownable, IERC721Receiver {
     uint256 private _swapsCounter;
     uint256 private _etherLocked;
 
+    receive() external payable {}
+
+    fallback() external payable {}
+
     mapping(uint256 => Swap) private _swaps;
 
     struct Swap {
@@ -29,6 +33,7 @@ contract WiseTradeV1 is Ownable, IERC721Receiver {
         address indexed to,
         uint256 indexed swapId
     );
+
     event SwapCanceled(address indexed canceledBy, uint256 indexed swapId);
 
     event SwapProposed(
@@ -42,6 +47,17 @@ contract WiseTradeV1 is Ownable, IERC721Receiver {
         uint256 etherValue
     );
 
+    event WithdrawEtherSuccess(
+        address indexed recipient,
+        uint256 indexed amount
+    );
+
+    event PaidFee(
+        address indexed from,
+        uint256 indexed amount,
+        uint256 indexed swapId
+    );
+
     modifier requireSameLength(
         address[] memory nftAddresses,
         uint256[] memory nftIds
@@ -53,56 +69,70 @@ contract WiseTradeV1 is Ownable, IERC721Receiver {
         _;
     }
 
-    constructor(address contractOwnerAddress) {
+    modifier chargeAppFee(uint256 fee) {
+        require(
+            msg.value >= fee,
+            'WiseTrade: Sent ETH amount needs to be more or equal application fee'
+        );
+        _;
+    }
+
+    constructor(address payable contractOwnerAddress) {
         super.transferOwnership(contractOwnerAddress);
     }
 
-    function proposeSwap(
-        address counterpart,
-        address[] calldata nftAddressesInit,
-        uint256[] calldata nftIdsInit,
-        address[] calldata nftAddressescounter,
-        uint256[] calldata nftIdscounter
-    )
+    function proposeSwap(Swap memory swap, uint256 fee)
         external
         payable
-        requireSameLength(nftAddressesInit, nftIdsInit)
-        requireSameLength(nftAddressescounter, nftIdscounter)
+        requireSameLength(swap.initiatorNftAddresses, swap.initiatorNftIds)
+        requireSameLength(swap.counterpartNftAddresses, swap.counterpartNftIds)
+        chargeAppFee(fee)
     {
+        require(
+            msg.sender == swap.initiator,
+            'WiseTrade: the sender most be the initiator'
+        );
+
         _swapsCounter += 1;
 
         safeMultipleTransfersFrom(
             msg.sender,
             address(this),
-            nftAddressesInit,
-            nftIdsInit
-        );
-
-        Swap storage swap = _swaps[_swapsCounter];
-        swap.initiator = payable(msg.sender);
-        swap.initiatorNftAddresses = nftAddressesInit;
-        swap.initiatorNftIds = nftIdsInit;
-        swap.counterpartNftAddresses = nftAddressescounter;
-        swap.counterpartNftIds = nftIdscounter;
-
-        swap.initiatorEtherValue = msg.value;
-        _etherLocked += swap.initiatorEtherValue;
-
-        swap.counterpart = payable(counterpart);
-
-        emit SwapProposed(
-            msg.sender,
-            counterpart,
-            _swapsCounter,
             swap.initiatorNftAddresses,
-            nftIdsInit,
-            nftAddressescounter,
-            nftIdscounter,
-            swap.initiatorEtherValue
+            swap.initiatorNftIds
         );
+
+        Swap storage newSwap = _swaps[_swapsCounter];
+        newSwap.initiator = payable(msg.sender);
+        newSwap.initiatorNftAddresses = swap.initiatorNftAddresses;
+        newSwap.initiatorNftIds = swap.initiatorNftIds;
+        newSwap.counterpartNftAddresses = swap.counterpartNftAddresses;
+        newSwap.counterpartNftIds = swap.counterpartNftIds;
+
+        if (msg.value >= fee) {
+            newSwap.initiatorEtherValue = msg.value;
+            emit PaidFee(msg.sender, msg.value, _swapsCounter);
+        }
+
+        newSwap.counterpart = payable(swap.counterpart);
+
+        // emit SwapProposed(
+        //     msg.sender,
+        //     counterpart,
+        //     _swapsCounter,
+        //     swap.initiatorNftAddresses,
+        //     nftIdsInit,
+        //     nftAddressescounter,
+        //     nftIdscounter,
+        //     swap.initiatorEtherValue
+        // );
     }
 
-    function acceptSwap(uint256 swapId) external payable {
+    function acceptSwap(uint256 swapId, uint256 fee)
+        external
+        payable
+        chargeAppFee(fee)
+    {
         require(
             _swaps[swapId].counterpart == msg.sender,
             'WiseTrade: caller is not swap participator'
@@ -135,8 +165,10 @@ contract WiseTradeV1 is Ownable, IERC721Receiver {
                 _swaps[swapId].counterpartNftIds
             );
 
-            _swaps[swapId].counterpartEtherValue = msg.value;
-            _etherLocked += _swaps[swapId].counterpartEtherValue;
+            if (msg.value >= fee) {
+                _swaps[swapId].counterpartEtherValue = msg.value;
+                emit PaidFee(msg.sender, msg.value, _swapsCounter);
+            }
 
             safeMultipleTransfersFrom(
                 address(this),
@@ -177,14 +209,12 @@ contract WiseTradeV1 is Ownable, IERC721Receiver {
         );
 
         if (_swaps[swapId].initiatorEtherValue != 0) {
-            _etherLocked -= _swaps[swapId].initiatorEtherValue;
             uint256 amountToTransfer = _swaps[swapId].initiatorEtherValue;
             _swaps[swapId].initiatorEtherValue = 0;
             _swaps[swapId].initiator.transfer(amountToTransfer);
         }
 
         if (_swaps[swapId].counterpartEtherValue != 0) {
-            _etherLocked -= _swaps[swapId].counterpartEtherValue;
             uint256 amountToTransfer = _swaps[swapId].counterpartEtherValue;
             _swaps[swapId].counterpartEtherValue = 0;
             _swaps[swapId].counterpart.transfer(amountToTransfer);
@@ -216,17 +246,30 @@ contract WiseTradeV1 is Ownable, IERC721Receiver {
         IERC721(tokenAddress).safeTransferFrom(from, to, tokenId, _data);
     }
 
-    function withdrawEther(address payable recipient) external onlyOwner {
+    function withdrawEther(address payable recipient, uint256 amount)
+        external
+        onlyOwner
+    {
         require(
             recipient != address(0),
             'WiseTrade: transfer to the zero address'
         );
 
-        recipient.transfer((address(this).balance - _etherLocked));
+        (bool success, ) = recipient.call{value: amount}('');
+        require(success, 'Failed to transfer');
+        emit WithdrawEtherSuccess(recipient, amount);
     }
 
     function ReadCounter() external view returns (uint256) {
         return _swapsCounter;
+    }
+
+    function getSwap(uint256 i) external view returns (Swap memory) {
+        return (_swaps[i]);
+    }
+
+    function getWiseTradeBalance() external view returns (uint256) {
+        return (address(this).balance);
     }
 
     function onERC721Received(

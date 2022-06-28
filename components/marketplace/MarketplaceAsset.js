@@ -258,7 +258,7 @@ export default function MarketplaceAsset({ asset }) {
         </div>
         <div className="flex gap-3 justify-center">
           {address !== asset.address && (
-            <div className="flex items-center mb-1 gap-2 cursor-pointer">
+            <div className="flex items-center flex-col cursor-pointer">
               <button
                 className={isOpen ? 'btn btn-white' : 'btn btn-purple'}
                 onClick={() => {
@@ -268,6 +268,12 @@ export default function MarketplaceAsset({ asset }) {
               >
                 {isOpen ? 'Cancel' : 'Make Offer'}
               </button>
+              {!isOpen && (
+                <p className="text-wise-blue mt-3 text-sm">
+                  <i className="fa fa-info-circle p-2" />
+                  Every trade has an added fee of 0.005 ETH
+                </p>
+              )}
             </div>
           )}
         </div>

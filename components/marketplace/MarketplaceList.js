@@ -11,8 +11,8 @@ export default function MarketplaceList() {
     const query = '*[_type == "listing"]';
     client.fetch(query).then((response) => {
       setListings(response);
+      setIsLoading(false);
     });
-    setIsLoading(false);
   };
 
   useEffect(() => {

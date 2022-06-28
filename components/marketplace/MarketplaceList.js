@@ -28,7 +28,9 @@ export default function MarketplaceList() {
       ) : (
         <div className="flex flex-wrap items-center justify-center gap-3 md:flex-row mt-6">
           {listings.map((nft) => {
-            return <NFTCard key={nft._Id} item={nft} />;
+            if (nft.status === 'pending') {
+              return <NFTCard key={nft._Id} item={nft} />;
+            }
           })}
         </div>
       )}

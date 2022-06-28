@@ -43,6 +43,7 @@ export default function Delete({ item, setOpenModal }) {
         toast.success('The listing was successfully deleted', {
           position: 'bottom-right',
         });
+        setOpenModal(false);
         router.push('/myListings');
       });
     } catch (err) {

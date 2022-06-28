@@ -125,6 +125,16 @@ export default createSchema({
           title: 'Status',
           type: 'string',
         },
+        {
+          name: 'isListing',
+          title: 'isListing',
+          type: 'boolean',
+        },
+        {
+          name: 'listingId',
+          title: 'id of listing',
+          type: 'string',
+        },
       ],
     },
     {

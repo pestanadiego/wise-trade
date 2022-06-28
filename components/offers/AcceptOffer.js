@@ -6,7 +6,9 @@ import { ethers } from 'ethers';
 import WiseTradeV1 from '../../smart_contracts/artifacts/contracts/WiseTradeV1.sol/WiseTradeV1.json';
 import { UserContext } from '../../context/UserContext';
 import Loader from '../ui/Loader';
+import emailjs from 'emailjs-com';
 import utils from '../../utils/utils';
+import templates from '../../utils/templates';
 import client from '../../lib/sanityClient';
 
 export default function AcceptOffer({
@@ -22,6 +24,25 @@ export default function AcceptOffer({
   const { provider, address, user, setUser } = useContext(UserContext);
   console.log('tokens to receive', tokensToReceive);
   console.log('counterpartyAddress', counterpartyAddress);
+
+  // Envio de correo
+  const sendEmail = async (templateParams) => {
+    emailjs
+      .send(
+        'service_d58pjr8',
+        'template_p1v1yrj',
+        templateParams,
+        '4wZHVd3VM5CaULioQ'
+      )
+      .then(
+        (res) => {
+          console.log(res);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
 
   const handleProposal = async () => {
     // Arrays for Initiator
@@ -76,7 +97,22 @@ export default function AcceptOffer({
             console.log(receipt);
             setConfirmedSwap(true);
             await addSwapToSanity(counter).then(async () => {
-              await deleteOfferOnSanity();
+              // Se notifica al usuario que hizo la oferta que fue aceptada
+              await client
+                .getDocument(asset.listOffers[i].offerAddress)
+                .then(async (res) => {
+                  if (res.email || res.email !== '') {
+                    await sendEmail(
+                      templates.offerAcceptedTemplate(
+                        res.email,
+                        asset.listTitle
+                      )
+                    );
+                  } else {
+                    console.log(res);
+                  }
+                  await deleteOfferOnSanity();
+                });
             });
           }
           setIsLoading(false);
@@ -151,6 +187,8 @@ export default function AcceptOffer({
       initiatorNfts: initiatorNftsMapped,
       counterpartNfts: counterpartNftsMapped,
       status: 'pending',
+      isListing: true,
+      listingId: asset._id,
     };
 
     const createSwap = await client.create(swapDoc).then(async (res) => {
@@ -275,7 +313,7 @@ export default function AcceptOffer({
             <div className="flex flex-col md:flex-row items-center gap-5 justify-center mt-5">
               <div className="w-1/2 text-center">
                 <button className="btn btn-purple w-[170px]">
-                  <Link href="approveTrades">Pending Trades</Link>
+                  <Link href="/approveTrades">Pending Trades</Link>
                 </button>
                 <p className="text-wise-grey font-thin text-sm mt-3">
                   Go to <span className="font-bold">Pending Trades</span> if you
@@ -284,7 +322,7 @@ export default function AcceptOffer({
               </div>
               <div className="w-1/2 text-center">
                 <button className="btn btn-purple w-[170px]">
-                  <Link href="history">Trade History</Link>
+                  <Link href="/history">Trade History</Link>
                 </button>
                 <p className="text-wise-grey font-thin text-sm mt-3">
                   Go to <span className="font-bold">Trade History </span>

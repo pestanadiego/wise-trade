@@ -10,6 +10,8 @@ import client from '../../lib/sanityClient';
 import Modal from '../ui/Modal';
 import TradeOptions from '../trade/TradeOptions';
 import toast from 'react-hot-toast';
+import emailjs from 'emailjs-com';
+import templates from '../../utils/templates';
 
 export default function MarketplaceAsset({ asset }) {
   const scrollToRef = useRef();
@@ -18,6 +20,25 @@ export default function MarketplaceAsset({ asset }) {
   const [validSelection, setValidSelection] = useState(false);
   const { address, user } = useContext(UserContext);
   const [isOpen, setOpen] = useState(false);
+
+  // Envio de correo
+  const sendEmail = async (templateParams) => {
+    emailjs
+      .send(
+        'service_d58pjr8',
+        'template_944ppm3',
+        templateParams,
+        '4wZHVd3VM5CaULioQ'
+      )
+      .then(
+        (res) => {
+          console.log(res);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
 
   //Toggle make offer
   const toggleOffer = () => {
@@ -87,13 +108,13 @@ export default function MarketplaceAsset({ asset }) {
 
   const handleOffer = async () => {
     try {
-      await creatingOfferOnSanity().then(() => {
+      await creatingOfferOnSanity().then(async () => {
         // Notificación de éxito
         toast.success('The offer was successfully created', {
           position: 'bottom-right',
         });
         // Notificación de correo
-        if (user.email == '') {
+        if (user.email === '') {
           toast.custom(
             (t) => (
               <div
@@ -138,6 +159,16 @@ export default function MarketplaceAsset({ asset }) {
             }
           );
         }
+        // Se envía correo al dueño del listing
+        await client.getDocument(asset.address).then(async (res) => {
+          if (res.email !== '') {
+            await sendEmail(
+              templates.offerTemplate(res.email, asset.listTitle, asset._id)
+            );
+          } else {
+            console.log(res);
+          }
+        });
         // Cambios
         setOpen(false);
       });

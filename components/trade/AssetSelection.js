@@ -14,13 +14,27 @@ export default function AssetSelection({
   counterpartyAddress,
   setCounterpartyAddress,
 }) {
-  const { address } = useContext(UserContext);
+  const { user, address } = useContext(UserContext);
   const [validCounterparty, setValidCounterparty] = useState(false);
   const [selection, setSelection] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openModalCounterparty, setOpenModalCounterparty] = useState(false);
+  const [friend, setFriend] = useState(null);
+
+  const matchFriend = () => {
+    for (let i = 0; i < user.friends.length; i++) {
+      if (user.friends[i].friendName === counterpartyAddress) {
+        setFriend(user.friends[i]);
+        return true;
+      }
+      return false;
+    }
+  };
 
   const handleAdd = () => {
+    if (friend !== null) {
+      setCounterpartyAddress(friend.friendAddress);
+    }
     setSelection(true);
   };
 
@@ -32,9 +46,12 @@ export default function AssetSelection({
   };
 
   useEffect(() => {
+    console.log(matchFriend());
+    console.log(utils.validateAddress(counterpartyAddress));
     if (
-      utils.validateAddress(counterpartyAddress) &&
-      address !== counterpartyAddress
+      (utils.validateAddress(counterpartyAddress) &&
+        address !== counterpartyAddress) ||
+      matchFriend()
     ) {
       setValidCounterparty(true);
     } else {

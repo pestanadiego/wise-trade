@@ -48,6 +48,28 @@ export default createSchema({
             },
           ],
         },
+        {
+          name: 'friends',
+          title: 'Friends',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                {
+                  name: 'friendAddress',
+                  type: 'string',
+                  title: 'Address',
+                },
+                {
+                  name: 'friendName',
+                  type: 'string',
+                  title: 'Name',
+                },
+              ],
+            },
+          ],
+        },
       ],
     },
     {

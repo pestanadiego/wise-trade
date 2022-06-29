@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
+import Friends from './Friends';
 import client from '../../lib/sanityClient';
 import toast from 'react-hot-toast';
 import utils from '../../utils/utils';
@@ -103,6 +104,7 @@ export default function EditProfile() {
           </button>
         )}
       </div>
+      {!edit && <Friends />}
     </div>
   );
 }

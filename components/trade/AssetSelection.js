@@ -23,7 +23,7 @@ export default function AssetSelection({
   const [friend, setFriend] = useState(null);
 
   const matchFriend = () => {
-    if (user !== null) {
+    if (user !== null && user.friendes != null) {
       for (let i = 0; i < user.friends.length; i++) {
         if (
           user.friends[i].friendName.toLowerCase() ===
@@ -38,7 +38,7 @@ export default function AssetSelection({
   };
 
   const verifyNotFriend = () => {
-    if (user !== null) {
+    if (user !== null && user.friendes != null) {
       for (let i = 0; i < user.friends.length; i++) {
         if (user.friends[i].friendAddress === counterpartyAddress) {
           setFriend(user.friends[i]);

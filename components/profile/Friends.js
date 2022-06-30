@@ -30,7 +30,7 @@ export default function Friends() {
       .then((res) => {
         console.log();
         // Se actualiza el UserContext
-        if (user.friends === null) {
+        if (user.friends === null || user.friends === undefined) {
           const updatedUser = {
             ...user,
             friends: [res.friends[res.friends.length - 1]],
@@ -126,6 +126,9 @@ export default function Friends() {
           setValidAddress(true);
           setAlreadyAddress(false);
         }
+      } else {
+        setValidAddress(true);
+        setAlreadyAddress(false);
       }
     } else {
       setAlreadyAddress(false);

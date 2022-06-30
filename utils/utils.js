@@ -22,6 +22,12 @@ const validateAddress = (address) => {
   return validate;
 };
 
+const validateName = (name) => {
+  if (isString(name) && name.trim().length !== 0 && name !== '') {
+    return true;
+  }
+};
+
 const isString = (input) => {
   if (Object.prototype.toString.call(input) === '[object String]') return true;
   else return false;
@@ -64,5 +70,6 @@ export default {
   validateAddress,
   validateTitle,
   validateDescription,
+  validateName,
   makeKey,
 };

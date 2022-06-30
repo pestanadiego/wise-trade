@@ -23,7 +23,7 @@ export default function AssetSelection({
   const [friend, setFriend] = useState(null);
 
   const matchFriend = () => {
-    if (user !== null) {
+    if (user !== null && user.friends !== undefined) {
       for (let i = 0; i < user.friends.length; i++) {
         if (
           user.friends[i].friendName.toLowerCase() ===

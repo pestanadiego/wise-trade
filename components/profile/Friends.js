@@ -162,10 +162,10 @@ export default function Friends() {
       <p className="text-wise-grey sub-heading mb-3">
         Add friends to make trades <span className="font-bold">faster</span>
       </p>
-      <div className="mt-8 flex flex-row gap-12 w-full items-start justify-center">
-        <div className="flex items-center justify-center flex-col gap-3 w-2/6">
+      <div className="mt-8 flex flex-col md:flex-row gap-6 md:gap-12 w-full items-center md:items-start justify-center">
+        <div className="flex items-center justify-center flex-col gap-3 w-auto md:w-2/6">
           <h1 className="title">Add a Friend</h1>
-          <div className="flex justify-center items-center flex-col gap-3 w-full border rounded-md p-4 h-[22.375rem]">
+          <div className="flex justify-center items-center flex-col gap-3 w-full border rounded-md p-4 md:h-[22.375rem]">
             <div className="w-full">
               <h1 className="title mb-2">Name</h1>
               <input
@@ -218,7 +218,7 @@ export default function Friends() {
             </button>
           </div>
         </div>
-        <div className="w-4/6">
+        <div className="md:w-4/6 w-full">
           {user.friends === undefined || user.friends.length === 0 ? (
             <p className="text-wise-grey mt-9 text-center">
               It looks you don't have any friends added
@@ -241,7 +241,7 @@ export default function Friends() {
                                 utils.truncateAddress(friend.friendAddress)}
                             </p>
                           </div>
-                          <div className="">
+                          <div>
                             <button
                               className="btn bg-wise-white hover:bg-gray-300 hover:text-white"
                               onClick={() => handleFriendDeletion(friend)}

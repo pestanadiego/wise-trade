@@ -27,7 +27,7 @@ export default function FriendPopover({ children, friendAddress, setFriend }) {
       .then((res) => {
         setFriend(res.friends[res.friends.length - 1]);
         // Se actualiza el UserContext
-        if (user.friends === null) {
+        if (user.friends === null || user.friends === undefined) {
           const updatedUser = {
             ...user,
             friends: [res.friends[res.friends.length - 1]],

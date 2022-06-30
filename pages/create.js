@@ -5,7 +5,6 @@ import { UserContext } from '../context/UserContext';
 
 export default function Create() {
   const { address } = useContext(UserContext);
-
   return (
     <div className="container">
       {!address ? (

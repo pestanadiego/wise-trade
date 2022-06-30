@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import utils from '../../utils/utils';
 import Modal from '../ui/Modal';
+import FriendPopover from '../ui/FriendPopover';
 import TradeOptions from './TradeOptions';
 
 export default function AssetSelection({
@@ -22,12 +23,27 @@ export default function AssetSelection({
   const [friend, setFriend] = useState(null);
 
   const matchFriend = () => {
-    for (let i = 0; i < user.friends.length; i++) {
-      if (user.friends[i].friendName === counterpartyAddress) {
-        setFriend(user.friends[i]);
-        return true;
+    if (user !== null) {
+      for (let i = 0; i < user.friends.length; i++) {
+        if (
+          user.friends[i].friendName.toLowerCase() ===
+          counterpartyAddress.toLowerCase()
+        ) {
+          setFriend(user.friends[i]);
+          return true;
+        }
       }
       return false;
+    }
+  };
+
+  const verifyNotFriend = () => {
+    if (user !== null) {
+      for (let i = 0; i < user.friends.length; i++) {
+        if (user.friends[i].friendAddress === counterpartyAddress) {
+          setFriend(user.friends[i]);
+        }
+      }
     }
   };
 
@@ -35,19 +51,19 @@ export default function AssetSelection({
     if (friend !== null) {
       setCounterpartyAddress(friend.friendAddress);
     }
+    verifyNotFriend();
     setSelection(true);
   };
 
   const handleTrash = () => {
     setValidCounterparty(false);
     setSelection(false);
+    setFriend(null);
     setCounterpartyAddress('');
     setTokensToReceive([]);
   };
 
   useEffect(() => {
-    console.log(matchFriend());
-    console.log(utils.validateAddress(counterpartyAddress));
     if (
       (utils.validateAddress(counterpartyAddress) &&
         address !== counterpartyAddress) ||
@@ -152,7 +168,7 @@ export default function AssetSelection({
                   title={
                     validCounterparty === false &&
                     counterpartyAddress !== '' &&
-                    'Insert a valid address'
+                    "Address or friend's name"
                   }
                 >
                   Add
@@ -162,7 +178,7 @@ export default function AssetSelection({
                 <div className="flex flex-row gap-2 items-baseline">
                   <i className="fa fa-circle-exclamation text-red-500 text-sm" />
                   <p className="text-red-500 text-sm">
-                    Please, insert a valid address
+                    Insert a valid address or friend
                   </p>
                 </div>
               )}
@@ -177,6 +193,14 @@ export default function AssetSelection({
                   className="fa fa-trash text-wise-grey cursor-pointer"
                   onClick={handleTrash}
                 />
+                {friend === null && (
+                  <FriendPopover
+                    friendAddress={counterpartyAddress}
+                    setFriend={setFriend}
+                  >
+                    <i className="fa fa-user-plus text-wise-grey cursor-pointer" />
+                  </FriendPopover>
+                )}
               </div>
               {tokensToReceive.length === 0 ? (
                 <div

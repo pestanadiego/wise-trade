@@ -10,6 +10,7 @@ export default function Friends() {
   const [friendAddress, setFriendAddress] = useState('');
   const [validName, setValidName] = useState(false);
   const [validAddress, setValidAddress] = useState(false);
+  const [alreadyName, setAlreadyName] = useState(false);
   const [alreadyAddress, setAlreadyAddress] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -109,13 +110,32 @@ export default function Friends() {
   useEffect(() => {
     // Validación del nombre
     if (utils.validateName(friendName)) {
-      setValidName(true);
+      // Se chequea si el nombre ya existe
+      if (user.friends !== undefined) {
+        for (let i = 0; i < user.friends.length; i++) {
+          if (
+            user.friends[i].friendName.toLowerCase() ===
+            friendName.toLowerCase()
+          ) {
+            setValidName(false);
+            setAlreadyName(true);
+            break;
+          }
+          setValidName(true);
+          setAlreadyName(false);
+        }
+      } else {
+        setValidName(true);
+        setAlreadyName(false);
+      }
     } else {
+      setAlreadyName(false);
       setValidName(false);
     }
 
     // Validación del address
     if (utils.validateAddress(friendAddress)) {
+      // Se chequea si el address existe
       if (user.friends !== undefined) {
         for (let i = 0; i < user.friends.length; i++) {
           if (user.friends[i].friendAddress === friendAddress) {
@@ -137,101 +157,108 @@ export default function Friends() {
   }, [friendName, friendAddress, user]);
 
   return (
-    <div className="mt-12">
+    <div className="my-12 w-full">
       <h2 className="heading md:text-4 lg:text-5xl mb-6">Friends</h2>
       <p className="text-wise-grey sub-heading mb-3">
         Add friends to make trades <span className="font-bold">faster</span>
       </p>
-      <div className="flex items-center justify-center flex-col gap-3">
-        <div className="flex justify-center items-center flex-col gap-3 mt-6 w-full border rounded-md p-4">
-          <div className="w-full">
-            <h1 className="title mb-2">Name</h1>
-            <input
-              className="input w-full"
-              type="text"
-              placeholder=""
-              value={friendName}
-              onChange={(e) => setFriendName(e.target.value)}
-            />
-            {validName === false && (
-              <div className="flex flex-row gap-2 items-baseline">
-                <i className="fa fa-circle-exclamation text-red-500 text-sm" />
-                <p className="text-red-500 text-sm">Insert a valid name</p>
-              </div>
-            )}
-          </div>
-          <div className="w-full mt-2 mb-4">
-            <h1 className="title mb-2">Address</h1>
-            <input
-              className="input w-full"
-              type="text"
-              placeholder=""
-              value={friendAddress}
-              onChange={(e) => setFriendAddress(e.target.value)}
-            />
-            {validAddress === false && (
-              <div className="flex flex-row gap-2 items-baseline">
-                <i className="fa fa-circle-exclamation text-red-500 text-sm" />
-                <p className="text-red-500 text-sm">
-                  {alreadyAddress
-                    ? 'Address already added'
-                    : 'Insert a valid address'}
-                </p>
-              </div>
-            )}
-          </div>
-          <button
-            type="button"
-            disabled={!validName || !validAddress || (isAdding && true)}
-            className={
-              validName && validAddress ? 'btn btn-purple' : 'btn-disabled'
-            }
-            onClick={handleFriendAddition}
-          >
-            Add Friend
-          </button>
-        </div>
-      </div>
-      <div className="mb-6">
-        {user.friends === undefined || user.friends.length === 0 ? (
-          <p className="text-wise-grey mt-9 text-center">
-            It looks you don't have any friends added
-          </p>
-        ) : (
-          <div className="mt-6 flex flex-col justify-center items-center gap-3">
-            <h1 className="title">Friends List</h1>
+      <div className="mt-8 flex flex-row gap-12 w-full items-start justify-center">
+        <div className="flex items-center justify-center flex-col gap-3 w-2/6">
+          <h1 className="title">Add a Friend</h1>
+          <div className="flex justify-center items-center flex-col gap-3 w-full border rounded-md p-4 h-[22.375rem]">
             <div className="w-full">
-              <ul>
-                {user.friends.map((friend) => {
-                  return (
-                    <li className="mb-3">
-                      <div className="flex flex-row w-full justify-between items-baseline">
-                        <div className="sub-heading flex flex-row gap-3 w-full">
-                          <p className="text-left flex-1 w-1/2 truncate">
-                            {friend.friendName}
-                          </p>
-                          <p className="text-left flex-1 w-1/2">
-                            {friend.friendAddress !== undefined &&
-                              utils.truncateAddress(friend.friendAddress)}
-                          </p>
-                        </div>
-                        <div className="">
-                          <button
-                            className="btn bg-wise-white hover:bg-gray-300 hover:text-white"
-                            onClick={() => handleFriendDeletion(friend)}
-                            disabled={isDeleting && true}
-                          >
-                            <i className="fa fa-x text-red-500" />
-                          </button>
-                        </div>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
+              <h1 className="title mb-2">Name</h1>
+              <input
+                className="input w-full"
+                type="text"
+                placeholder="Nickname"
+                value={friendName}
+                onChange={(e) => setFriendName(e.target.value)}
+              />
+              {validName === false && (
+                <div className="flex flex-row gap-2 items-baseline">
+                  <i className="fa fa-circle-exclamation text-red-500 text-sm" />
+                  <p className="text-red-500 text-sm">
+                    {alreadyName
+                      ? 'Name already in used'
+                      : 'Insert a valid name'}
+                  </p>
+                </div>
+              )}
             </div>
+            <div className="w-full mt-2 mb-4">
+              <h1 className="title mb-2">Address</h1>
+              <input
+                className="input w-full"
+                type="text"
+                placeholder="Address"
+                value={friendAddress}
+                onChange={(e) => setFriendAddress(e.target.value)}
+              />
+              {validAddress === false && (
+                <div className="flex flex-row gap-2 items-baseline">
+                  <i className="fa fa-circle-exclamation text-red-500 text-sm" />
+                  <p className="text-red-500 text-sm">
+                    {alreadyAddress
+                      ? 'Address already added'
+                      : 'Insert a valid address'}
+                  </p>
+                </div>
+              )}
+            </div>
+            <button
+              type="button"
+              disabled={!validName || !validAddress || (isAdding && true)}
+              className={
+                validName && validAddress ? 'btn btn-purple' : 'btn-disabled'
+              }
+              onClick={handleFriendAddition}
+            >
+              Add Friend
+            </button>
           </div>
-        )}
+        </div>
+        <div className="w-4/6">
+          {user.friends === undefined || user.friends.length === 0 ? (
+            <p className="text-wise-grey mt-9 text-center">
+              It looks you don't have any friends added
+            </p>
+          ) : (
+            <div className="flex flex-col justify-center items-center gap-3">
+              <h1 className="title">Friend List</h1>
+              <div className="w-full border rounded-md p-6 h-[22.375rem] overflow-auto">
+                <ul>
+                  {user.friends.map((friend) => {
+                    return (
+                      <li className="mb-3">
+                        <div className="flex flex-row w-full justify-between items-baseline">
+                          <div className="sub-heading flex flex-row gap-3 w-full">
+                            <p className="text-left flex-1 w-1/2 truncate">
+                              {friend.friendName}
+                            </p>
+                            <p className="text-left flex-1 w-1/2">
+                              {friend.friendAddress !== undefined &&
+                                utils.truncateAddress(friend.friendAddress)}
+                            </p>
+                          </div>
+                          <div className="">
+                            <button
+                              className="btn bg-wise-white hover:bg-gray-300 hover:text-white"
+                              onClick={() => handleFriendDeletion(friend)}
+                              disabled={isDeleting && true}
+                            >
+                              <i className="fa fa-x text-red-500" />
+                            </button>
+                          </div>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

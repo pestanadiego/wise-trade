@@ -51,8 +51,8 @@ export default function EditProfile() {
   }, [email]);
 
   return (
-    <div className="flex justify-center flex-col items-center">
-      <div className="flex justify-center flex-col items-center w-full">
+    <div className="flex justify-center flex-col items-center w-full">
+      <div className="flex justify-center flex-col items-center">
         <p className="sub-heading mb-6">Edit your email address</p>
         {edit ? (
           <div className="w-full">

@@ -152,7 +152,7 @@ export default function AssetSelection({
                 <input
                   className="mt-3 input"
                   type="text"
-                  placeholder="Counterpart Address"
+                  placeholder="Insert Address or Nickname"
                   value={counterpartyAddress}
                   onChange={(e) => setCounterpartyAddress(e.target.value)}
                 />
@@ -168,7 +168,7 @@ export default function AssetSelection({
                   title={
                     validCounterparty === false &&
                     counterpartyAddress !== '' &&
-                    "Address or friend's name"
+                    'Address or Nickname'
                   }
                 >
                   Add

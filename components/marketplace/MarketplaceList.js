@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import NFTCard from '../ui/NFTCard';
 import client from '../../lib/sanityClient';
 import Loader from '../ui/Loader';
+import MarketplaceFilter from './MarketplaceFilter';
 
 export default function MarketplaceList() {
   const [listings, setListings] = useState([]);
@@ -26,12 +27,17 @@ export default function MarketplaceList() {
           <Loader />
         </div>
       ) : (
-        <div className="flex flex-wrap items-center justify-center gap-3 md:flex-row mt-6">
-          {listings.map((nft) => {
-            if (nft.status === 'pending') {
-              return <NFTCard key={nft._Id} item={nft} />;
-            }
-          })}
+        <div className="flex">
+          <div className="container">
+            <MarketplaceFilter />
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-3 md:flex-row mt-6">
+            {listings.map((nft) => {
+              if (nft.status === 'pending') {
+                return <NFTCard key={nft._Id} item={nft} />;
+              }
+            })}
+          </div>
         </div>
       )}
     </div>

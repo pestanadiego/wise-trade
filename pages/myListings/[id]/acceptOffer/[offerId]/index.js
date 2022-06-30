@@ -23,7 +23,6 @@ export default function offerAccept() {
       const response = await client.fetch(query);
       if (response.length > 0) {
         const res = response[0];
-        console.log('pepe', res);
         const arrListNfts = [];
         const arrListOffers = [];
         res.listNfts.forEach((nft) => {
@@ -34,8 +33,6 @@ export default function offerAccept() {
             nftAddress: nft.nftAddress,
           });
         });
-        console.log(parseInt(offerId) + 1);
-        console.log('juan', res.listOffers.length === parseInt(offerId) + 1);
         if (res.listOffers.length >= parseInt(offerId) + 1) {
           res.listOffers[offerId].offerNfts.forEach((offer) => {
             arrListOffers.push({

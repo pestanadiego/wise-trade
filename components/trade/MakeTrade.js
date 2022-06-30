@@ -308,7 +308,7 @@ export default function MakeTrade() {
                     )}
                     <p className="text-wise-blue mt-3 text-sm">
                       <i className="fa fa-info-circle p-2" />
-                      Every trade has an added fee of 0.005 ETH
+                      Every trade has an added fee of Ξ0.005
                     </p>
                   </div>
                 )}

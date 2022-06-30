@@ -35,7 +35,7 @@ export default function ProfileDetails() {
         </div>
       ) : (
         <div className="container flex flex-col-reverse items-center mt-14 lg:mt-28">
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center w-full">
             <h2 className="heading md:text-4 lg:text-5xl mb-6">Profile</h2>
             {user == null || user.email === '' || user.email === null ? (
               <div className="flex flex-col justify-center items-center">

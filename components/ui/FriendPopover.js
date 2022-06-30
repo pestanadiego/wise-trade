@@ -9,6 +9,7 @@ export default function FriendPopover({ children, friendAddress, setFriend }) {
   const { address, user, setUser } = useContext(UserContext);
   const [friendName, setFriendName] = useState('');
   const [validName, setValidName] = useState(false);
+  const [alreadyName, setAlreadyName] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
 
   const addFriendToSanity = async () => {
@@ -61,8 +62,26 @@ export default function FriendPopover({ children, friendAddress, setFriend }) {
   useEffect(() => {
     // Validación del nombre
     if (utils.validateName(friendName)) {
-      setValidName(true);
+      // Se chequea si el nombre ya existe
+      if (user.friends !== undefined) {
+        for (let i = 0; i < user.friends.length; i++) {
+          if (
+            user.friends[i].friendName.toLowerCase() ===
+            friendName.toLowerCase()
+          ) {
+            setValidName(false);
+            setAlreadyName(true);
+            break;
+          }
+          setValidName(true);
+          setAlreadyName(false);
+        }
+      } else {
+        setValidName(true);
+        setAlreadyName(false);
+      }
     } else {
+      setAlreadyName(false);
       setValidName(false);
     }
   }, [friendName]);
@@ -109,7 +128,11 @@ export default function FriendPopover({ children, friendAddress, setFriend }) {
                 {validName === false && (
                   <div className="flex flex-row gap-2 items-baseline">
                     <i className="fa fa-circle-exclamation text-red-500 text-sm" />
-                    <p className="text-red-500 text-sm">Insert a valid name</p>
+                    <p className="text-red-500 text-sm">
+                      {alreadyName
+                        ? 'Name already in used'
+                        : 'Insert a valid name'}
+                    </p>
                   </div>
                 )}
               </div>

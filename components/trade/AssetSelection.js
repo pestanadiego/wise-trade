@@ -23,7 +23,7 @@ export default function AssetSelection({
   const [friend, setFriend] = useState(null);
 
   const matchFriend = () => {
-    if (user !== null && user.friendes != null) {
+    if (user !== null && user.friends !== undefined) {
       for (let i = 0; i < user.friends.length; i++) {
         if (
           user.friends[i].friendName.toLowerCase() ===
@@ -38,7 +38,7 @@ export default function AssetSelection({
   };
 
   const verifyNotFriend = () => {
-    if (user !== null && user.friendes != null) {
+    if (user !== null && user.friends != undefined) {
       for (let i = 0; i < user.friends.length; i++) {
         if (user.friends[i].friendAddress === counterpartyAddress) {
           setFriend(user.friends[i]);
@@ -152,7 +152,7 @@ export default function AssetSelection({
                 <input
                   className="mt-3 input"
                   type="text"
-                  placeholder="Counterpart Address"
+                  placeholder="Insert Address or Nickname"
                   value={counterpartyAddress}
                   onChange={(e) => setCounterpartyAddress(e.target.value)}
                 />
@@ -168,7 +168,7 @@ export default function AssetSelection({
                   title={
                     validCounterparty === false &&
                     counterpartyAddress !== '' &&
-                    "Address or friend's name"
+                    'Address or Nickname'
                   }
                 >
                   Add

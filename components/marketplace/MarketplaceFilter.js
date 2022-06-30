@@ -20,6 +20,7 @@ export default function MarketplaceFilter({
 
   const getCollections = async () => {
     try {
+      /*
       const response = await fetch(
         'https://testnets-api.opensea.io/api/v1/collections?offset=0&limit=20',
         { method: 'GET' }
@@ -27,9 +28,13 @@ export default function MarketplaceFilter({
       const collection = response.collections.map(
         (resCollection) => resCollection.name
       );
+      */
+      const collection = [];
       collection.push('Lame Cats');
       collection.push('Crypto Cunts');
       collection.push('Broke Ape Boat Club');
+      collection.push('Wonderpals');
+      collection.push('NFT Multifaucet');
       setTags(collection);
       return collection;
     } catch {
@@ -42,12 +47,12 @@ export default function MarketplaceFilter({
   }, []);
 
   return (
-    <section>
-      <div className="container justify-items">
+    <section className="w-full">
+      <div>
         <h1 className="text-wise-grey">
           NFTs Collections that you want to trade
         </h1>
-        <div className="flex justify gap-8">
+        <div className="flex gap-8">
           <div>
             <Multiselect
               id="multiselect-custom"
@@ -78,7 +83,6 @@ export default function MarketplaceFilter({
               }}
             />
           </div>
-
           <button
             type="button"
             className="btn btn-purple"

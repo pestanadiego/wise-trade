@@ -39,14 +39,16 @@ export default function NFTCard({ item, edit = false }) {
               ))}
             </Carousel>
           </div>
-          <div onClick={handleClick}>
+          <div>
             <div className="flex flex-col px-4 gap-2">
-              <div className="flex justify-between">
-                <p className="text-indigo-600 font-semibold">
-                  {listNfts.length} NFTs
-                </p>
+              <div onClick={handleClick}>
+                <div className="flex justify-between">
+                  <p className="text-indigo-600 font-semibold">
+                    {listNfts.length} NFTs
+                  </p>
+                </div>
+                <h1 className="text-2xl">{item.listTitle}</h1>
               </div>
-              <h1 className="text-2xl">{item.listTitle}</h1>
               {/* TIPO */}
               <div className="flex content-end justify-end mt-4 gap-2 absolute bottom-5 right-5 sm:right-2 lg:right-5">
                 {edit ? (

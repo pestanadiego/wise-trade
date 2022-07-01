@@ -57,6 +57,8 @@ export default function UserContextProvider({ children }) {
       disconnectWallet,
       error,
       setError,
+      news,
+      setNews,
     }),
     [
       address,
@@ -69,6 +71,8 @@ export default function UserContextProvider({ children }) {
       disconnectWallet,
       error,
       setError,
+      news,
+      setNews,
     ]
   );
 

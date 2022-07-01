@@ -25,10 +25,10 @@ export default function MarketplaceAsset({ asset }) {
   const sendEmail = async (templateParams) => {
     emailjs
       .send(
-        'service_d58pjr8',
-        'template_944ppm3',
+        `${process.env.NEXT_PUBLIC_SERVICE_ID}`,
+        `${process.env.NEXT_PUBLIC_TEMPLATE_OFFER_NOTIFICATION_ID}`,
         templateParams,
-        '4wZHVd3VM5CaULioQ'
+        `${process.env.NEXT_PUBLIC_PUBLIC_KEY}`
       )
       .then(
         (res) => {

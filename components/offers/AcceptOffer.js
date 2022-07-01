@@ -30,10 +30,10 @@ export default function AcceptOffer({
   const sendEmail = async (templateParams) => {
     emailjs
       .send(
-        'service_d58pjr8',
-        'template_p1v1yrj',
+        `${process.env.NEXT_PUBLIC_SERVICE_ID}`,
+        `${process.env.NEXT_PUBLIC_TEMPLATE_OFFER_ACTION_ID}`,
         templateParams,
-        '4wZHVd3VM5CaULioQ'
+        `${process.env.NEXT_PUBLIC_PUBLIC_KEY}`
       )
       .then(
         (res) => {

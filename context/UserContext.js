@@ -12,7 +12,6 @@ export default function UserContextProvider({ children }) {
   const [user, setUser] = useState(null);
   const [provider, setProvider] = useState(null);
   const [error, setError] = useState(null);
-  const [news, setNews] = useState(null);
 
   const connectWallet = async () => {
     try {
@@ -92,53 +91,6 @@ export default function UserContextProvider({ children }) {
         // eslint-disable-next-line no-unused-vars
         const result = await client.create(userDoc);
         setUser(userDoc);
-        setNews(
-          toast.custom(
-            (t) => (
-              <div
-                className={`${
-                  t.visible ? 'animate-enter' : 'animate-leave'
-                } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
-              >
-                <div className="flex-1 w-0 p-4">
-                  <div className="flex items-start">
-                    <div className="ml-3 flex-1">
-                      <p className="text-sm font-medium text-gray-900">
-                        <i className="fa fa-info-circle text-wise-blue" /> New
-                        user detected!
-                      </p>
-                      <p className="mt-1 text-sm text-gray-500">
-                        Click on guide to see step by step documentation for the
-                        website
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex border-l border-gray-200">
-                  <a
-                    target="_blank"
-                    href="https://medium.com/@wise.inc.trade/step-by-step-guide-for-wisetrade-14c7b9ce7d63"
-                    onClick={() => toast.dismiss(t.id)}
-                    className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  >
-                    Guide
-                  </a>
-                </div>
-                <div className="flex border-l border-gray-200">
-                  <button
-                    onClick={() => toast.remove(t.id)}
-                    className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            ),
-            {
-              duration: 20000,
-            }
-          )
-        );
       }
     } catch {
       setAddress(null);

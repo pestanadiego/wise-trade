@@ -139,6 +139,7 @@ export default function CreateListing() {
 
   const getCollections = async () => {
     try {
+      /*
       const response = await fetch(
         'https://testnets-api.opensea.io/api/v1/collections?offset=0&limit=20',
         { method: 'GET' }
@@ -146,9 +147,13 @@ export default function CreateListing() {
       const collection = response.collections.map(
         (resCollection) => resCollection.name
       );
+      */
+      const collection = [];
       collection.push('Lame Cats');
       collection.push('Crypto Cunts');
       collection.push('Broke Ape Boat Club');
+      collection.push('Wonderpals');
+      collection.push('NFT Multifaucet');
       setTags(collection);
       return collection;
     } catch {

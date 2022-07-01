@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { ethers } from 'ethers';
+import toast from 'react-hot-toast';
 import erc721abi from '../../smart_contracts/artifacts/contracts/erc721abi.json';
 import Loader from '../ui/Loader';
 import client from '../../lib/sanityClient';
@@ -173,7 +174,9 @@ export default function ApprovalBeforeAccept({
       signer
     );
     await contract
-      .acceptSwap(swap.idOfSwap, ethers.utils.parseEther('0.001'))
+      .acceptSwap(swap.idOfSwap, ethers.utils.parseEther('0.005'), {
+        value: ethers.utils.parseEther('0.005'),
+      })
       .then((pre) => {
         setIsLoadingConfirm(true);
         pre.wait().then(async (receipt) => {
@@ -240,30 +243,43 @@ export default function ApprovalBeforeAccept({
             )}
           </div>
           <div className="mt-3">
-            <button
-              type="button"
-              className={
-                validApproval && !isLoadingConfirm
-                  ? 'btn btn-purple w-32'
-                  : 'btn-disabled w-32'
-              }
-              onClick={handleAcceptSwap}
-              disabled={(!validApproval || isLoadingConfirm) && true}
-            >
-              {isLoadingConfirm ? (
+            {isLoadingConfirm ? (
+              <button
+                type="button"
+                className="btn-disabled mb-3 text-sm w-32"
+                disabled
+              >
                 <Loader isButton isDisabled />
-              ) : (
-                'Confirm Swap'
-              )}
-            </button>
+              </button>
+            ) : (
+              <button
+                type="button"
+                className={
+                  validApproval && !isLoadingConfirm
+                    ? 'btn btn-purple'
+                    : 'btn-disabled'
+                }
+                onClick={handleAcceptSwap}
+                disabled={(!validApproval || isLoadingConfirm) && true}
+              >
+                Confirm Swap
+              </button>
+            )}
           </div>
+          <p className="text-wise-blue mt-3 text-sm">
+            <i className="fa fa-info-circle p-2" />
+            Every trade has an added fee of Ξ0.005
+          </p>
         </div>
       ) : (
-        <div className="container m-3 flex flex-col">
+        <div className="flex flex-col w-full">
+          <p className="sub-heading mb-9">Congratulations!</p>
           <div className="flex flex-col md:flex-row items-center justify-center gap-4">
             <div className="border-2 rounded-xl w-full md:w-1/2">
               <div className="flex flex-col justify-center items-center m-4">
-                <p className="title">NFTs you'd let go</p>
+                <p className="text-wise-blue text-md font-semibold">
+                  NFTs you sent
+                </p>
                 <div className="flex flex-row gap-5 justify-end my-3">
                   {tokensToApprove.map((token) => (
                     <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] h-[230px] max-h-[230px] inline-block">
@@ -285,7 +301,9 @@ export default function ApprovalBeforeAccept({
             </div>
             <div className="border-2 rounded-xl w-full md:w-1/2">
               <div className="flex flex-col justify-center items-center m-4">
-                <p className="title">NFTs you'd get</p>
+                <p className="text-wise-blue text-md font-semibold">
+                  NFTs you got
+                </p>
                 <div className="flex flex-row gap-5 justify-end my-3">
                   {tokensToReceive.map((token) => (
                     <div className="flex flex-col border-2 rounded-md items-center bg-wise-white w-[120px] max-w-[120px] h-[230px] max-h-[230px]">

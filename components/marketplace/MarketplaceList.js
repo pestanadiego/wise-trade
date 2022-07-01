@@ -68,7 +68,7 @@ export default function MarketplaceList() {
   return (
     <section>
       <div className="container justify-items-end">
-        <div className="container flex justify">
+        <div>
           <MarketplaceFilter
             setIsFiltered={setIsFiltered}
             setIsLoading={setIsLoading}
@@ -91,7 +91,7 @@ export default function MarketplaceList() {
                 </h1>
               </div>
             ) : (
-              <div className="flex flex-wrap items-center justify-center gap-3 md:flex-row mt-6">
+              <div className="flex flex-wrap items-center justify-center gap-3 md:flex-row mt-6 w-full">
                 {listings.map((nft) => {
                   if (nft.status === 'pending') {
                     return <NFTCard key={nft._Id} item={nft} />;

@@ -47,51 +47,48 @@ export default function MarketplaceFilter({
   }, []);
 
   return (
-    <section className="w-full">
-      <div>
-        <h1 className="text-wise-grey">
-          NFTs Collections that you want to trade
-        </h1>
-        <div className="flex gap-8">
-          <div>
-            <Multiselect
-              id="multiselect-custom"
-              closeIcon="cancel"
-              placeholder="Select the collections"
-              isObject={false}
-              selectedValues={filterBy}
-              onKeyPressFn={function noRefCheck() {}}
-              onRemove={(remove) => {
-                setFilterBy(remove);
-              }}
-              onSearch={function noRefCheck() {}}
-              onSelect={(selected) => {
-                setFilterBy(selected);
-              }}
-              options={tags}
-              style={{
-                chips: { background: '#5F5CEA' },
-                searchBox: {
-                  'border-width': '1px',
-                  'border-color': '#e5e7eb',
-                  'border-radius': '0.375rem',
-                  padding: '0.75rem 1rem ',
-                },
-                option: {
-                  color: '#9194A2',
-                },
-              }}
-            />
-          </div>
-          <button
-            type="button"
-            className="btn btn-purple"
-            onClick={filterListings}
-          >
-            Search
-          </button>
+    <div className="w-full">
+      <h1 className="title mb-3">NFTs Collections that you want to trade</h1>
+      <div className="flex flex-col sm:flex-row gap-3 w-full">
+        <div className="flex-1">
+          <Multiselect
+            id="multiselect-custom"
+            closeIcon="cancel"
+            placeholder="Select the collections"
+            isObject={false}
+            selectedValues={filterBy}
+            onKeyPressFn={function noRefCheck() {}}
+            onRemove={(remove) => {
+              setFilterBy(remove);
+            }}
+            onSearch={function noRefCheck() {}}
+            onSelect={(selected) => {
+              setFilterBy(selected);
+            }}
+            options={tags}
+            style={{
+              chips: { background: '#5F5CEA' },
+              searchBox: {
+                'border-width': '1px',
+                'border-color': '#e5e7eb',
+                'border-radius': '0.375rem',
+                overflow: 'hidden',
+                padding: '0.75rem 1rem ',
+              },
+              option: {
+                color: '#9194A2',
+              },
+            }}
+          />
         </div>
+        <button
+          type="button"
+          className="btn btn-purple"
+          onClick={filterListings}
+        >
+          Search
+        </button>
       </div>
-    </section>
+    </div>
   );
 }

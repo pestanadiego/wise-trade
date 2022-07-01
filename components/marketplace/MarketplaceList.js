@@ -14,7 +14,7 @@ export default function MarketplaceList() {
   const [filterBy, setFilterBy] = useState([]);
 
   const getListings = () => {
-    const query = '*[_type == "listing"] | order(_createdAt asc)';
+    const query = '*[_type == "listing"] | order(_createdAt desc)';
     client.fetch(query).then((response) => {
       console.log('response', response);
       setListings(response);

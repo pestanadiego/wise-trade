@@ -34,8 +34,8 @@ const isString = (input) => {
 };
 
 const validateTitle = (title) => {
-  if (title.length > 64) {
-    return 'The title cannot exceed 64 characters';
+  if (title.length > 18) {
+    return 'The title cannot exceed 18 characters';
   } else if (!isString(title)) {
     return 'The input value must be a string';
   } else if (title === '' || title.trim().length === 0) {

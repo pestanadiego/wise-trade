@@ -38,6 +38,6 @@
         "import/no-unresolved": "off",
         "consistent-return": "off",
         "prefer-destructuring": "off",
-        "no-plusplus": "off",
+        "no-plusplus": "off"
     }
 }
